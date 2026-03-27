@@ -1,10 +1,10 @@
 # Computación II - 2026
 
 ## Datos del estudiante
-- **Nombre:** [Tu nombre completo]
-- **Legajo:** [Tu legajo]
-- **Email:** [Tu email]
-- **GitHub:** [@tu-usuario](https://github.com/tu-usuario)
+- **Nombre:** Santiago García
+- **Legajo:** 64277
+- **Email:** stc.garcia@alumno.um.edu.ar
+- **GitHub:** santiagogarcia0(https://github.com/santiagogarcia0)
 
 ## Estructura
 - `bloque_0/` - Ejercicios del bloque autónomo
