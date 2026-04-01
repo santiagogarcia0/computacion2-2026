@@ -1,0 +1,10 @@
+1.1
+* ls -1 /etc | wc -l
+* stat /etc/passwd
+* file /dev/null
+* readlink /bin
+* ls -i ~/.bashrc
+* ls -ld /home
+1.2
+santiagogarcia5@LAPTOP-6BEE3SFB:~/computacion2-2026$ echo 'echo "Hola desde el script"' > mi_script.sh                                                                santiagogarcia5@LAPTOP-6BEE3SFB:~/computacion2-2026$ ./mi_script sh                -bash: ./mi_script.sh: Permission denied                                           santiagogarcia5@LAPTOP-6BEE3SFB:~/computacion2-2026$ ls -l mi_script.sh            -rw-r--r-- 1 santiagogarcia5 santiagogarcia5 28 Mar 31 02:16 mi_script.sh          santiagogarcia5@LAPTOP-6BEE3SFB:~/computacion2-2026$ chmod +x mi_script.sh         santiagogarcia5@LAPTOP-6BEE3SFB:~/computacion2-2026$ ./mi_script.sh                Hola desde el script 
+1.3
