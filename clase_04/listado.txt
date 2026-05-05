@@ -1,0 +1,17 @@
+total 60
+drwxr-xr-x  2 santiagogarcia5 santiagogarcia5 4096 Apr 21 15:37 .
+drwxr-xr-x 10 santiagogarcia5 santiagogarcia5 4096 Apr 21 15:00 ..
+-rw-r--r--  1 santiagogarcia5 santiagogarcia5  976 Apr 21 15:08 explorar_fds.py
+-rw-r--r--  1 santiagogarcia5 santiagogarcia5    0 Apr 21 15:41 listado.txt
+-rw-r--r--  1 santiagogarcia5 santiagogarcia5 2289 Apr 21 15:36 minish.py
+-rw-r--r--  1 santiagogarcia5 santiagogarcia5 1376 Apr 21 15:23 pipe_basico.py
+-rw-r--r--  1 santiagogarcia5 santiagogarcia5  944 Apr 21 15:29 pipeline_dos.py
+-rw-r--r--  1 santiagogarcia5 santiagogarcia5 1691 Apr 21 15:31 pipeline_tres.py
+-rw-r--r--  1 santiagogarcia5 santiagogarcia5  644 Apr 21 15:12 redireccion.py
+-rw-r--r--  1 santiagogarcia5 santiagogarcia5  395 Apr 21 15:15 separar_salidas.py
+-rw-r--r--  1 santiagogarcia5 santiagogarcia5   68 Apr 21 15:16 solo_stderr.txt
+-rw-r--r--  1 santiagogarcia5 santiagogarcia5   73 Apr 21 15:15 solo_stdout.txt
+-rw-r--r--  1 santiagogarcia5 santiagogarcia5   68 Apr 21 15:16 stderr.txt
+-rw-r--r--  1 santiagogarcia5 santiagogarcia5   73 Apr 21 15:16 stdout.txt
+-rw-r--r--  1 santiagogarcia5 santiagogarcia5    5 Apr 21 15:40 test.txt
+-rw-r--r--  1 santiagogarcia5 santiagogarcia5  141 Apr 21 15:17 todo.txt
