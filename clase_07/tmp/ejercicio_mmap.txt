@@ -1,0 +1,5 @@
+PYTHON es divertido
+Me gusta programar
+Python sirve para automatizar
+Computacion II
+Fin del archivo
