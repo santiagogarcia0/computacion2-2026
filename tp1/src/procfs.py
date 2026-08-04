@@ -251,3 +251,55 @@ def obtener_cantidad_cpus() -> int:
     except Exception:
         return 1
 
+import signal
+
+def decodificar_mascara_senales(mascara_hex: str) -> list[str]:
+    """
+    Toma una máscara hexadecimal de 64 bits (ej: '0000000000000004') y devuelve
+    una lista con los nombres de las señales activas (ej: ['SIGINT']).
+    """
+    if not mascara_hex:
+        return []
+    try:
+        # Convertimos el string hexadecimal a un número entero
+        mascara_int = int(mascara_hex, 16)
+    except ValueError:
+        return []
+        
+    senales_activas = []
+    # Recorremos los primeros 32 bits de señales estándar de Linux
+    for signum in range(1, 32):
+        # Evaluamos bit por bit usando desplazamiento y operación AND Para saber si una señal específica está encendida
+        if (mascara_int >> (signum - 1)) & 1:
+            try:
+                # Obtenemos el nombre oficial del módulo signal (ej: 2 -> 'SIGINT')
+                nombre = signal.Signals(signum).name #
+                senales_activas.append(nombre)
+            except ValueError:
+                senales_activas.append(f"SIG_{signum}")
+    return senales_activas
+
+def leer_sistema_global() -> dict[str, Any]:
+    """Lee /proc/meminfo y /proc/loadavg para obtener las métricas globales del sistema."""
+    stats = {"mem_total": "0 KB", "mem_libre": "0 KB", "load_avg": "0.0 0.0 0.0"}
+    
+    # 1. Leer Memoria Global
+    if os.path.exists("/proc/meminfo"):
+        try:
+            with open("/proc/meminfo", "r") as f:
+                for linea in f:
+                    if linea.startswith("MemTotal:"):
+                        stats["mem_total"] = linea.split(":", 1)[1].strip()
+                    elif linea.startswith("MemFree:"):
+                        stats["mem_libre"] = linea.split(":", 1)[1].strip()
+        except Exception: pass
+        
+    # 2. Leer Carga de Trabajo (Load Average)
+    if os.path.exists("/proc/loadavg"):
+        try:
+            with open("/proc/loadavg", "r") as f:
+                stats["load_avg"] = f.read().strip().split()[:3]
+        except Exception: pass
+        
+    return stats
+

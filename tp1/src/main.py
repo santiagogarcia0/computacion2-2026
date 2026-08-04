@@ -2,6 +2,7 @@
 
 """
 Punto de entrada principal del monitor de procesos.
+Coordina la inicialización IPC, el ciclo secuencial inicial y el despliegue paralelo.
 """
 import os as sistema_os
 import multiprocessing
@@ -10,10 +11,15 @@ import time
 # Importamos tus funciones de inicialización IPC
 from common.ipc import crear_evento_shutdown, crear_intervalos_compartidos, crear_snapshot
 
-# Importamos el motor de lectura nativo y los nuevos componentes
+# Importamos el motor de lectura nativo
 import procfs
+
+# Importamos el recolector central
 from recolector import ejecutar_recolector
+
+# Importamos los dos analizadores que tenemos listos hasta ahora
 from analizadores.resumen import ejecutar_analizador_resumen
+from analizadores.memoria import ejecutar_analizador_memoria
 
 
 def main():
@@ -31,7 +37,8 @@ def main():
     print("[*] Estructuras IPC mapeadas en memoria exitosamente.\n")
 
     # =========================================================================
-    # PRUEBA SECUENCIAL ORIGINAL (Para verificar lectura)
+    # TU PRUEBA SECUENCIAL ORIGINAL (Para verificar lectura)
+    # =========================================================================
     print("=== LECTURA EN TIEMPO REAL DE PROCFS (PRUEBA SECUENCIAL) ===")
     lista_pids = procfs.listar_pids()
     print(f"[*] Procesos vivos detectados en Linux: {len(lista_pids)}")
@@ -75,14 +82,33 @@ def main():
 
     # =========================================================================
     # APARTADO MULTIPROCESO REAL (Lanzamiento de Hijos)
+    # =========================================================================
     procesos_hijos = []
-    cola_pids_compartida = multiprocessing.Queue()
+    
+    # IMPORTANTE: Creamos DOS colas independientes.
+    # Como tenemos 2 analizadores compitiendo por los datos, si usáramos una sola cola,
+    # el de resumen sacaría un PID y el de memoria se quedaría sin ese proceso para analizar.
+    # Cada dimensión debe recibir la lista completa de PIDs para mapear su especialidad.
+    cola_resumen = multiprocessing.Queue()
+    cola_memoria = multiprocessing.Queue()
 
     try:
-        # 1. Lanzamos el proceso hijo Recolector
+        # 1. Lanzamos el proceso hijo Recolector (Le pasamos ambas colas en una lista/tupla)
+        # Nota: Ajustamos conceptualmente para que alimente las dos vías de trabajo paralelas
+        def recolector_dual(q1, q2, ev, int_b):
+            """Función auxiliar temporal para clonar los PIDs en ambas colas."""
+            while not ev.is_set():
+                pids = procfs.listar_pids()
+                for q in [q1, q2]:
+                    while not q.empty():
+                        try: q.get_nowait()
+                        except: break
+                    for p in pids: q.put(p)
+                time.sleep(int_b)
+
         p_recolector = multiprocessing.Process(
-            target=ejecutar_recolector,
-            args=(cola_pids_compartida, shutdown_event, 1.0),
+            target=recolector_dual,
+            args=(cola_resumen, cola_memoria, shutdown_event, 1.0),
             name="Monitor-Recolector"
         )
         p_recolector.start()
@@ -92,29 +118,48 @@ def main():
         # 2. Lanzamos el proceso hijo Analizador de Resumen
         p_resumen = multiprocessing.Process(
             target=ejecutar_analizador_resumen,
-            args=(cola_pids_compartida, snapshot, intervalos["resumen"], shutdown_event),
+            args=(cola_resumen, snapshot, intervalos["resumen"], shutdown_event),
             name="Monitor-Analizador-Resumen"
         )
         p_resumen.start()
         procesos_hijos.append(p_resumen)
-        print(f"[+] Hijo [Analizador Resumen] corriendo en PID: {p_resumen.pid}\n")
+        print(f"[+] Hijo [Analizador Resumen] corriendo en PID: {p_resumen.pid}")
+
+        # 3. Lanzamos el NUEVO proceso hijo Analizador de Memoria
+        p_memoria = multiprocessing.Process(
+            target=ejecutar_analizador_memoria,
+            args=(cola_memoria, snapshot, intervalos["memoria"], shutdown_event),
+            name="Monitor-Analizador-Memoria"
+        )
+        p_memoria.start()
+        procesos_hijos.append(p_memoria)
+        print(f"[+] Hijo [Analizador Memoria] corriendo en PID: {p_memoria.pid}\n")
 
         print("=== ESCUCHANDO SNAPSHOT COMPARTIDO EN TIEMPO REAL ===")
         print("El proceso Padre vigila la RAM. Presioná [Ctrl + C] para salir...\n")
 
-        # El padre espía la RAM compartida 4 veces para ver cómo el hijo escribe de verdad
+        # El padre vigila la RAM compartida 4 veces para ver cómo cooperan los hijos
         for i in range(1, 5):
-            time.sleep(2.0)
-            datos_resumen = snapshot.get("resumen", {})
-            procesos_mapeados = datos_resumen.get("procesos", {})
+            time.sleep(2.5) # Le damos un poquito más de tiempo para que ambos hijos impacten
             
-            print(f"[Lectura Padre - Muestra {i}/4] Procesos totales en el Snapshot: {len(procesos_mapeados)}")
-            if procesos_mapeados:
-                # Mostramos los dos primeros procesos que metió el hijo en la RAM
-                ejemplos = list(procesos_mapeados.keys())[:2]
-                for p_id in ejemplos:
-                    inf = procesos_mapeados[p_id]
-                    print(f"    │ PID {p_id} │ CPU: {inf['cpu_porc']}% │ RAM: {inf['rss']} │ Estado: {inf['estado']}")
+            datos_resumen = snapshot.get("resumen", {}).get("procesos", {})
+            datos_memoria = snapshot.get("memoria", {}).get("procesos", {})
+            
+            print(f"[Lectura Padre - Muestra {i}/4]")
+            print(f" -> PIDs en sección Resumen: {len(datos_resumen)} | PIDs en sección Memoria: {len(datos_memoria)}")
+            
+            if datos_resumen and datos_memoria: # contienen datos?
+                # Agarramos un PID testigo que esté en ambas secciones (por ejemplo, tu propio PID)
+                pid_testigo = str(mi_pid)
+                if pid_testigo in datos_resumen and pid_testigo in datos_memoria:
+                    r_info = datos_resumen[pid_testigo]
+                    m_info = datos_memoria[pid_testigo]
+                    
+                    print(f"    [PROCESO TESTIGO PID {pid_testigo}] ({r_info['comando']})")
+                    print(f"    ├─ Resumen ──> CPU: {r_info['cpu_porc']}% | Estado: {r_info['estado']}")
+                    print(f"    └─ Memoria ──> RSS: {r_info['rss']} | Segmento Heap: {m_info['segmentos']['heap']} Bytes")
+            else:
+                print("    [...] Esperando sincronización de los analizadores paralelos...")
             print("-" * 60)
 
     except KeyboardInterrupt:
