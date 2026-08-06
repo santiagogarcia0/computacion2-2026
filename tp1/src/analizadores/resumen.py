@@ -7,6 +7,7 @@ import time
 from multiprocessing import Queue, Event
 import procfs
 from common.constantes import ESTADOS_PROCESO
+from common.queue_utils import extraer_pids_de_cola
 
 
 def ejecutar_analizador_resumen(cola_pids: Queue, snapshot_compartido: dict, intervalo_shared, shutdown_event: Event):
@@ -21,9 +22,7 @@ def ejecutar_analizador_resumen(cola_pids: Queue, snapshot_compartido: dict, int
         intervalo_actual = intervalo_shared.value
         
         # Recolectamos todos los PIDs que estén disponibles en la cola en este momento
-        pids_a_procesar = []
-        while not cola_pids.empty():
-            pids_a_procesar.append(cola_pids.get())
+        pids_a_procesar = extraer_pids_de_cola(cola_pids)
             
         if pids_a_procesar:
             diccionario_resumen = {}

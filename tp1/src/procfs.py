@@ -303,3 +303,64 @@ def leer_sistema_global() -> dict[str, Any]:
         
     return stats
 
+def leer_threads(pid: int) -> list[dict[str, Any]]:
+    """
+    Recorre la carpeta /proc/<pid>/task/ para listar todos los hilos (threads)
+    del proceso, extrayendo su ID (TID), nombre, estado y context switches.
+    """
+    lista_threads = []
+    ruta_task = f"/proc/{pid}/task"
+    
+    if not os.path.exists(ruta_task):
+        return lista_threads
+
+    try:
+        # os.listdir acá nos da los IDs de los hilos (TIDs)
+        for tid_str in os.listdir(ruta_task):
+            ruta_tid_stat = f"{ruta_task}/{tid_str}/stat"
+            ruta_tid_status = f"{ruta_task}/{tid_str}/status"
+            
+            nombre_thread = "Desconocido"
+            estado = "Desconocido"
+            ctx_voluntarios = "0"
+            ctx_involuntarios = "0"
+            
+            # 1. Leer nombre y estado desde el stat del thread
+            # Recordar: /stat contiene una sola línea 
+            # gigante con más de 50 campos separados por espacios
+            if os.path.exists(ruta_tid_stat):
+                try:
+                    with open(ruta_tid_stat, "r", encoding="utf-8", errors="ignore") as f:
+                        contenido = f.read().strip()
+                        match = re.match(r"^(\d+) \((.+)\) (.+)$", contenido)
+                        if match:
+                            nombre_thread = match.group(2)
+                            campos_stat = match.group(3).split(" ")
+                            estado = campos_stat[0] # El primer campo pos-paréntesis es el estado
+                except (FileNotFoundError, ProcessLookupError):
+                    continue
+
+            # 2. Leer Cambios de Contexto
+            if os.path.exists(ruta_tid_status):
+                try:
+                    with open(ruta_tid_status, "r", encoding="utf-8", errors="ignore") as f:
+                        for linea in f:
+                            if "voluntary_ctxt_switches" in linea:
+                                ctx_voluntarios = linea.split(":", 1)[1].strip() # Almacena sólo el numero
+                            elif "nonvoluntary_ctxt_switches" in linea:
+                                ctx_involuntarios = linea.split(":", 1)[1].strip()
+                except (FileNotFoundError, ProcessLookupError):
+                    pass
+
+            lista_threads.append({
+                "tid": int(tid_str),
+                "nombre": nombre_thread,
+                "estado": estado,
+                "ctx_voluntarios": ctx_voluntarios,
+                "ctx_involuntarios": ctx_involuntarios
+            })
+            
+    except PermissionError:
+        pass
+        
+    return lista_threads

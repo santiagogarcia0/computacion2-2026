@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  monitor-procesos:
+    build: .
+    container_name: monitor_computacion_2
+    # OBLIGATORIO POR LA CONSIGNA: Conecta la terminal real al contenedor para la TUI
+    stdin_open: true
+    tty: true
+    # OBLIGATORIO PARA MONITOREAR EL HOST: Le permite al contenedor mirar 
+    # la carpeta /proc de la computadora real, no la del contenedor aislado
+    pid: "host"
+    volumes:
+      - /proc:/proc:ro
+    restart: unless-stopped

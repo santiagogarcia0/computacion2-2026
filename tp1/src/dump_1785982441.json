@@ -1,0 +1,4735 @@
+{
+    "resumen": {
+        "timestamp": 1785982440.728457,
+        "procesos": {
+            "1": {
+                "pid": 1,
+                "ppid": 0,
+                "usuario": "0",
+                "estado": "Sleeping",
+                "comando": "/sbin/init",
+                "cpu_porc": 0.0,
+                "threads": 1,
+                "rss": "13248 kB"
+            },
+            "2": {
+                "pid": 2,
+                "ppid": 1,
+                "usuario": "0",
+                "estado": "Sleeping",
+                "comando": "/init",
+                "cpu_porc": 0.0,
+                "threads": 2,
+                "rss": "2212 kB"
+            },
+            "6": {
+                "pid": 6,
+                "ppid": 2,
+                "usuario": "0",
+                "estado": "Sleeping",
+                "comando": "plan9 --control-socket 7 --log-level 4 --server-fd",
+                "cpu_porc": 0.0,
+                "threads": 7,
+                "rss": "2560 kB"
+            },
+            "1263": {
+                "pid": 1263,
+                "ppid": 1,
+                "usuario": "0",
+                "estado": "Sleeping",
+                "comando": "/usr/lib/systemd/systemd-journald",
+                "cpu_porc": 0.0,
+                "threads": 1,
+                "rss": "16372 kB"
+            },
+            "1313": {
+                "pid": 1313,
+                "ppid": 1,
+                "usuario": "0",
+                "estado": "Sleeping",
+                "comando": "/usr/lib/systemd/systemd-udevd",
+                "cpu_porc": 0.0,
+                "threads": 1,
+                "rss": "7096 kB"
+            },
+            "1342": {
+                "pid": 1342,
+                "ppid": 1,
+                "usuario": "991",
+                "estado": "Sleeping",
+                "comando": "/usr/lib/systemd/systemd-resolved",
+                "cpu_porc": 0.0,
+                "threads": 1,
+                "rss": "13220 kB"
+            },
+            "1344": {
+                "pid": 1344,
+                "ppid": 1,
+                "usuario": "996",
+                "estado": "Sleeping",
+                "comando": "/usr/lib/systemd/systemd-timesyncd",
+                "cpu_porc": 0.0,
+                "threads": 2,
+                "rss": "8056 kB"
+            },
+            "1369": {
+                "pid": 1369,
+                "ppid": 1,
+                "usuario": "0",
+                "estado": "Sleeping",
+                "comando": "/usr/sbin/cron -f -P",
+                "cpu_porc": 0.0,
+                "threads": 1,
+                "rss": "2744 kB"
+            },
+            "1370": {
+                "pid": 1370,
+                "ppid": 1,
+                "usuario": "101",
+                "estado": "Sleeping",
+                "comando": "@dbus-daemon --system --address=systemd: --nofork ",
+                "cpu_porc": 0.0,
+                "threads": 1,
+                "rss": "5388 kB"
+            },
+            "1383": {
+                "pid": 1383,
+                "ppid": 1,
+                "usuario": "0",
+                "estado": "Sleeping",
+                "comando": "/usr/lib/systemd/systemd-logind",
+                "cpu_porc": 0.0,
+                "threads": 1,
+                "rss": "8856 kB"
+            },
+            "1404": {
+                "pid": 1404,
+                "ppid": 1,
+                "usuario": "102",
+                "estado": "Sleeping",
+                "comando": "/usr/sbin/rsyslogd -n -iNONE",
+                "cpu_porc": 0.0,
+                "threads": 4,
+                "rss": "6036 kB"
+            },
+            "1407": {
+                "pid": 1407,
+                "ppid": 1,
+                "usuario": "0",
+                "estado": "Sleeping",
+                "comando": "/usr/bin/containerd",
+                "cpu_porc": 0.0,
+                "threads": 10,
+                "rss": "40172 kB"
+            },
+            "1411": {
+                "pid": 1411,
+                "ppid": 1,
+                "usuario": "0",
+                "estado": "Sleeping",
+                "comando": "/sbin/agetty -o -p -- \\u --noclear - linux",
+                "cpu_porc": 0.0,
+                "threads": 1,
+                "rss": "2036 kB"
+            },
+            "1433": {
+                "pid": 1433,
+                "ppid": 1,
+                "usuario": "0",
+                "estado": "Sleeping",
+                "comando": "/usr/bin/python3 /usr/share/unattended-upgrades/un",
+                "cpu_porc": 0.0,
+                "threads": 2,
+                "rss": "23232 kB"
+            },
+            "1459": {
+                "pid": 1459,
+                "ppid": 1,
+                "usuario": "0",
+                "estado": "Sleeping",
+                "comando": "/usr/bin/dockerd -H fd:// --containerd=/run/contai",
+                "cpu_porc": 0.0,
+                "threads": 19,
+                "rss": "70972 kB"
+            },
+            "1763": {
+                "pid": 1763,
+                "ppid": 2,
+                "usuario": "0",
+                "estado": "Sleeping",
+                "comando": "/init",
+                "cpu_porc": 0.0,
+                "threads": 1,
+                "rss": "1116 kB"
+            },
+            "1764": {
+                "pid": 1764,
+                "ppid": 1763,
+                "usuario": "0",
+                "estado": "Sleeping",
+                "comando": "/init",
+                "cpu_porc": 0.0,
+                "threads": 1,
+                "rss": "1252 kB"
+            },
+            "1765": {
+                "pid": 1765,
+                "ppid": 1764,
+                "usuario": "1000",
+                "estado": "Sleeping",
+                "comando": "-bash",
+                "cpu_porc": 0.0,
+                "threads": 1,
+                "rss": "5420 kB"
+            },
+            "1766": {
+                "pid": 1766,
+                "ppid": 2,
+                "usuario": "0",
+                "estado": "Sleeping",
+                "comando": "/bin/login -f",
+                "cpu_porc": 0.0,
+                "threads": 1,
+                "rss": "4708 kB"
+            },
+            "1823": {
+                "pid": 1823,
+                "ppid": 1,
+                "usuario": "1000",
+                "estado": "Sleeping",
+                "comando": "/usr/lib/systemd/systemd --user",
+                "cpu_porc": 0.0,
+                "threads": 1,
+                "rss": "11508 kB"
+            },
+            "1825": {
+                "pid": 1825,
+                "ppid": 1823,
+                "usuario": "1000",
+                "estado": "Sleeping",
+                "comando": "(sd-pam)",
+                "cpu_porc": 0.0,
+                "threads": 1,
+                "rss": "3564 kB"
+            },
+            "1850": {
+                "pid": 1850,
+                "ppid": 1766,
+                "usuario": "1000",
+                "estado": "Sleeping",
+                "comando": "-bash",
+                "cpu_porc": 0.0,
+                "threads": 1,
+                "rss": "5360 kB"
+            },
+            "2004": {
+                "pid": 2004,
+                "ppid": 2,
+                "usuario": "0",
+                "estado": "Sleeping",
+                "comando": "/init",
+                "cpu_porc": 0.0,
+                "threads": 1,
+                "rss": "1124 kB"
+            },
+            "2006": {
+                "pid": 2006,
+                "ppid": 2004,
+                "usuario": "0",
+                "estado": "Sleeping",
+                "comando": "/init",
+                "cpu_porc": 0.0,
+                "threads": 1,
+                "rss": "1260 kB"
+            },
+            "2009": {
+                "pid": 2009,
+                "ppid": 2006,
+                "usuario": "1000",
+                "estado": "Sleeping",
+                "comando": "-bash",
+                "cpu_porc": 0.0,
+                "threads": 1,
+                "rss": "5408 kB"
+            },
+            "3013": {
+                "pid": 3013,
+                "ppid": 1,
+                "usuario": "0",
+                "estado": "Sleeping",
+                "comando": "/usr/libexec/wsl-pro-service",
+                "cpu_porc": 0.0,
+                "threads": 9,
+                "rss": "13732 kB"
+            },
+            "3069": {
+                "pid": 3069,
+                "ppid": 1765,
+                "usuario": "1000",
+                "estado": "Sleeping",
+                "comando": "python3 main.py",
+                "cpu_porc": 4.9,
+                "threads": 2,
+                "rss": "27736 kB"
+            },
+            "3070": {
+                "pid": 3070,
+                "ppid": 3069,
+                "usuario": "1000",
+                "estado": "Sleeping",
+                "comando": "python3 main.py",
+                "cpu_porc": 0.0,
+                "threads": 10,
+                "rss": "21644 kB"
+            },
+            "3076": {
+                "pid": 3076,
+                "ppid": 3069,
+                "usuario": "1000",
+                "estado": "Sleeping",
+                "comando": "python3 main.py",
+                "cpu_porc": 0.0,
+                "threads": 8,
+                "rss": "21028 kB"
+            },
+            "3077": {
+                "pid": 3077,
+                "ppid": 3069,
+                "usuario": "1000",
+                "estado": "Running",
+                "comando": "python3 main.py",
+                "cpu_porc": 4.9,
+                "threads": 1,
+                "rss": "21224 kB"
+            },
+            "3079": {
+                "pid": 3079,
+                "ppid": 3069,
+                "usuario": "1000",
+                "estado": "Sleeping",
+                "comando": "python3 main.py",
+                "cpu_porc": 0.0,
+                "threads": 1,
+                "rss": "20916 kB"
+            },
+            "3082": {
+                "pid": 3082,
+                "ppid": 3069,
+                "usuario": "1000",
+                "estado": "Sleeping",
+                "comando": "python3 main.py",
+                "cpu_porc": 0.0,
+                "threads": 1,
+                "rss": "20820 kB"
+            },
+            "3084": {
+                "pid": 3084,
+                "ppid": 3069,
+                "usuario": "1000",
+                "estado": "Running",
+                "comando": "python3 main.py",
+                "cpu_porc": 0.0,
+                "threads": 1,
+                "rss": "21124 kB"
+            },
+            "3087": {
+                "pid": 3087,
+                "ppid": 3069,
+                "usuario": "1000",
+                "estado": "Sleeping",
+                "comando": "python3 main.py",
+                "cpu_porc": 0.0,
+                "threads": 1,
+                "rss": "20348 kB"
+            },
+            "3090": {
+                "pid": 3090,
+                "ppid": 3069,
+                "usuario": "1000",
+                "estado": "Sleeping",
+                "comando": "python3 main.py",
+                "cpu_porc": 0.0,
+                "threads": 1,
+                "rss": "20608 kB"
+            },
+            "3094": {
+                "pid": 3094,
+                "ppid": 3069,
+                "usuario": "1000",
+                "estado": "Sleeping",
+                "comando": "python3 main.py",
+                "cpu_porc": 0.0,
+                "threads": 1,
+                "rss": "20496 kB"
+            }
+        }
+    },
+    "memoria": {
+        "timestamp": 1785982441.4201548,
+        "procesos": {
+            "1": {
+                "vmsize": "21756 kB",
+                "vmrss": "13248 kB",
+                "vmdata": "0 KB",
+                "vmstk": "132 kB",
+                "vmexe": "44 kB",
+                "vmlib": "12196 kB",
+                "vmhwm": "13248 kB",
+                "vmswap": "0 kB",
+                "segmentos": {
+                    "text": 0,
+                    "data": 0,
+                    "heap": 0,
+                    "stack": 0,
+                    "shared": 0
+                },
+                "data": "2716 kB"
+            },
+            "2": {
+                "vmsize": "3180 kB",
+                "vmrss": "2212 kB",
+                "vmdata": "0 KB",
+                "vmstk": "132 kB",
+                "vmexe": "1900 kB",
+                "vmlib": "8 kB",
+                "vmhwm": "2212 kB",
+                "vmswap": "0 kB",
+                "segmentos": {
+                    "text": 0,
+                    "data": 0,
+                    "heap": 0,
+                    "stack": 0,
+                    "shared": 0
+                },
+                "data": "304 kB"
+            },
+            "6": {
+                "vmsize": "4244 kB",
+                "vmrss": "2560 kB",
+                "vmdata": "0 KB",
+                "vmstk": "132 kB",
+                "vmexe": "1900 kB",
+                "vmlib": "8 kB",
+                "vmhwm": "3216 kB",
+                "vmswap": "0 kB",
+                "segmentos": {
+                    "text": 0,
+                    "data": 0,
+                    "heap": 0,
+                    "stack": 0,
+                    "shared": 0
+                },
+                "data": "1328 kB"
+            },
+            "1263": {
+                "vmsize": "50436 kB",
+                "vmrss": "16372 kB",
+                "vmdata": "0 KB",
+                "vmstk": "132 kB",
+                "vmexe": "112 kB",
+                "vmlib": "11092 kB",
+                "vmhwm": "16372 kB",
+                "vmswap": "0 kB",
+                "segmentos": {
+                    "text": 0,
+                    "data": 0,
+                    "heap": 0,
+                    "stack": 0,
+                    "shared": 0
+                },
+                "data": "17068 kB"
+            },
+            "1313": {
+                "vmsize": "25676 kB",
+                "vmrss": "7096 kB",
+                "vmdata": "0 KB",
+                "vmstk": "132 kB",
+                "vmexe": "848 kB",
+                "vmlib": "6648 kB",
+                "vmhwm": "7096 kB",
+                "vmswap": "0 kB",
+                "segmentos": {
+                    "text": 0,
+                    "data": 0,
+                    "heap": 0,
+                    "stack": 0,
+                    "shared": 0
+                },
+                "data": "1360 kB"
+            },
+            "1342": {
+                "vmsize": "21344 kB",
+                "vmrss": "13220 kB",
+                "vmdata": "0 KB",
+                "vmstk": "132 kB",
+                "vmexe": "352 kB",
+                "vmlib": "11720 kB",
+                "vmhwm": "13220 kB",
+                "vmswap": "0 kB",
+                "segmentos": {
+                    "text": 0,
+                    "data": 0,
+                    "heap": 0,
+                    "stack": 0,
+                    "shared": 0
+                },
+                "data": "1540 kB"
+            },
+            "1344": {
+                "vmsize": "91036 kB",
+                "vmrss": "8056 kB",
+                "vmdata": "0 KB",
+                "vmstk": "132 kB",
+                "vmexe": "28 kB",
+                "vmlib": "11092 kB",
+                "vmhwm": "8056 kB",
+                "vmswap": "0 kB",
+                "segmentos": {
+                    "text": 0,
+                    "data": 0,
+                    "heap": 0,
+                    "stack": 0,
+                    "shared": 0
+                },
+                "data": "8800 kB"
+            },
+            "1369": {
+                "vmsize": "4244 kB",
+                "vmrss": "2744 kB",
+                "vmdata": "0 KB",
+                "vmstk": "132 kB",
+                "vmexe": "32 kB",
+                "vmlib": "2384 kB",
+                "vmhwm": "2744 kB",
+                "vmswap": "0 kB",
+                "segmentos": {
+                    "text": 0,
+                    "data": 0,
+                    "heap": 0,
+                    "stack": 0,
+                    "shared": 0
+                },
+                "data": "308 kB"
+            },
+            "1370": {
+                "vmsize": "9600 kB",
+                "vmrss": "5388 kB",
+                "vmdata": "0 KB",
+                "vmstk": "132 kB",
+                "vmexe": "148 kB",
+                "vmlib": "6024 kB",
+                "vmhwm": "5388 kB",
+                "vmswap": "0 kB",
+                "segmentos": {
+                    "text": 0,
+                    "data": 0,
+                    "heap": 0,
+                    "stack": 0,
+                    "shared": 0
+                },
+                "data": "688 kB"
+            },
+            "1383": {
+                "vmsize": "17980 kB",
+                "vmrss": "8856 kB",
+                "vmdata": "0 KB",
+                "vmstk": "132 kB",
+                "vmexe": "152 kB",
+                "vmlib": "11344 kB",
+                "vmhwm": "8856 kB",
+                "vmswap": "0 kB",
+                "segmentos": {
+                    "text": 0,
+                    "data": 0,
+                    "heap": 0,
+                    "stack": 0,
+                    "shared": 0
+                },
+                "data": "564 kB"
+            },
+            "1404": {
+                "vmsize": "222516 kB",
+                "vmrss": "6036 kB",
+                "vmdata": "0 KB",
+                "vmstk": "132 kB",
+                "vmexe": "444 kB",
+                "vmlib": "5256 kB",
+                "vmhwm": "6036 kB",
+                "vmswap": "0 kB",
+                "segmentos": {
+                    "text": 0,
+                    "data": 0,
+                    "heap": 0,
+                    "stack": 0,
+                    "shared": 0
+                },
+                "data": "18232 kB"
+            },
+            "1407": {
+                "vmsize": "1941444 kB",
+                "vmrss": "40172 kB",
+                "vmdata": "0 KB",
+                "vmstk": "132 kB",
+                "vmexe": "19696 kB",
+                "vmlib": "1748 kB",
+                "vmhwm": "49892 kB",
+                "vmswap": "0 kB",
+                "segmentos": {
+                    "text": 0,
+                    "data": 0,
+                    "heap": 0,
+                    "stack": 0,
+                    "shared": 0
+                },
+                "data": "127572 kB"
+            },
+            "1411": {
+                "vmsize": "3124 kB",
+                "vmrss": "2036 kB",
+                "vmdata": "0 KB",
+                "vmstk": "132 kB",
+                "vmexe": "32 kB",
+                "vmlib": "1748 kB",
+                "vmhwm": "2036 kB",
+                "vmswap": "0 kB",
+                "segmentos": {
+                    "text": 0,
+                    "data": 0,
+                    "heap": 0,
+                    "stack": 0,
+                    "shared": 0
+                },
+                "data": "232 kB"
+            },
+            "1433": {
+                "vmsize": "107036 kB",
+                "vmrss": "23232 kB",
+                "vmdata": "0 KB",
+                "vmstk": "132 kB",
+                "vmexe": "2956 kB",
+                "vmlib": "10136 kB",
+                "vmhwm": "23232 kB",
+                "vmswap": "0 kB",
+                "segmentos": {
+                    "text": 0,
+                    "data": 0,
+                    "heap": 0,
+                    "stack": 0,
+                    "shared": 0
+                },
+                "data": "18948 kB"
+            },
+            "1459": {
+                "vmsize": "2653336 kB",
+                "vmrss": "70972 kB",
+                "vmdata": "0 KB",
+                "vmstk": "132 kB",
+                "vmexe": "37656 kB",
+                "vmlib": "5432 kB",
+                "vmhwm": "89288 kB",
+                "vmswap": "0 kB",
+                "segmentos": {
+                    "text": 0,
+                    "data": 0,
+                    "heap": 0,
+                    "stack": 0,
+                    "shared": 0
+                },
+                "data": "212832 kB"
+            },
+            "1763": {
+                "vmsize": "3184 kB",
+                "vmrss": "1116 kB",
+                "vmdata": "0 KB",
+                "vmstk": "132 kB",
+                "vmexe": "1900 kB",
+                "vmlib": "8 kB",
+                "vmhwm": "1116 kB",
+                "vmswap": "0 kB",
+                "segmentos": {
+                    "text": 0,
+                    "data": 0,
+                    "heap": 0,
+                    "stack": 0,
+                    "shared": 0
+                },
+                "data": "308 kB"
+            },
+            "1764": {
+                "vmsize": "3200 kB",
+                "vmrss": "1252 kB",
+                "vmdata": "0 KB",
+                "vmstk": "132 kB",
+                "vmexe": "1900 kB",
+                "vmlib": "8 kB",
+                "vmhwm": "1252 kB",
+                "vmswap": "0 kB",
+                "segmentos": {
+                    "text": 0,
+                    "data": 0,
+                    "heap": 0,
+                    "stack": 0,
+                    "shared": 0
+                },
+                "data": "324 kB"
+            },
+            "1765": {
+                "vmsize": "6212 kB",
+                "vmrss": "5420 kB",
+                "vmdata": "0 KB",
+                "vmstk": "132 kB",
+                "vmexe": "956 kB",
+                "vmlib": "1824 kB",
+                "vmhwm": "5420 kB",
+                "vmswap": "0 kB",
+                "segmentos": {
+                    "text": 2846720,
+                    "data": 176128,
+                    "heap": 1622016,
+                    "stack": 135168,
+                    "shared": 0
+                },
+                "data": "1756 kB"
+            },
+            "1766": {
+                "vmsize": "6700 kB",
+                "vmrss": "4708 kB",
+                "vmdata": "0 KB",
+                "vmstk": "288 kB",
+                "vmexe": "28 kB",
+                "vmlib": "3748 kB",
+                "vmhwm": "4708 kB",
+                "vmswap": "0 kB",
+                "segmentos": {
+                    "text": 0,
+                    "data": 0,
+                    "heap": 0,
+                    "stack": 0,
+                    "shared": 0
+                },
+                "data": "628 kB"
+            },
+            "1823": {
+                "vmsize": "20328 kB",
+                "vmrss": "11508 kB",
+                "vmdata": "0 KB",
+                "vmstk": "132 kB",
+                "vmexe": "44 kB",
+                "vmlib": "12196 kB",
+                "vmhwm": "11508 kB",
+                "vmswap": "0 kB",
+                "segmentos": {
+                    "text": 0,
+                    "data": 0,
+                    "heap": 0,
+                    "stack": 0,
+                    "shared": 0
+                },
+                "data": "1288 kB"
+            },
+            "1825": {
+                "vmsize": "21164 kB",
+                "vmrss": "3564 kB",
+                "vmdata": "0 KB",
+                "vmstk": "272 kB",
+                "vmexe": "84 kB",
+                "vmlib": "12904 kB",
+                "vmhwm": "3564 kB",
+                "vmswap": "0 kB",
+                "segmentos": {
+                    "text": 0,
+                    "data": 0,
+                    "heap": 0,
+                    "stack": 0,
+                    "shared": 0
+                },
+                "data": "824 kB"
+            },
+            "1850": {
+                "vmsize": "6080 kB",
+                "vmrss": "5360 kB",
+                "vmdata": "0 KB",
+                "vmstk": "132 kB",
+                "vmexe": "956 kB",
+                "vmlib": "1824 kB",
+                "vmhwm": "5360 kB",
+                "vmswap": "0 kB",
+                "segmentos": {
+                    "text": 2846720,
+                    "data": 176128,
+                    "heap": 1486848,
+                    "stack": 135168,
+                    "shared": 0
+                },
+                "data": "1624 kB"
+            },
+            "2004": {
+                "vmsize": "3184 kB",
+                "vmrss": "1124 kB",
+                "vmdata": "0 KB",
+                "vmstk": "132 kB",
+                "vmexe": "1900 kB",
+                "vmlib": "8 kB",
+                "vmhwm": "1124 kB",
+                "vmswap": "0 kB",
+                "segmentos": {
+                    "text": 0,
+                    "data": 0,
+                    "heap": 0,
+                    "stack": 0,
+                    "shared": 0
+                },
+                "data": "308 kB"
+            },
+            "2006": {
+                "vmsize": "3200 kB",
+                "vmrss": "1260 kB",
+                "vmdata": "0 KB",
+                "vmstk": "132 kB",
+                "vmexe": "1900 kB",
+                "vmlib": "8 kB",
+                "vmhwm": "1260 kB",
+                "vmswap": "0 kB",
+                "segmentos": {
+                    "text": 0,
+                    "data": 0,
+                    "heap": 0,
+                    "stack": 0,
+                    "shared": 0
+                },
+                "data": "324 kB"
+            },
+            "2009": {
+                "vmsize": "6080 kB",
+                "vmrss": "5408 kB",
+                "vmdata": "0 KB",
+                "vmstk": "132 kB",
+                "vmexe": "956 kB",
+                "vmlib": "1824 kB",
+                "vmhwm": "5408 kB",
+                "vmswap": "0 kB",
+                "segmentos": {
+                    "text": 2846720,
+                    "data": 176128,
+                    "heap": 1486848,
+                    "stack": 135168,
+                    "shared": 0
+                },
+                "data": "1624 kB"
+            },
+            "3013": {
+                "vmsize": "1830616 kB",
+                "vmrss": "13732 kB",
+                "vmdata": "0 KB",
+                "vmstk": "132 kB",
+                "vmexe": "5948 kB",
+                "vmlib": "1748 kB",
+                "vmhwm": "13732 kB",
+                "vmswap": "0 kB",
+                "segmentos": {
+                    "text": 0,
+                    "data": 0,
+                    "heap": 0,
+                    "stack": 0,
+                    "shared": 0
+                },
+                "data": "107136 kB"
+            },
+            "3069": {
+                "vmsize": "108488 kB",
+                "vmrss": "27736 kB",
+                "vmdata": "0 KB",
+                "vmstk": "132 kB",
+                "vmexe": "2956 kB",
+                "vmlib": "6396 kB",
+                "vmhwm": "27736 kB",
+                "vmswap": "0 kB",
+                "segmentos": {
+                    "text": 9576448,
+                    "data": 22700032,
+                    "heap": 4239360,
+                    "stack": 135168,
+                    "shared": 139264
+                },
+                "data": "26308 kB"
+            },
+            "3070": {
+                "vmsize": "695704 kB",
+                "vmrss": "21644 kB",
+                "vmdata": "0 KB",
+                "vmstk": "132 kB",
+                "vmexe": "2956 kB",
+                "vmlib": "6296 kB",
+                "vmhwm": "21644 kB",
+                "vmswap": "0 kB",
+                "segmentos": {
+                    "text": 9474048,
+                    "data": 88965120,
+                    "heap": 3833856,
+                    "stack": 135168,
+                    "shared": 0
+                },
+                "data": "90624 kB"
+            },
+            "3076": {
+                "vmsize": "548796 kB",
+                "vmrss": "21028 kB",
+                "vmdata": "0 KB",
+                "vmstk": "132 kB",
+                "vmexe": "2956 kB",
+                "vmlib": "6396 kB",
+                "vmhwm": "21028 kB",
+                "vmswap": "0 kB",
+                "segmentos": {
+                    "text": 9576448,
+                    "data": 71843840,
+                    "heap": 4104192,
+                    "stack": 135168,
+                    "shared": 139264
+                },
+                "data": "74168 kB"
+            },
+            "3077": {
+                "vmsize": "32560 kB",
+                "vmrss": "21224 kB",
+                "vmdata": "0 KB",
+                "vmstk": "132 kB",
+                "vmexe": "2956 kB",
+                "vmlib": "6396 kB",
+                "vmhwm": "21224 kB",
+                "vmswap": "0 kB",
+                "segmentos": {
+                    "text": 9576448,
+                    "data": 12062720,
+                    "heap": 4104192,
+                    "stack": 135168,
+                    "shared": 139264
+                },
+                "data": "15788 kB"
+            },
+            "3079": {
+                "vmsize": "32692 kB",
+                "vmrss": "20916 kB",
+                "vmdata": "0 KB",
+                "vmstk": "132 kB",
+                "vmexe": "2956 kB",
+                "vmlib": "6396 kB",
+                "vmhwm": "20916 kB",
+                "vmswap": "0 kB",
+                "segmentos": {
+                    "text": 9576448,
+                    "data": 12062720,
+                    "heap": 4239360,
+                    "stack": 135168,
+                    "shared": 139264
+                },
+                "data": "15920 kB"
+            },
+            "3082": {
+                "vmsize": "32560 kB",
+                "vmrss": "20820 kB",
+                "vmdata": "0 KB",
+                "vmstk": "132 kB",
+                "vmexe": "2956 kB",
+                "vmlib": "6396 kB",
+                "vmhwm": "20820 kB",
+                "vmswap": "0 kB",
+                "segmentos": {
+                    "text": 9576448,
+                    "data": 12062720,
+                    "heap": 4104192,
+                    "stack": 135168,
+                    "shared": 139264
+                },
+                "data": "15788 kB"
+            },
+            "3084": {
+                "vmsize": "32560 kB",
+                "vmrss": "21124 kB",
+                "vmdata": "0 KB",
+                "vmstk": "132 kB",
+                "vmexe": "2956 kB",
+                "vmlib": "6396 kB",
+                "vmhwm": "21124 kB",
+                "vmswap": "0 kB",
+                "segmentos": {
+                    "text": 9576448,
+                    "data": 12062720,
+                    "heap": 4104192,
+                    "stack": 135168,
+                    "shared": 139264
+                },
+                "data": "15788 kB"
+            },
+            "3087": {
+                "vmsize": "32560 kB",
+                "vmrss": "20348 kB",
+                "vmdata": "0 KB",
+                "vmstk": "132 kB",
+                "vmexe": "2956 kB",
+                "vmlib": "6396 kB",
+                "vmhwm": "20348 kB",
+                "vmswap": "0 kB",
+                "segmentos": {
+                    "text": 9576448,
+                    "data": 12062720,
+                    "heap": 4104192,
+                    "stack": 135168,
+                    "shared": 139264
+                },
+                "data": "15788 kB"
+            },
+            "3090": {
+                "vmsize": "32560 kB",
+                "vmrss": "20608 kB",
+                "vmdata": "0 KB",
+                "vmstk": "132 kB",
+                "vmexe": "2956 kB",
+                "vmlib": "6396 kB",
+                "vmhwm": "20608 kB",
+                "vmswap": "0 kB",
+                "segmentos": {
+                    "text": 9576448,
+                    "data": 12062720,
+                    "heap": 4104192,
+                    "stack": 135168,
+                    "shared": 139264
+                },
+                "data": "15788 kB"
+            },
+            "3094": {
+                "vmsize": "32560 kB",
+                "vmrss": "20496 kB",
+                "vmdata": "0 KB",
+                "vmstk": "132 kB",
+                "vmexe": "2956 kB",
+                "vmlib": "6396 kB",
+                "vmhwm": "20496 kB",
+                "vmswap": "0 kB",
+                "segmentos": {
+                    "text": 9576448,
+                    "data": 12062720,
+                    "heap": 4104192,
+                    "stack": 135168,
+                    "shared": 139264
+                },
+                "data": "15788 kB"
+            }
+        }
+    },
+    "fds": {
+        "timestamp": 1785982438.0773914,
+        "procesos": {
+            "1": {
+                "total_fds": 0,
+                "lista": []
+            },
+            "2": {
+                "total_fds": 0,
+                "lista": []
+            },
+            "6": {
+                "total_fds": 0,
+                "lista": []
+            },
+            "1263": {
+                "total_fds": 0,
+                "lista": []
+            },
+            "1313": {
+                "total_fds": 0,
+                "lista": []
+            },
+            "1342": {
+                "total_fds": 0,
+                "lista": []
+            },
+            "1344": {
+                "total_fds": 0,
+                "lista": []
+            },
+            "1369": {
+                "total_fds": 0,
+                "lista": []
+            },
+            "1370": {
+                "total_fds": 0,
+                "lista": []
+            },
+            "1383": {
+                "total_fds": 0,
+                "lista": []
+            },
+            "1404": {
+                "total_fds": 0,
+                "lista": []
+            },
+            "1407": {
+                "total_fds": 0,
+                "lista": []
+            },
+            "1411": {
+                "total_fds": 0,
+                "lista": []
+            },
+            "1433": {
+                "total_fds": 0,
+                "lista": []
+            },
+            "1459": {
+                "total_fds": 0,
+                "lista": []
+            },
+            "1763": {
+                "total_fds": 0,
+                "lista": []
+            },
+            "1764": {
+                "total_fds": 0,
+                "lista": []
+            },
+            "1765": {
+                "total_fds": 4,
+                "lista": [
+                    {
+                        "fd": "0",
+                        "destino": "/dev/pts/0",
+                        "tipo": "Terminal (TTY)"
+                    },
+                    {
+                        "fd": "1",
+                        "destino": "/dev/pts/0",
+                        "tipo": "Terminal (TTY)"
+                    },
+                    {
+                        "fd": "2",
+                        "destino": "/dev/pts/0",
+                        "tipo": "Terminal (TTY)"
+                    },
+                    {
+                        "fd": "255",
+                        "destino": "/dev/pts/0",
+                        "tipo": "Terminal (TTY)"
+                    }
+                ]
+            },
+            "1766": {
+                "total_fds": 0,
+                "lista": []
+            },
+            "1823": {
+                "total_fds": 0,
+                "lista": []
+            },
+            "1825": {
+                "total_fds": 0,
+                "lista": []
+            },
+            "1850": {
+                "total_fds": 4,
+                "lista": [
+                    {
+                        "fd": "0",
+                        "destino": "/dev/pts/1",
+                        "tipo": "Terminal (TTY)"
+                    },
+                    {
+                        "fd": "1",
+                        "destino": "/dev/pts/1",
+                        "tipo": "Terminal (TTY)"
+                    },
+                    {
+                        "fd": "2",
+                        "destino": "/dev/pts/1",
+                        "tipo": "Terminal (TTY)"
+                    },
+                    {
+                        "fd": "255",
+                        "destino": "/dev/pts/1",
+                        "tipo": "Terminal (TTY)"
+                    }
+                ]
+            },
+            "2004": {
+                "total_fds": 0,
+                "lista": []
+            },
+            "2006": {
+                "total_fds": 0,
+                "lista": []
+            },
+            "2009": {
+                "total_fds": 5,
+                "lista": [
+                    {
+                        "fd": "0",
+                        "destino": "/dev/pts/2",
+                        "tipo": "Terminal (TTY)"
+                    },
+                    {
+                        "fd": "1",
+                        "destino": "/dev/pts/2",
+                        "tipo": "Terminal (TTY)"
+                    },
+                    {
+                        "fd": "2",
+                        "destino": "/dev/pts/2",
+                        "tipo": "Terminal (TTY)"
+                    },
+                    {
+                        "fd": "7",
+                        "destino": "/dev/ptmx",
+                        "tipo": "Archivo / Librería"
+                    },
+                    {
+                        "fd": "255",
+                        "destino": "/dev/pts/2",
+                        "tipo": "Terminal (TTY)"
+                    }
+                ]
+            },
+            "3013": {
+                "total_fds": 0,
+                "lista": []
+            },
+            "3069": {
+                "total_fds": 38,
+                "lista": [
+                    {
+                        "fd": "0",
+                        "destino": "/dev/pts/0",
+                        "tipo": "Terminal (TTY)"
+                    },
+                    {
+                        "fd": "1",
+                        "destino": "/dev/pts/0",
+                        "tipo": "Terminal (TTY)"
+                    },
+                    {
+                        "fd": "2",
+                        "destino": "/dev/pts/0",
+                        "tipo": "Terminal (TTY)"
+                    },
+                    {
+                        "fd": "3",
+                        "destino": "socket:[17696]",
+                        "tipo": "Socket (Red)"
+                    },
+                    {
+                        "fd": "4",
+                        "destino": "/dev/shm/pym-3069-1gnv61kg (deleted)",
+                        "tipo": "Archivo / Librería"
+                    },
+                    {
+                        "fd": "5",
+                        "destino": "pipe:[17689]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "6",
+                        "destino": "/dev/shm/pym-3069-1gnv61kg (deleted)",
+                        "tipo": "Archivo / Librería"
+                    },
+                    {
+                        "fd": "7",
+                        "destino": "pipe:[17697]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "8",
+                        "destino": "pipe:[17690]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "9",
+                        "destino": "pipe:[17697]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "10",
+                        "destino": "pipe:[17698]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "11",
+                        "destino": "pipe:[17698]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "12",
+                        "destino": "pipe:[17699]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "13",
+                        "destino": "pipe:[17699]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "14",
+                        "destino": "pipe:[17700]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "15",
+                        "destino": "pipe:[17700]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "16",
+                        "destino": "pipe:[17701]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "17",
+                        "destino": "pipe:[17701]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "18",
+                        "destino": "pipe:[17702]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "19",
+                        "destino": "pipe:[17702]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "20",
+                        "destino": "pipe:[17703]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "21",
+                        "destino": "pipe:[17703]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "22",
+                        "destino": "pipe:[17704]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "23",
+                        "destino": "pipe:[17706]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "24",
+                        "destino": "pipe:[17708]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "25",
+                        "destino": "pipe:[17705]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "26",
+                        "destino": "pipe:[17710]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "27",
+                        "destino": "pipe:[17707]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "28",
+                        "destino": "pipe:[17712]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "29",
+                        "destino": "pipe:[17709]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "30",
+                        "destino": "pipe:[17714]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "31",
+                        "destino": "pipe:[17711]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "32",
+                        "destino": "pipe:[17716]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "33",
+                        "destino": "pipe:[17713]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "34",
+                        "destino": "pipe:[17718]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "35",
+                        "destino": "pipe:[17715]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "37",
+                        "destino": "pipe:[17717]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "39",
+                        "destino": "pipe:[17719]",
+                        "tipo": "Pipe (IPC)"
+                    }
+                ]
+            },
+            "3070": {
+                "total_fds": 16,
+                "lista": [
+                    {
+                        "fd": "0",
+                        "destino": "/dev/pts/0",
+                        "tipo": "Terminal (TTY)"
+                    },
+                    {
+                        "fd": "1",
+                        "destino": "/dev/pts/0",
+                        "tipo": "Terminal (TTY)"
+                    },
+                    {
+                        "fd": "2",
+                        "destino": "/dev/pts/0",
+                        "tipo": "Terminal (TTY)"
+                    },
+                    {
+                        "fd": "3",
+                        "destino": "pipe:[17688]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "4",
+                        "destino": "socket:[13481]",
+                        "tipo": "Socket (Red)"
+                    },
+                    {
+                        "fd": "5",
+                        "destino": "/dev/null",
+                        "tipo": "Archivo / Librería"
+                    },
+                    {
+                        "fd": "6",
+                        "destino": "pipe:[17689]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "7",
+                        "destino": "pipe:[17690]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "8",
+                        "destino": "socket:[15561]",
+                        "tipo": "Socket (Red)"
+                    },
+                    {
+                        "fd": "9",
+                        "destino": "socket:[13478]",
+                        "tipo": "Socket (Red)"
+                    },
+                    {
+                        "fd": "10",
+                        "destino": "socket:[13482]",
+                        "tipo": "Socket (Red)"
+                    },
+                    {
+                        "fd": "11",
+                        "destino": "socket:[15148]",
+                        "tipo": "Socket (Red)"
+                    },
+                    {
+                        "fd": "12",
+                        "destino": "socket:[15149]",
+                        "tipo": "Socket (Red)"
+                    },
+                    {
+                        "fd": "13",
+                        "destino": "socket:[15150]",
+                        "tipo": "Socket (Red)"
+                    },
+                    {
+                        "fd": "14",
+                        "destino": "socket:[15151]",
+                        "tipo": "Socket (Red)"
+                    },
+                    {
+                        "fd": "15",
+                        "destino": "socket:[15152]",
+                        "tipo": "Socket (Red)"
+                    }
+                ]
+            },
+            "3076": {
+                "total_fds": 24,
+                "lista": [
+                    {
+                        "fd": "0",
+                        "destino": "/dev/pts/0",
+                        "tipo": "Terminal (TTY)"
+                    },
+                    {
+                        "fd": "1",
+                        "destino": "/dev/pts/0",
+                        "tipo": "Terminal (TTY)"
+                    },
+                    {
+                        "fd": "2",
+                        "destino": "/dev/pts/0",
+                        "tipo": "Terminal (TTY)"
+                    },
+                    {
+                        "fd": "4",
+                        "destino": "/dev/shm/pym-3069-1gnv61kg (deleted)",
+                        "tipo": "Archivo / Librería"
+                    },
+                    {
+                        "fd": "5",
+                        "destino": "pipe:[17689]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "6",
+                        "destino": "/dev/shm/pym-3069-1gnv61kg (deleted)",
+                        "tipo": "Archivo / Librería"
+                    },
+                    {
+                        "fd": "7",
+                        "destino": "pipe:[17697]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "8",
+                        "destino": "pipe:[17690]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "9",
+                        "destino": "pipe:[17697]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "10",
+                        "destino": "pipe:[17698]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "11",
+                        "destino": "pipe:[17698]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "12",
+                        "destino": "pipe:[17699]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "13",
+                        "destino": "pipe:[17699]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "14",
+                        "destino": "pipe:[17700]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "15",
+                        "destino": "pipe:[17700]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "16",
+                        "destino": "pipe:[17701]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "17",
+                        "destino": "pipe:[17701]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "18",
+                        "destino": "pipe:[17702]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "19",
+                        "destino": "pipe:[17702]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "20",
+                        "destino": "pipe:[17703]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "21",
+                        "destino": "pipe:[17703]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "22",
+                        "destino": "/dev/null",
+                        "tipo": "Archivo / Librería"
+                    },
+                    {
+                        "fd": "23",
+                        "destino": "pipe:[17704]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "24",
+                        "destino": "pipe:[17705]",
+                        "tipo": "Pipe (IPC)"
+                    }
+                ]
+            },
+            "3077": {
+                "total_fds": 27,
+                "lista": [
+                    {
+                        "fd": "0",
+                        "destino": "/dev/pts/0",
+                        "tipo": "Terminal (TTY)"
+                    },
+                    {
+                        "fd": "1",
+                        "destino": "/dev/pts/0",
+                        "tipo": "Terminal (TTY)"
+                    },
+                    {
+                        "fd": "2",
+                        "destino": "/dev/pts/0",
+                        "tipo": "Terminal (TTY)"
+                    },
+                    {
+                        "fd": "3",
+                        "destino": "socket:[10045]",
+                        "tipo": "Socket (Red)"
+                    },
+                    {
+                        "fd": "4",
+                        "destino": "/dev/shm/pym-3069-1gnv61kg (deleted)",
+                        "tipo": "Archivo / Librería"
+                    },
+                    {
+                        "fd": "5",
+                        "destino": "pipe:[17689]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "6",
+                        "destino": "/dev/shm/pym-3069-1gnv61kg (deleted)",
+                        "tipo": "Archivo / Librería"
+                    },
+                    {
+                        "fd": "7",
+                        "destino": "pipe:[17697]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "8",
+                        "destino": "pipe:[17690]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "9",
+                        "destino": "pipe:[17697]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "10",
+                        "destino": "pipe:[17698]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "11",
+                        "destino": "pipe:[17698]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "12",
+                        "destino": "pipe:[17699]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "13",
+                        "destino": "pipe:[17699]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "14",
+                        "destino": "pipe:[17700]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "15",
+                        "destino": "pipe:[17700]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "16",
+                        "destino": "pipe:[17701]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "17",
+                        "destino": "pipe:[17701]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "18",
+                        "destino": "pipe:[17702]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "19",
+                        "destino": "pipe:[17702]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "20",
+                        "destino": "pipe:[17703]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "21",
+                        "destino": "pipe:[17703]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "22",
+                        "destino": "pipe:[17704]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "23",
+                        "destino": "/dev/null",
+                        "tipo": "Archivo / Librería"
+                    },
+                    {
+                        "fd": "24",
+                        "destino": "pipe:[17706]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "25",
+                        "destino": "pipe:[17705]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "26",
+                        "destino": "pipe:[17707]",
+                        "tipo": "Pipe (IPC)"
+                    }
+                ]
+            },
+            "3079": {
+                "total_fds": 29,
+                "lista": [
+                    {
+                        "fd": "0",
+                        "destino": "/dev/pts/0",
+                        "tipo": "Terminal (TTY)"
+                    },
+                    {
+                        "fd": "1",
+                        "destino": "/dev/pts/0",
+                        "tipo": "Terminal (TTY)"
+                    },
+                    {
+                        "fd": "2",
+                        "destino": "/dev/pts/0",
+                        "tipo": "Terminal (TTY)"
+                    },
+                    {
+                        "fd": "3",
+                        "destino": "socket:[15576]",
+                        "tipo": "Socket (Red)"
+                    },
+                    {
+                        "fd": "4",
+                        "destino": "/dev/shm/pym-3069-1gnv61kg (deleted)",
+                        "tipo": "Archivo / Librería"
+                    },
+                    {
+                        "fd": "5",
+                        "destino": "pipe:[17689]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "6",
+                        "destino": "/dev/shm/pym-3069-1gnv61kg (deleted)",
+                        "tipo": "Archivo / Librería"
+                    },
+                    {
+                        "fd": "7",
+                        "destino": "pipe:[17697]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "8",
+                        "destino": "pipe:[17690]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "9",
+                        "destino": "pipe:[17697]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "10",
+                        "destino": "pipe:[17698]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "11",
+                        "destino": "pipe:[17698]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "12",
+                        "destino": "pipe:[17699]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "13",
+                        "destino": "pipe:[17699]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "14",
+                        "destino": "pipe:[17700]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "15",
+                        "destino": "pipe:[17700]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "16",
+                        "destino": "pipe:[17701]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "17",
+                        "destino": "pipe:[17701]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "18",
+                        "destino": "pipe:[17702]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "19",
+                        "destino": "pipe:[17702]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "20",
+                        "destino": "pipe:[17703]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "21",
+                        "destino": "pipe:[17703]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "22",
+                        "destino": "pipe:[17704]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "23",
+                        "destino": "pipe:[17706]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "24",
+                        "destino": "/dev/null",
+                        "tipo": "Archivo / Librería"
+                    },
+                    {
+                        "fd": "25",
+                        "destino": "pipe:[17705]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "26",
+                        "destino": "pipe:[17708]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "27",
+                        "destino": "pipe:[17707]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "28",
+                        "destino": "pipe:[17709]",
+                        "tipo": "Pipe (IPC)"
+                    }
+                ]
+            },
+            "3082": {
+                "total_fds": 31,
+                "lista": [
+                    {
+                        "fd": "0",
+                        "destino": "/dev/pts/0",
+                        "tipo": "Terminal (TTY)"
+                    },
+                    {
+                        "fd": "1",
+                        "destino": "/dev/pts/0",
+                        "tipo": "Terminal (TTY)"
+                    },
+                    {
+                        "fd": "2",
+                        "destino": "/dev/pts/0",
+                        "tipo": "Terminal (TTY)"
+                    },
+                    {
+                        "fd": "3",
+                        "destino": "socket:[19055]",
+                        "tipo": "Socket (Red)"
+                    },
+                    {
+                        "fd": "4",
+                        "destino": "/dev/shm/pym-3069-1gnv61kg (deleted)",
+                        "tipo": "Archivo / Librería"
+                    },
+                    {
+                        "fd": "5",
+                        "destino": "pipe:[17689]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "6",
+                        "destino": "/dev/shm/pym-3069-1gnv61kg (deleted)",
+                        "tipo": "Archivo / Librería"
+                    },
+                    {
+                        "fd": "7",
+                        "destino": "pipe:[17697]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "8",
+                        "destino": "pipe:[17690]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "9",
+                        "destino": "pipe:[17697]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "10",
+                        "destino": "pipe:[17698]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "11",
+                        "destino": "pipe:[17698]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "12",
+                        "destino": "pipe:[17699]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "13",
+                        "destino": "pipe:[17699]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "14",
+                        "destino": "pipe:[17700]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "15",
+                        "destino": "pipe:[17700]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "16",
+                        "destino": "pipe:[17701]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "17",
+                        "destino": "pipe:[17701]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "18",
+                        "destino": "pipe:[17702]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "19",
+                        "destino": "pipe:[17702]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "20",
+                        "destino": "pipe:[17703]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "21",
+                        "destino": "pipe:[17703]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "22",
+                        "destino": "pipe:[17704]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "23",
+                        "destino": "pipe:[17706]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "24",
+                        "destino": "pipe:[17708]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "25",
+                        "destino": "pipe:[17705]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "26",
+                        "destino": "/dev/null",
+                        "tipo": "Archivo / Librería"
+                    },
+                    {
+                        "fd": "27",
+                        "destino": "pipe:[17707]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "28",
+                        "destino": "pipe:[17710]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "29",
+                        "destino": "pipe:[17709]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "30",
+                        "destino": "pipe:[17711]",
+                        "tipo": "Pipe (IPC)"
+                    }
+                ]
+            },
+            "3084": {
+                "total_fds": 33,
+                "lista": [
+                    {
+                        "fd": "0",
+                        "destino": "/dev/pts/0",
+                        "tipo": "Terminal (TTY)"
+                    },
+                    {
+                        "fd": "1",
+                        "destino": "/dev/pts/0",
+                        "tipo": "Terminal (TTY)"
+                    },
+                    {
+                        "fd": "2",
+                        "destino": "/dev/pts/0",
+                        "tipo": "Terminal (TTY)"
+                    },
+                    {
+                        "fd": "3",
+                        "destino": "socket:[18736]",
+                        "tipo": "Socket (Red)"
+                    },
+                    {
+                        "fd": "4",
+                        "destino": "/dev/shm/pym-3069-1gnv61kg (deleted)",
+                        "tipo": "Archivo / Librería"
+                    },
+                    {
+                        "fd": "5",
+                        "destino": "pipe:[17689]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "6",
+                        "destino": "/dev/shm/pym-3069-1gnv61kg (deleted)",
+                        "tipo": "Archivo / Librería"
+                    },
+                    {
+                        "fd": "7",
+                        "destino": "pipe:[17697]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "8",
+                        "destino": "pipe:[17690]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "9",
+                        "destino": "pipe:[17697]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "10",
+                        "destino": "pipe:[17698]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "11",
+                        "destino": "pipe:[17698]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "12",
+                        "destino": "pipe:[17699]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "13",
+                        "destino": "pipe:[17699]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "14",
+                        "destino": "pipe:[17700]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "15",
+                        "destino": "pipe:[17700]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "16",
+                        "destino": "pipe:[17701]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "17",
+                        "destino": "pipe:[17701]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "18",
+                        "destino": "pipe:[17702]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "19",
+                        "destino": "pipe:[17702]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "20",
+                        "destino": "pipe:[17703]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "21",
+                        "destino": "pipe:[17703]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "22",
+                        "destino": "pipe:[17704]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "23",
+                        "destino": "pipe:[17706]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "24",
+                        "destino": "pipe:[17708]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "25",
+                        "destino": "pipe:[17705]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "26",
+                        "destino": "pipe:[17710]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "27",
+                        "destino": "pipe:[17707]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "28",
+                        "destino": "/dev/null",
+                        "tipo": "Archivo / Librería"
+                    },
+                    {
+                        "fd": "29",
+                        "destino": "pipe:[17709]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "30",
+                        "destino": "pipe:[17712]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "31",
+                        "destino": "pipe:[17711]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "32",
+                        "destino": "pipe:[17713]",
+                        "tipo": "Pipe (IPC)"
+                    }
+                ]
+            },
+            "3087": {
+                "total_fds": 35,
+                "lista": [
+                    {
+                        "fd": "0",
+                        "destino": "/dev/pts/0",
+                        "tipo": "Terminal (TTY)"
+                    },
+                    {
+                        "fd": "1",
+                        "destino": "/dev/pts/0",
+                        "tipo": "Terminal (TTY)"
+                    },
+                    {
+                        "fd": "2",
+                        "destino": "/dev/pts/0",
+                        "tipo": "Terminal (TTY)"
+                    },
+                    {
+                        "fd": "3",
+                        "destino": "socket:[12761]",
+                        "tipo": "Socket (Red)"
+                    },
+                    {
+                        "fd": "4",
+                        "destino": "/dev/shm/pym-3069-1gnv61kg (deleted)",
+                        "tipo": "Archivo / Librería"
+                    },
+                    {
+                        "fd": "5",
+                        "destino": "pipe:[17689]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "6",
+                        "destino": "/dev/shm/pym-3069-1gnv61kg (deleted)",
+                        "tipo": "Archivo / Librería"
+                    },
+                    {
+                        "fd": "7",
+                        "destino": "pipe:[17697]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "8",
+                        "destino": "pipe:[17690]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "9",
+                        "destino": "pipe:[17697]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "10",
+                        "destino": "pipe:[17698]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "11",
+                        "destino": "pipe:[17698]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "12",
+                        "destino": "pipe:[17699]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "13",
+                        "destino": "pipe:[17699]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "14",
+                        "destino": "pipe:[17700]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "15",
+                        "destino": "pipe:[17700]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "16",
+                        "destino": "pipe:[17701]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "17",
+                        "destino": "pipe:[17701]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "18",
+                        "destino": "pipe:[17702]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "19",
+                        "destino": "pipe:[17702]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "20",
+                        "destino": "pipe:[17703]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "21",
+                        "destino": "pipe:[17703]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "22",
+                        "destino": "pipe:[17704]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "23",
+                        "destino": "pipe:[17706]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "24",
+                        "destino": "pipe:[17708]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "25",
+                        "destino": "pipe:[17705]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "26",
+                        "destino": "pipe:[17710]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "27",
+                        "destino": "pipe:[17707]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "28",
+                        "destino": "pipe:[17712]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "29",
+                        "destino": "pipe:[17709]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "30",
+                        "destino": "/dev/null",
+                        "tipo": "Archivo / Librería"
+                    },
+                    {
+                        "fd": "31",
+                        "destino": "pipe:[17711]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "32",
+                        "destino": "pipe:[17714]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "33",
+                        "destino": "pipe:[17713]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "34",
+                        "destino": "pipe:[17715]",
+                        "tipo": "Pipe (IPC)"
+                    }
+                ]
+            },
+            "3090": {
+                "total_fds": 37,
+                "lista": [
+                    {
+                        "fd": "0",
+                        "destino": "/dev/pts/0",
+                        "tipo": "Terminal (TTY)"
+                    },
+                    {
+                        "fd": "1",
+                        "destino": "/dev/pts/0",
+                        "tipo": "Terminal (TTY)"
+                    },
+                    {
+                        "fd": "2",
+                        "destino": "/dev/pts/0",
+                        "tipo": "Terminal (TTY)"
+                    },
+                    {
+                        "fd": "3",
+                        "destino": "socket:[17720]",
+                        "tipo": "Socket (Red)"
+                    },
+                    {
+                        "fd": "4",
+                        "destino": "/dev/shm/pym-3069-1gnv61kg (deleted)",
+                        "tipo": "Archivo / Librería"
+                    },
+                    {
+                        "fd": "5",
+                        "destino": "pipe:[17689]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "6",
+                        "destino": "/dev/shm/pym-3069-1gnv61kg (deleted)",
+                        "tipo": "Archivo / Librería"
+                    },
+                    {
+                        "fd": "7",
+                        "destino": "pipe:[17697]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "8",
+                        "destino": "pipe:[17690]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "9",
+                        "destino": "pipe:[17697]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "10",
+                        "destino": "pipe:[17698]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "11",
+                        "destino": "pipe:[17698]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "12",
+                        "destino": "pipe:[17699]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "13",
+                        "destino": "pipe:[17699]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "14",
+                        "destino": "pipe:[17700]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "15",
+                        "destino": "pipe:[17700]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "16",
+                        "destino": "pipe:[17701]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "17",
+                        "destino": "pipe:[17701]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "18",
+                        "destino": "pipe:[17702]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "19",
+                        "destino": "pipe:[17702]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "20",
+                        "destino": "pipe:[17703]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "21",
+                        "destino": "pipe:[17703]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "22",
+                        "destino": "pipe:[17704]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "23",
+                        "destino": "pipe:[17706]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "24",
+                        "destino": "pipe:[17708]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "25",
+                        "destino": "pipe:[17705]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "26",
+                        "destino": "pipe:[17710]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "27",
+                        "destino": "pipe:[17707]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "28",
+                        "destino": "pipe:[17712]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "29",
+                        "destino": "pipe:[17709]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "30",
+                        "destino": "pipe:[17714]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "31",
+                        "destino": "pipe:[17711]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "32",
+                        "destino": "/dev/null",
+                        "tipo": "Archivo / Librería"
+                    },
+                    {
+                        "fd": "33",
+                        "destino": "pipe:[17713]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "34",
+                        "destino": "pipe:[17716]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "35",
+                        "destino": "pipe:[17715]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "36",
+                        "destino": "pipe:[17717]",
+                        "tipo": "Pipe (IPC)"
+                    }
+                ]
+            },
+            "3094": {
+                "total_fds": 39,
+                "lista": [
+                    {
+                        "fd": "0",
+                        "destino": "/dev/pts/0",
+                        "tipo": "Terminal (TTY)"
+                    },
+                    {
+                        "fd": "1",
+                        "destino": "/dev/pts/0",
+                        "tipo": "Terminal (TTY)"
+                    },
+                    {
+                        "fd": "2",
+                        "destino": "/dev/pts/0",
+                        "tipo": "Terminal (TTY)"
+                    },
+                    {
+                        "fd": "3",
+                        "destino": "socket:[10022]",
+                        "tipo": "Socket (Red)"
+                    },
+                    {
+                        "fd": "4",
+                        "destino": "/dev/shm/pym-3069-1gnv61kg (deleted)",
+                        "tipo": "Archivo / Librería"
+                    },
+                    {
+                        "fd": "5",
+                        "destino": "pipe:[17689]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "6",
+                        "destino": "/dev/shm/pym-3069-1gnv61kg (deleted)",
+                        "tipo": "Archivo / Librería"
+                    },
+                    {
+                        "fd": "7",
+                        "destino": "pipe:[17697]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "8",
+                        "destino": "pipe:[17690]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "9",
+                        "destino": "pipe:[17697]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "10",
+                        "destino": "pipe:[17698]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "11",
+                        "destino": "pipe:[17698]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "12",
+                        "destino": "pipe:[17699]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "13",
+                        "destino": "pipe:[17699]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "14",
+                        "destino": "pipe:[17700]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "15",
+                        "destino": "pipe:[17700]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "16",
+                        "destino": "pipe:[17701]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "17",
+                        "destino": "pipe:[17701]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "18",
+                        "destino": "pipe:[17702]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "19",
+                        "destino": "pipe:[17702]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "20",
+                        "destino": "pipe:[17703]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "21",
+                        "destino": "pipe:[17703]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "22",
+                        "destino": "pipe:[17704]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "23",
+                        "destino": "pipe:[17706]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "24",
+                        "destino": "pipe:[17708]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "25",
+                        "destino": "pipe:[17705]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "26",
+                        "destino": "pipe:[17710]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "27",
+                        "destino": "pipe:[17707]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "28",
+                        "destino": "pipe:[17712]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "29",
+                        "destino": "pipe:[17709]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "30",
+                        "destino": "pipe:[17714]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "31",
+                        "destino": "pipe:[17711]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "32",
+                        "destino": "pipe:[17716]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "33",
+                        "destino": "pipe:[17713]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "34",
+                        "destino": "/dev/null",
+                        "tipo": "Archivo / Librería"
+                    },
+                    {
+                        "fd": "35",
+                        "destino": "pipe:[17715]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "36",
+                        "destino": "pipe:[17718]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "37",
+                        "destino": "pipe:[17717]",
+                        "tipo": "Pipe (IPC)"
+                    },
+                    {
+                        "fd": "38",
+                        "destino": "pipe:[17719]",
+                        "tipo": "Pipe (IPC)"
+                    }
+                ]
+            }
+        }
+    },
+    "threads": {
+        "timestamp": 1785982440.7322779,
+        "procesos": {
+            "1": {
+                "cantidad": 1,
+                "lista": [
+                    {
+                        "tid": 1,
+                        "nombre": "systemd",
+                        "estado": "S",
+                        "ctx_voluntarios": "165",
+                        "ctx_involuntarios": "0"
+                    }
+                ]
+            },
+            "2": {
+                "cantidad": 2,
+                "lista": [
+                    {
+                        "tid": 2,
+                        "nombre": "init-systemd(Ub",
+                        "estado": "S",
+                        "ctx_voluntarios": "6",
+                        "ctx_involuntarios": "0"
+                    },
+                    {
+                        "tid": 8,
+                        "nombre": "Interop",
+                        "estado": "S",
+                        "ctx_voluntarios": "0",
+                        "ctx_involuntarios": "0"
+                    }
+                ]
+            },
+            "6": {
+                "cantidad": 7,
+                "lista": [
+                    {
+                        "tid": 6,
+                        "nombre": "init",
+                        "estado": "S",
+                        "ctx_voluntarios": "0",
+                        "ctx_involuntarios": "0"
+                    },
+                    {
+                        "tid": 7,
+                        "nombre": "init",
+                        "estado": "S",
+                        "ctx_voluntarios": "10",
+                        "ctx_involuntarios": "0"
+                    },
+                    {
+                        "tid": 16,
+                        "nombre": "init",
+                        "estado": "S",
+                        "ctx_voluntarios": "59",
+                        "ctx_involuntarios": "0"
+                    },
+                    {
+                        "tid": 29,
+                        "nombre": "init",
+                        "estado": "S",
+                        "ctx_voluntarios": "70",
+                        "ctx_involuntarios": "0"
+                    },
+                    {
+                        "tid": 30,
+                        "nombre": "init",
+                        "estado": "S",
+                        "ctx_voluntarios": "42",
+                        "ctx_involuntarios": "0"
+                    },
+                    {
+                        "tid": 1149,
+                        "nombre": "init",
+                        "estado": "S",
+                        "ctx_voluntarios": "15",
+                        "ctx_involuntarios": "0"
+                    },
+                    {
+                        "tid": 1150,
+                        "nombre": "init",
+                        "estado": "S",
+                        "ctx_voluntarios": "19",
+                        "ctx_involuntarios": "0"
+                    }
+                ]
+            },
+            "1263": {
+                "cantidad": 1,
+                "lista": [
+                    {
+                        "tid": 1263,
+                        "nombre": "systemd-journal",
+                        "estado": "S",
+                        "ctx_voluntarios": "99",
+                        "ctx_involuntarios": "0"
+                    }
+                ]
+            },
+            "1313": {
+                "cantidad": 1,
+                "lista": [
+                    {
+                        "tid": 1313,
+                        "nombre": "systemd-udevd",
+                        "estado": "S",
+                        "ctx_voluntarios": "81",
+                        "ctx_involuntarios": "0"
+                    }
+                ]
+            },
+            "1342": {
+                "cantidad": 1,
+                "lista": [
+                    {
+                        "tid": 1342,
+                        "nombre": "systemd-resolve",
+                        "estado": "S",
+                        "ctx_voluntarios": "17",
+                        "ctx_involuntarios": "0"
+                    }
+                ]
+            },
+            "1344": {
+                "cantidad": 2,
+                "lista": [
+                    {
+                        "tid": 1344,
+                        "nombre": "systemd-timesyn",
+                        "estado": "S",
+                        "ctx_voluntarios": "38",
+                        "ctx_involuntarios": "0"
+                    },
+                    {
+                        "tid": 1357,
+                        "nombre": "sd-resolve",
+                        "estado": "S",
+                        "ctx_voluntarios": "4",
+                        "ctx_involuntarios": "0"
+                    }
+                ]
+            },
+            "1369": {
+                "cantidad": 1,
+                "lista": [
+                    {
+                        "tid": 1369,
+                        "nombre": "cron",
+                        "estado": "S",
+                        "ctx_voluntarios": "1",
+                        "ctx_involuntarios": "0"
+                    }
+                ]
+            },
+            "1370": {
+                "cantidad": 1,
+                "lista": [
+                    {
+                        "tid": 1370,
+                        "nombre": "dbus-daemon",
+                        "estado": "S",
+                        "ctx_voluntarios": "62",
+                        "ctx_involuntarios": "0"
+                    }
+                ]
+            },
+            "1383": {
+                "cantidad": 1,
+                "lista": [
+                    {
+                        "tid": 1383,
+                        "nombre": "systemd-logind",
+                        "estado": "S",
+                        "ctx_voluntarios": "73",
+                        "ctx_involuntarios": "0"
+                    }
+                ]
+            },
+            "1404": {
+                "cantidad": 4,
+                "lista": [
+                    {
+                        "tid": 1404,
+                        "nombre": "rsyslogd",
+                        "estado": "S",
+                        "ctx_voluntarios": "7",
+                        "ctx_involuntarios": "0"
+                    },
+                    {
+                        "tid": 1419,
+                        "nombre": "in:imuxsock",
+                        "estado": "S",
+                        "ctx_voluntarios": "10",
+                        "ctx_involuntarios": "0"
+                    },
+                    {
+                        "tid": 1420,
+                        "nombre": "in:imklog",
+                        "estado": "S",
+                        "ctx_voluntarios": "0",
+                        "ctx_involuntarios": "0"
+                    },
+                    {
+                        "tid": 1421,
+                        "nombre": "rs:main Q:Reg",
+                        "estado": "S",
+                        "ctx_voluntarios": "21",
+                        "ctx_involuntarios": "0"
+                    }
+                ]
+            },
+            "1407": {
+                "cantidad": 10,
+                "lista": [
+                    {
+                        "tid": 1407,
+                        "nombre": "containerd",
+                        "estado": "S",
+                        "ctx_voluntarios": "82",
+                        "ctx_involuntarios": "0"
+                    },
+                    {
+                        "tid": 1427,
+                        "nombre": "containerd",
+                        "estado": "S",
+                        "ctx_voluntarios": "3",
+                        "ctx_involuntarios": "0"
+                    },
+                    {
+                        "tid": 1428,
+                        "nombre": "containerd",
+                        "estado": "S",
+                        "ctx_voluntarios": "28",
+                        "ctx_involuntarios": "0"
+                    },
+                    {
+                        "tid": 1429,
+                        "nombre": "containerd",
+                        "estado": "S",
+                        "ctx_voluntarios": "11",
+                        "ctx_involuntarios": "0"
+                    },
+                    {
+                        "tid": 1430,
+                        "nombre": "containerd",
+                        "estado": "S",
+                        "ctx_voluntarios": "0",
+                        "ctx_involuntarios": "0"
+                    },
+                    {
+                        "tid": 1431,
+                        "nombre": "containerd",
+                        "estado": "S",
+                        "ctx_voluntarios": "23",
+                        "ctx_involuntarios": "0"
+                    },
+                    {
+                        "tid": 1437,
+                        "nombre": "containerd",
+                        "estado": "S",
+                        "ctx_voluntarios": "0",
+                        "ctx_involuntarios": "0"
+                    },
+                    {
+                        "tid": 1438,
+                        "nombre": "containerd",
+                        "estado": "S",
+                        "ctx_voluntarios": "14",
+                        "ctx_involuntarios": "0"
+                    },
+                    {
+                        "tid": 1439,
+                        "nombre": "containerd",
+                        "estado": "S",
+                        "ctx_voluntarios": "5",
+                        "ctx_involuntarios": "0"
+                    },
+                    {
+                        "tid": 1440,
+                        "nombre": "containerd",
+                        "estado": "S",
+                        "ctx_voluntarios": "27",
+                        "ctx_involuntarios": "0"
+                    }
+                ]
+            },
+            "1411": {
+                "cantidad": 1,
+                "lista": [
+                    {
+                        "tid": 1411,
+                        "nombre": "agetty",
+                        "estado": "S",
+                        "ctx_voluntarios": "3",
+                        "ctx_involuntarios": "0"
+                    }
+                ]
+            },
+            "1433": {
+                "cantidad": 2,
+                "lista": [
+                    {
+                        "tid": 1433,
+                        "nombre": "unattended-upgr",
+                        "estado": "S",
+                        "ctx_voluntarios": "130",
+                        "ctx_involuntarios": "0"
+                    },
+                    {
+                        "tid": 1484,
+                        "nombre": "gmain",
+                        "estado": "S",
+                        "ctx_voluntarios": "0",
+                        "ctx_involuntarios": "0"
+                    }
+                ]
+            },
+            "1459": {
+                "cantidad": 19,
+                "lista": [
+                    {
+                        "tid": 1459,
+                        "nombre": "dockerd",
+                        "estado": "S",
+                        "ctx_voluntarios": "14",
+                        "ctx_involuntarios": "0"
+                    },
+                    {
+                        "tid": 1486,
+                        "nombre": "dockerd",
+                        "estado": "S",
+                        "ctx_voluntarios": "3",
+                        "ctx_involuntarios": "0"
+                    },
+                    {
+                        "tid": 1487,
+                        "nombre": "dockerd",
+                        "estado": "S",
+                        "ctx_voluntarios": "4",
+                        "ctx_involuntarios": "0"
+                    },
+                    {
+                        "tid": 1488,
+                        "nombre": "dockerd",
+                        "estado": "S",
+                        "ctx_voluntarios": "0",
+                        "ctx_involuntarios": "0"
+                    },
+                    {
+                        "tid": 1489,
+                        "nombre": "dockerd",
+                        "estado": "S",
+                        "ctx_voluntarios": "17",
+                        "ctx_involuntarios": "0"
+                    },
+                    {
+                        "tid": 1490,
+                        "nombre": "dockerd",
+                        "estado": "S",
+                        "ctx_voluntarios": "0",
+                        "ctx_involuntarios": "0"
+                    },
+                    {
+                        "tid": 1495,
+                        "nombre": "dockerd",
+                        "estado": "S",
+                        "ctx_voluntarios": "6",
+                        "ctx_involuntarios": "0"
+                    },
+                    {
+                        "tid": 1496,
+                        "nombre": "dockerd",
+                        "estado": "S",
+                        "ctx_voluntarios": "3",
+                        "ctx_involuntarios": "0"
+                    },
+                    {
+                        "tid": 1497,
+                        "nombre": "dockerd",
+                        "estado": "S",
+                        "ctx_voluntarios": "0",
+                        "ctx_involuntarios": "0"
+                    },
+                    {
+                        "tid": 1498,
+                        "nombre": "dockerd",
+                        "estado": "S",
+                        "ctx_voluntarios": "0",
+                        "ctx_involuntarios": "0"
+                    },
+                    {
+                        "tid": 1515,
+                        "nombre": "dockerd",
+                        "estado": "S",
+                        "ctx_voluntarios": "6",
+                        "ctx_involuntarios": "0"
+                    },
+                    {
+                        "tid": 1516,
+                        "nombre": "dockerd",
+                        "estado": "S",
+                        "ctx_voluntarios": "2",
+                        "ctx_involuntarios": "0"
+                    },
+                    {
+                        "tid": 1517,
+                        "nombre": "dockerd",
+                        "estado": "S",
+                        "ctx_voluntarios": "6",
+                        "ctx_involuntarios": "0"
+                    },
+                    {
+                        "tid": 1518,
+                        "nombre": "dockerd",
+                        "estado": "S",
+                        "ctx_voluntarios": "5",
+                        "ctx_involuntarios": "0"
+                    },
+                    {
+                        "tid": 1519,
+                        "nombre": "dockerd",
+                        "estado": "S",
+                        "ctx_voluntarios": "3",
+                        "ctx_involuntarios": "0"
+                    },
+                    {
+                        "tid": 1520,
+                        "nombre": "dockerd",
+                        "estado": "S",
+                        "ctx_voluntarios": "1",
+                        "ctx_involuntarios": "0"
+                    },
+                    {
+                        "tid": 1521,
+                        "nombre": "dockerd",
+                        "estado": "S",
+                        "ctx_voluntarios": "3",
+                        "ctx_involuntarios": "0"
+                    },
+                    {
+                        "tid": 1522,
+                        "nombre": "dockerd",
+                        "estado": "S",
+                        "ctx_voluntarios": "1",
+                        "ctx_involuntarios": "0"
+                    },
+                    {
+                        "tid": 1523,
+                        "nombre": "dockerd",
+                        "estado": "S",
+                        "ctx_voluntarios": "1",
+                        "ctx_involuntarios": "0"
+                    }
+                ]
+            },
+            "1763": {
+                "cantidad": 1,
+                "lista": [
+                    {
+                        "tid": 1763,
+                        "nombre": "SessionLeader",
+                        "estado": "S",
+                        "ctx_voluntarios": "0",
+                        "ctx_involuntarios": "0"
+                    }
+                ]
+            },
+            "1764": {
+                "cantidad": 1,
+                "lista": [
+                    {
+                        "tid": 1764,
+                        "nombre": "Relay(1765)",
+                        "estado": "S",
+                        "ctx_voluntarios": "7",
+                        "ctx_involuntarios": "0"
+                    }
+                ]
+            },
+            "1765": {
+                "cantidad": 1,
+                "lista": [
+                    {
+                        "tid": 1765,
+                        "nombre": "bash",
+                        "estado": "S",
+                        "ctx_voluntarios": "2",
+                        "ctx_involuntarios": "0"
+                    }
+                ]
+            },
+            "1766": {
+                "cantidad": 1,
+                "lista": [
+                    {
+                        "tid": 1766,
+                        "nombre": "login",
+                        "estado": "S",
+                        "ctx_voluntarios": "1",
+                        "ctx_involuntarios": "0"
+                    }
+                ]
+            },
+            "1823": {
+                "cantidad": 1,
+                "lista": [
+                    {
+                        "tid": 1823,
+                        "nombre": "systemd",
+                        "estado": "S",
+                        "ctx_voluntarios": "6",
+                        "ctx_involuntarios": "0"
+                    }
+                ]
+            },
+            "1825": {
+                "cantidad": 1,
+                "lista": [
+                    {
+                        "tid": 1825,
+                        "nombre": "(sd-pam)",
+                        "estado": "S",
+                        "ctx_voluntarios": "0",
+                        "ctx_involuntarios": "0"
+                    }
+                ]
+            },
+            "1850": {
+                "cantidad": 1,
+                "lista": [
+                    {
+                        "tid": 1850,
+                        "nombre": "bash",
+                        "estado": "S",
+                        "ctx_voluntarios": "0",
+                        "ctx_involuntarios": "0"
+                    }
+                ]
+            },
+            "2004": {
+                "cantidad": 1,
+                "lista": [
+                    {
+                        "tid": 2004,
+                        "nombre": "SessionLeader",
+                        "estado": "S",
+                        "ctx_voluntarios": "0",
+                        "ctx_involuntarios": "0"
+                    }
+                ]
+            },
+            "2006": {
+                "cantidad": 1,
+                "lista": [
+                    {
+                        "tid": 2006,
+                        "nombre": "Relay(2009)",
+                        "estado": "S",
+                        "ctx_voluntarios": "0",
+                        "ctx_involuntarios": "0"
+                    }
+                ]
+            },
+            "2009": {
+                "cantidad": 1,
+                "lista": [
+                    {
+                        "tid": 2009,
+                        "nombre": "bash",
+                        "estado": "S",
+                        "ctx_voluntarios": "0",
+                        "ctx_involuntarios": "0"
+                    }
+                ]
+            },
+            "3013": {
+                "cantidad": 9,
+                "lista": [
+                    {
+                        "tid": 3013,
+                        "nombre": "wsl-pro-service",
+                        "estado": "S",
+                        "ctx_voluntarios": "0",
+                        "ctx_involuntarios": "0"
+                    },
+                    {
+                        "tid": 3014,
+                        "nombre": "wsl-pro-service",
+                        "estado": "S",
+                        "ctx_voluntarios": "0",
+                        "ctx_involuntarios": "0"
+                    },
+                    {
+                        "tid": 3015,
+                        "nombre": "wsl-pro-service",
+                        "estado": "S",
+                        "ctx_voluntarios": "0",
+                        "ctx_involuntarios": "0"
+                    },
+                    {
+                        "tid": 3016,
+                        "nombre": "wsl-pro-service",
+                        "estado": "S",
+                        "ctx_voluntarios": "0",
+                        "ctx_involuntarios": "0"
+                    },
+                    {
+                        "tid": 3017,
+                        "nombre": "wsl-pro-service",
+                        "estado": "S",
+                        "ctx_voluntarios": "1",
+                        "ctx_involuntarios": "0"
+                    },
+                    {
+                        "tid": 3018,
+                        "nombre": "wsl-pro-service",
+                        "estado": "S",
+                        "ctx_voluntarios": "1",
+                        "ctx_involuntarios": "0"
+                    },
+                    {
+                        "tid": 3020,
+                        "nombre": "wsl-pro-service",
+                        "estado": "S",
+                        "ctx_voluntarios": "0",
+                        "ctx_involuntarios": "0"
+                    },
+                    {
+                        "tid": 3021,
+                        "nombre": "wsl-pro-service",
+                        "estado": "S",
+                        "ctx_voluntarios": "0",
+                        "ctx_involuntarios": "0"
+                    },
+                    {
+                        "tid": 3019,
+                        "nombre": "wsl-pro-service",
+                        "estado": "S",
+                        "ctx_voluntarios": "0",
+                        "ctx_involuntarios": "0"
+                    }
+                ]
+            },
+            "3069": {
+                "cantidad": 2,
+                "lista": [
+                    {
+                        "tid": 3069,
+                        "nombre": "python3",
+                        "estado": "S",
+                        "ctx_voluntarios": "37",
+                        "ctx_involuntarios": "0"
+                    },
+                    {
+                        "tid": 3096,
+                        "nombre": "python3",
+                        "estado": "S",
+                        "ctx_voluntarios": "0",
+                        "ctx_involuntarios": "0"
+                    }
+                ]
+            },
+            "3070": {
+                "cantidad": 10,
+                "lista": [
+                    {
+                        "tid": 3070,
+                        "nombre": "python3",
+                        "estado": "S",
+                        "ctx_voluntarios": "0",
+                        "ctx_involuntarios": "0"
+                    },
+                    {
+                        "tid": 3071,
+                        "nombre": "python3",
+                        "estado": "S",
+                        "ctx_voluntarios": "0",
+                        "ctx_involuntarios": "0"
+                    },
+                    {
+                        "tid": 3075,
+                        "nombre": "python3",
+                        "estado": "S",
+                        "ctx_voluntarios": "0",
+                        "ctx_involuntarios": "0"
+                    },
+                    {
+                        "tid": 3102,
+                        "nombre": "python3",
+                        "estado": "S",
+                        "ctx_voluntarios": "0",
+                        "ctx_involuntarios": "0"
+                    },
+                    {
+                        "tid": 3103,
+                        "nombre": "python3",
+                        "estado": "S",
+                        "ctx_voluntarios": "0",
+                        "ctx_involuntarios": "0"
+                    },
+                    {
+                        "tid": 3104,
+                        "nombre": "python3",
+                        "estado": "S",
+                        "ctx_voluntarios": "0",
+                        "ctx_involuntarios": "0"
+                    },
+                    {
+                        "tid": 3105,
+                        "nombre": "python3",
+                        "estado": "S",
+                        "ctx_voluntarios": "0",
+                        "ctx_involuntarios": "0"
+                    },
+                    {
+                        "tid": 3106,
+                        "nombre": "python3",
+                        "estado": "S",
+                        "ctx_voluntarios": "0",
+                        "ctx_involuntarios": "0"
+                    },
+                    {
+                        "tid": 3107,
+                        "nombre": "python3",
+                        "estado": "S",
+                        "ctx_voluntarios": "0",
+                        "ctx_involuntarios": "0"
+                    },
+                    {
+                        "tid": 3108,
+                        "nombre": "python3",
+                        "estado": "S",
+                        "ctx_voluntarios": "0",
+                        "ctx_involuntarios": "0"
+                    }
+                ]
+            },
+            "3076": {
+                "cantidad": 8,
+                "lista": [
+                    {
+                        "tid": 3076,
+                        "nombre": "python3",
+                        "estado": "S",
+                        "ctx_voluntarios": "2",
+                        "ctx_involuntarios": "0"
+                    },
+                    {
+                        "tid": 3086,
+                        "nombre": "python3",
+                        "estado": "S",
+                        "ctx_voluntarios": "0",
+                        "ctx_involuntarios": "0"
+                    },
+                    {
+                        "tid": 3088,
+                        "nombre": "python3",
+                        "estado": "S",
+                        "ctx_voluntarios": "1",
+                        "ctx_involuntarios": "0"
+                    },
+                    {
+                        "tid": 3089,
+                        "nombre": "python3",
+                        "estado": "S",
+                        "ctx_voluntarios": "0",
+                        "ctx_involuntarios": "0"
+                    },
+                    {
+                        "tid": 3091,
+                        "nombre": "python3",
+                        "estado": "S",
+                        "ctx_voluntarios": "1",
+                        "ctx_involuntarios": "0"
+                    },
+                    {
+                        "tid": 3092,
+                        "nombre": "python3",
+                        "estado": "S",
+                        "ctx_voluntarios": "0",
+                        "ctx_involuntarios": "0"
+                    },
+                    {
+                        "tid": 3095,
+                        "nombre": "python3",
+                        "estado": "S",
+                        "ctx_voluntarios": "0",
+                        "ctx_involuntarios": "0"
+                    },
+                    {
+                        "tid": 3100,
+                        "nombre": "python3",
+                        "estado": "S",
+                        "ctx_voluntarios": "0",
+                        "ctx_involuntarios": "0"
+                    }
+                ]
+            },
+            "3077": {
+                "cantidad": 1,
+                "lista": [
+                    {
+                        "tid": 3077,
+                        "nombre": "python3",
+                        "estado": "S",
+                        "ctx_voluntarios": "8",
+                        "ctx_involuntarios": "0"
+                    }
+                ]
+            },
+            "3079": {
+                "cantidad": 1,
+                "lista": [
+                    {
+                        "tid": 3079,
+                        "nombre": "python3",
+                        "estado": "S",
+                        "ctx_voluntarios": "3",
+                        "ctx_involuntarios": "0"
+                    }
+                ]
+            },
+            "3082": {
+                "cantidad": 1,
+                "lista": [
+                    {
+                        "tid": 3082,
+                        "nombre": "python3",
+                        "estado": "S",
+                        "ctx_voluntarios": "1",
+                        "ctx_involuntarios": "0"
+                    }
+                ]
+            },
+            "3084": {
+                "cantidad": 1,
+                "lista": [
+                    {
+                        "tid": 3084,
+                        "nombre": "python3",
+                        "estado": "R",
+                        "ctx_voluntarios": "2",
+                        "ctx_involuntarios": "0"
+                    }
+                ]
+            },
+            "3087": {
+                "cantidad": 1,
+                "lista": [
+                    {
+                        "tid": 3087,
+                        "nombre": "python3",
+                        "estado": "S",
+                        "ctx_voluntarios": "2",
+                        "ctx_involuntarios": "0"
+                    }
+                ]
+            },
+            "3090": {
+                "cantidad": 1,
+                "lista": [
+                    {
+                        "tid": 3090,
+                        "nombre": "python3",
+                        "estado": "S",
+                        "ctx_voluntarios": "1",
+                        "ctx_involuntarios": "0"
+                    }
+                ]
+            },
+            "3094": {
+                "cantidad": 1,
+                "lista": [
+                    {
+                        "tid": 3094,
+                        "nombre": "python3",
+                        "estado": "S",
+                        "ctx_voluntarios": "0",
+                        "ctx_involuntarios": "0"
+                    }
+                ]
+            }
+        }
+    },
+    "senales": {
+        "timestamp": 1785982438.0003762,
+        "procesos": {
+            "1": {
+                "bloqueadas": [
+                    "SIGHUP",
+                    "SIGINT",
+                    "SIGUSR1",
+                    "SIGUSR2",
+                    "SIGTERM",
+                    "SIGCHLD",
+                    "SIGWINCH",
+                    "SIGPWR"
+                ],
+                "ignoradas": [
+                    "SIGPIPE"
+                ],
+                "capturadas": [
+                    "SIGQUIT",
+                    "SIGILL",
+                    "SIGABRT",
+                    "SIGBUS",
+                    "SIGFPE",
+                    "SIGSEGV"
+                ],
+                "pendientes": []
+            },
+            "2": {
+                "bloqueadas": [],
+                "ignoradas": [
+                    "SIGINT",
+                    "SIGQUIT",
+                    "SIGILL",
+                    "SIGTRAP",
+                    "SIGABRT",
+                    "SIGBUS",
+                    "SIGFPE",
+                    "SIGUSR1",
+                    "SIGSEGV",
+                    "SIGUSR2",
+                    "SIGPIPE",
+                    "SIGALRM",
+                    "SIGTERM",
+                    "SIGSTKFLT",
+                    "SIGCHLD",
+                    "SIGTSTP",
+                    "SIGTTIN",
+                    "SIGTTOU",
+                    "SIGURG",
+                    "SIGXCPU",
+                    "SIGXFSZ",
+                    "SIGVTALRM",
+                    "SIGPROF",
+                    "SIGWINCH",
+                    "SIGIO",
+                    "SIGPWR",
+                    "SIGSYS"
+                ],
+                "capturadas": [],
+                "pendientes": []
+            },
+            "6": {
+                "bloqueadas": [],
+                "ignoradas": [
+                    "SIGINT",
+                    "SIGQUIT",
+                    "SIGILL",
+                    "SIGTRAP",
+                    "SIGABRT",
+                    "SIGBUS",
+                    "SIGFPE",
+                    "SIGUSR1",
+                    "SIGSEGV",
+                    "SIGUSR2",
+                    "SIGPIPE",
+                    "SIGALRM",
+                    "SIGTERM",
+                    "SIGSTKFLT",
+                    "SIGCHLD",
+                    "SIGTSTP",
+                    "SIGTTIN",
+                    "SIGTTOU",
+                    "SIGURG",
+                    "SIGXCPU",
+                    "SIGXFSZ",
+                    "SIGVTALRM",
+                    "SIGPROF",
+                    "SIGWINCH",
+                    "SIGIO",
+                    "SIGPWR",
+                    "SIGSYS"
+                ],
+                "capturadas": [],
+                "pendientes": []
+            },
+            "1263": {
+                "bloqueadas": [
+                    "SIGINT",
+                    "SIGUSR1",
+                    "SIGUSR2",
+                    "SIGTERM"
+                ],
+                "ignoradas": [
+                    "SIGPIPE"
+                ],
+                "capturadas": [
+                    "SIGBUS"
+                ],
+                "pendientes": []
+            },
+            "1313": {
+                "bloqueadas": [
+                    "SIGHUP",
+                    "SIGINT",
+                    "SIGTERM",
+                    "SIGCHLD"
+                ],
+                "ignoradas": [
+                    "SIGPIPE"
+                ],
+                "capturadas": [],
+                "pendientes": []
+            },
+            "1342": {
+                "bloqueadas": [
+                    "SIGINT",
+                    "SIGUSR1",
+                    "SIGUSR2",
+                    "SIGTERM"
+                ],
+                "ignoradas": [
+                    "SIGPIPE"
+                ],
+                "capturadas": [],
+                "pendientes": []
+            },
+            "1344": {
+                "bloqueadas": [
+                    "SIGINT",
+                    "SIGTERM"
+                ],
+                "ignoradas": [
+                    "SIGPIPE"
+                ],
+                "capturadas": [],
+                "pendientes": []
+            },
+            "1369": {
+                "bloqueadas": [],
+                "ignoradas": [],
+                "capturadas": [
+                    "SIGHUP",
+                    "SIGCHLD"
+                ],
+                "pendientes": []
+            },
+            "1370": {
+                "bloqueadas": [],
+                "ignoradas": [
+                    "SIGPIPE"
+                ],
+                "capturadas": [
+                    "SIGHUP",
+                    "SIGTERM"
+                ],
+                "pendientes": []
+            },
+            "1383": {
+                "bloqueadas": [
+                    "SIGHUP",
+                    "SIGINT",
+                    "SIGTERM",
+                    "SIGCHLD"
+                ],
+                "ignoradas": [
+                    "SIGPIPE"
+                ],
+                "capturadas": [],
+                "pendientes": []
+            },
+            "1404": {
+                "bloqueadas": [],
+                "ignoradas": [
+                    "SIGINT",
+                    "SIGQUIT",
+                    "SIGUSR1",
+                    "SIGPIPE",
+                    "SIGXFSZ"
+                ],
+                "capturadas": [
+                    "SIGHUP",
+                    "SIGTERM",
+                    "SIGCHLD",
+                    "SIGTTIN",
+                    "SIGTTOU"
+                ],
+                "pendientes": []
+            },
+            "1407": {
+                "bloqueadas": [
+                    "SIGUSR2",
+                    "SIGALRM",
+                    "SIGCONT",
+                    "SIGTSTP",
+                    "SIGTTIN",
+                    "SIGTTOU",
+                    "SIGXCPU",
+                    "SIGXFSZ",
+                    "SIGVTALRM",
+                    "SIGWINCH",
+                    "SIGIO",
+                    "SIGPWR"
+                ],
+                "ignoradas": [],
+                "capturadas": [
+                    "SIGHUP",
+                    "SIGINT",
+                    "SIGQUIT",
+                    "SIGILL",
+                    "SIGTRAP",
+                    "SIGABRT",
+                    "SIGBUS",
+                    "SIGFPE",
+                    "SIGUSR1",
+                    "SIGSEGV",
+                    "SIGUSR2",
+                    "SIGPIPE",
+                    "SIGALRM",
+                    "SIGTERM",
+                    "SIGSTKFLT",
+                    "SIGCHLD",
+                    "SIGURG",
+                    "SIGXCPU",
+                    "SIGXFSZ",
+                    "SIGVTALRM",
+                    "SIGPROF",
+                    "SIGWINCH",
+                    "SIGIO",
+                    "SIGPWR",
+                    "SIGSYS"
+                ],
+                "pendientes": []
+            },
+            "1411": {
+                "bloqueadas": [],
+                "ignoradas": [
+                    "SIGINT",
+                    "SIGQUIT"
+                ],
+                "capturadas": [],
+                "pendientes": []
+            },
+            "1433": {
+                "bloqueadas": [],
+                "ignoradas": [
+                    "SIGPIPE",
+                    "SIGXFSZ"
+                ],
+                "capturadas": [
+                    "SIGHUP",
+                    "SIGINT",
+                    "SIGTERM"
+                ],
+                "pendientes": []
+            },
+            "1459": {
+                "bloqueadas": [],
+                "ignoradas": [
+                    "SIGPIPE"
+                ],
+                "capturadas": [
+                    "SIGHUP",
+                    "SIGINT",
+                    "SIGQUIT",
+                    "SIGILL",
+                    "SIGTRAP",
+                    "SIGABRT",
+                    "SIGBUS",
+                    "SIGFPE",
+                    "SIGUSR1",
+                    "SIGSEGV",
+                    "SIGUSR2",
+                    "SIGALRM",
+                    "SIGTERM",
+                    "SIGSTKFLT",
+                    "SIGCHLD",
+                    "SIGURG",
+                    "SIGXCPU",
+                    "SIGXFSZ",
+                    "SIGVTALRM",
+                    "SIGPROF",
+                    "SIGWINCH",
+                    "SIGIO",
+                    "SIGPWR",
+                    "SIGSYS"
+                ],
+                "pendientes": []
+            },
+            "1763": {
+                "bloqueadas": [],
+                "ignoradas": [
+                    "SIGINT",
+                    "SIGQUIT",
+                    "SIGILL",
+                    "SIGTRAP",
+                    "SIGABRT",
+                    "SIGBUS",
+                    "SIGFPE",
+                    "SIGUSR1",
+                    "SIGSEGV",
+                    "SIGUSR2",
+                    "SIGPIPE",
+                    "SIGALRM",
+                    "SIGTERM",
+                    "SIGSTKFLT",
+                    "SIGTSTP",
+                    "SIGTTIN",
+                    "SIGTTOU",
+                    "SIGURG",
+                    "SIGXCPU",
+                    "SIGXFSZ",
+                    "SIGVTALRM",
+                    "SIGPROF",
+                    "SIGWINCH",
+                    "SIGIO",
+                    "SIGPWR",
+                    "SIGSYS"
+                ],
+                "capturadas": [
+                    "SIGCHLD"
+                ],
+                "pendientes": []
+            },
+            "1764": {
+                "bloqueadas": [
+                    "SIGCHLD"
+                ],
+                "ignoradas": [
+                    "SIGINT",
+                    "SIGQUIT",
+                    "SIGILL",
+                    "SIGTRAP",
+                    "SIGABRT",
+                    "SIGBUS",
+                    "SIGFPE",
+                    "SIGUSR1",
+                    "SIGSEGV",
+                    "SIGUSR2",
+                    "SIGPIPE",
+                    "SIGALRM",
+                    "SIGTERM",
+                    "SIGSTKFLT",
+                    "SIGTSTP",
+                    "SIGTTIN",
+                    "SIGTTOU",
+                    "SIGURG",
+                    "SIGXCPU",
+                    "SIGXFSZ",
+                    "SIGVTALRM",
+                    "SIGPROF",
+                    "SIGWINCH",
+                    "SIGIO",
+                    "SIGPWR",
+                    "SIGSYS"
+                ],
+                "capturadas": [
+                    "SIGCHLD"
+                ],
+                "pendientes": []
+            },
+            "1765": {
+                "bloqueadas": [
+                    "SIGCHLD"
+                ],
+                "ignoradas": [
+                    "SIGQUIT",
+                    "SIGTERM",
+                    "SIGTSTP",
+                    "SIGTTIN",
+                    "SIGTTOU"
+                ],
+                "capturadas": [
+                    "SIGHUP",
+                    "SIGINT",
+                    "SIGILL",
+                    "SIGTRAP",
+                    "SIGABRT",
+                    "SIGBUS",
+                    "SIGFPE",
+                    "SIGUSR1",
+                    "SIGSEGV",
+                    "SIGUSR2",
+                    "SIGPIPE",
+                    "SIGALRM",
+                    "SIGCHLD",
+                    "SIGXCPU",
+                    "SIGXFSZ",
+                    "SIGVTALRM",
+                    "SIGWINCH",
+                    "SIGSYS"
+                ],
+                "pendientes": []
+            },
+            "1766": {
+                "bloqueadas": [],
+                "ignoradas": [
+                    "SIGINT",
+                    "SIGQUIT",
+                    "SIGILL",
+                    "SIGTRAP",
+                    "SIGABRT",
+                    "SIGBUS",
+                    "SIGFPE",
+                    "SIGUSR1",
+                    "SIGSEGV",
+                    "SIGUSR2",
+                    "SIGPIPE",
+                    "SIGTERM",
+                    "SIGSTKFLT",
+                    "SIGCHLD",
+                    "SIGTSTP",
+                    "SIGTTIN",
+                    "SIGTTOU",
+                    "SIGURG",
+                    "SIGXCPU",
+                    "SIGXFSZ",
+                    "SIGVTALRM",
+                    "SIGPROF",
+                    "SIGWINCH",
+                    "SIGIO",
+                    "SIGPWR",
+                    "SIGSYS"
+                ],
+                "capturadas": [
+                    "SIGALRM"
+                ],
+                "pendientes": []
+            },
+            "1823": {
+                "bloqueadas": [
+                    "SIGHUP",
+                    "SIGINT",
+                    "SIGUSR1",
+                    "SIGUSR2",
+                    "SIGTERM",
+                    "SIGCHLD",
+                    "SIGWINCH",
+                    "SIGPWR"
+                ],
+                "ignoradas": [
+                    "SIGPIPE"
+                ],
+                "capturadas": [],
+                "pendientes": []
+            },
+            "1825": {
+                "bloqueadas": [],
+                "ignoradas": [
+                    "SIGPIPE"
+                ],
+                "capturadas": [],
+                "pendientes": []
+            },
+            "1850": {
+                "bloqueadas": [],
+                "ignoradas": [
+                    "SIGQUIT",
+                    "SIGTERM",
+                    "SIGSTKFLT",
+                    "SIGTSTP",
+                    "SIGTTIN",
+                    "SIGTTOU",
+                    "SIGURG",
+                    "SIGPROF",
+                    "SIGIO",
+                    "SIGPWR"
+                ],
+                "capturadas": [
+                    "SIGHUP",
+                    "SIGINT",
+                    "SIGILL",
+                    "SIGTRAP",
+                    "SIGABRT",
+                    "SIGBUS",
+                    "SIGFPE",
+                    "SIGUSR1",
+                    "SIGSEGV",
+                    "SIGUSR2",
+                    "SIGPIPE",
+                    "SIGALRM",
+                    "SIGCHLD",
+                    "SIGXCPU",
+                    "SIGXFSZ",
+                    "SIGVTALRM",
+                    "SIGWINCH",
+                    "SIGSYS"
+                ],
+                "pendientes": []
+            },
+            "2004": {
+                "bloqueadas": [],
+                "ignoradas": [
+                    "SIGINT",
+                    "SIGQUIT",
+                    "SIGILL",
+                    "SIGTRAP",
+                    "SIGABRT",
+                    "SIGBUS",
+                    "SIGFPE",
+                    "SIGUSR1",
+                    "SIGSEGV",
+                    "SIGUSR2",
+                    "SIGPIPE",
+                    "SIGALRM",
+                    "SIGTERM",
+                    "SIGSTKFLT",
+                    "SIGTSTP",
+                    "SIGTTIN",
+                    "SIGTTOU",
+                    "SIGURG",
+                    "SIGXCPU",
+                    "SIGXFSZ",
+                    "SIGVTALRM",
+                    "SIGPROF",
+                    "SIGWINCH",
+                    "SIGIO",
+                    "SIGPWR",
+                    "SIGSYS"
+                ],
+                "capturadas": [
+                    "SIGCHLD"
+                ],
+                "pendientes": []
+            },
+            "2006": {
+                "bloqueadas": [
+                    "SIGCHLD"
+                ],
+                "ignoradas": [
+                    "SIGINT",
+                    "SIGQUIT",
+                    "SIGILL",
+                    "SIGTRAP",
+                    "SIGABRT",
+                    "SIGBUS",
+                    "SIGFPE",
+                    "SIGUSR1",
+                    "SIGSEGV",
+                    "SIGUSR2",
+                    "SIGPIPE",
+                    "SIGALRM",
+                    "SIGTERM",
+                    "SIGSTKFLT",
+                    "SIGTSTP",
+                    "SIGTTIN",
+                    "SIGTTOU",
+                    "SIGURG",
+                    "SIGXCPU",
+                    "SIGXFSZ",
+                    "SIGVTALRM",
+                    "SIGPROF",
+                    "SIGWINCH",
+                    "SIGIO",
+                    "SIGPWR",
+                    "SIGSYS"
+                ],
+                "capturadas": [
+                    "SIGCHLD"
+                ],
+                "pendientes": []
+            },
+            "2009": {
+                "bloqueadas": [],
+                "ignoradas": [
+                    "SIGQUIT",
+                    "SIGTERM",
+                    "SIGTSTP",
+                    "SIGTTIN",
+                    "SIGTTOU"
+                ],
+                "capturadas": [
+                    "SIGHUP",
+                    "SIGINT",
+                    "SIGILL",
+                    "SIGTRAP",
+                    "SIGABRT",
+                    "SIGBUS",
+                    "SIGFPE",
+                    "SIGUSR1",
+                    "SIGSEGV",
+                    "SIGUSR2",
+                    "SIGPIPE",
+                    "SIGALRM",
+                    "SIGCHLD",
+                    "SIGXCPU",
+                    "SIGXFSZ",
+                    "SIGVTALRM",
+                    "SIGWINCH",
+                    "SIGSYS"
+                ],
+                "pendientes": []
+            },
+            "3013": {
+                "bloqueadas": [
+                    "SIGUSR1",
+                    "SIGUSR2",
+                    "SIGPIPE",
+                    "SIGALRM",
+                    "SIGCONT",
+                    "SIGTSTP",
+                    "SIGTTIN",
+                    "SIGTTOU",
+                    "SIGXCPU",
+                    "SIGXFSZ",
+                    "SIGVTALRM",
+                    "SIGWINCH",
+                    "SIGIO",
+                    "SIGPWR"
+                ],
+                "ignoradas": [],
+                "capturadas": [
+                    "SIGHUP",
+                    "SIGINT",
+                    "SIGQUIT",
+                    "SIGILL",
+                    "SIGTRAP",
+                    "SIGABRT",
+                    "SIGBUS",
+                    "SIGFPE",
+                    "SIGUSR1",
+                    "SIGSEGV",
+                    "SIGUSR2",
+                    "SIGPIPE",
+                    "SIGALRM",
+                    "SIGTERM",
+                    "SIGSTKFLT",
+                    "SIGCHLD",
+                    "SIGURG",
+                    "SIGXCPU",
+                    "SIGXFSZ",
+                    "SIGVTALRM",
+                    "SIGPROF",
+                    "SIGWINCH",
+                    "SIGIO",
+                    "SIGPWR",
+                    "SIGSYS"
+                ],
+                "pendientes": []
+            },
+            "3069": {
+                "bloqueadas": [],
+                "ignoradas": [
+                    "SIGPIPE",
+                    "SIGXFSZ"
+                ],
+                "capturadas": [
+                    "SIGHUP",
+                    "SIGINT",
+                    "SIGUSR1",
+                    "SIGUSR2"
+                ],
+                "pendientes": []
+            },
+            "3070": {
+                "bloqueadas": [],
+                "ignoradas": [
+                    "SIGINT",
+                    "SIGPIPE",
+                    "SIGXFSZ"
+                ],
+                "capturadas": [
+                    "SIGHUP",
+                    "SIGUSR1",
+                    "SIGUSR2"
+                ],
+                "pendientes": []
+            },
+            "3076": {
+                "bloqueadas": [],
+                "ignoradas": [
+                    "SIGPIPE",
+                    "SIGXFSZ"
+                ],
+                "capturadas": [
+                    "SIGHUP",
+                    "SIGINT",
+                    "SIGUSR1",
+                    "SIGUSR2"
+                ],
+                "pendientes": []
+            },
+            "3077": {
+                "bloqueadas": [],
+                "ignoradas": [
+                    "SIGPIPE",
+                    "SIGXFSZ"
+                ],
+                "capturadas": [
+                    "SIGHUP",
+                    "SIGINT",
+                    "SIGUSR1",
+                    "SIGUSR2"
+                ],
+                "pendientes": []
+            },
+            "3079": {
+                "bloqueadas": [],
+                "ignoradas": [
+                    "SIGPIPE",
+                    "SIGXFSZ"
+                ],
+                "capturadas": [
+                    "SIGHUP",
+                    "SIGINT",
+                    "SIGUSR1",
+                    "SIGUSR2"
+                ],
+                "pendientes": []
+            },
+            "3082": {
+                "bloqueadas": [],
+                "ignoradas": [
+                    "SIGPIPE",
+                    "SIGXFSZ"
+                ],
+                "capturadas": [
+                    "SIGHUP",
+                    "SIGINT",
+                    "SIGUSR1",
+                    "SIGUSR2"
+                ],
+                "pendientes": []
+            },
+            "3084": {
+                "bloqueadas": [],
+                "ignoradas": [
+                    "SIGPIPE",
+                    "SIGXFSZ"
+                ],
+                "capturadas": [
+                    "SIGHUP",
+                    "SIGINT",
+                    "SIGUSR1",
+                    "SIGUSR2"
+                ],
+                "pendientes": []
+            },
+            "3087": {
+                "bloqueadas": [],
+                "ignoradas": [
+                    "SIGPIPE",
+                    "SIGXFSZ"
+                ],
+                "capturadas": [
+                    "SIGHUP",
+                    "SIGINT",
+                    "SIGUSR1",
+                    "SIGUSR2"
+                ],
+                "pendientes": []
+            },
+            "3090": {
+                "bloqueadas": [],
+                "ignoradas": [
+                    "SIGPIPE",
+                    "SIGXFSZ"
+                ],
+                "capturadas": [
+                    "SIGHUP",
+                    "SIGINT",
+                    "SIGUSR1",
+                    "SIGUSR2"
+                ],
+                "pendientes": []
+            },
+            "3094": {
+                "bloqueadas": [],
+                "ignoradas": [
+                    "SIGPIPE",
+                    "SIGXFSZ"
+                ],
+                "capturadas": [
+                    "SIGHUP",
+                    "SIGINT",
+                    "SIGUSR1",
+                    "SIGUSR2"
+                ],
+                "pendientes": []
+            }
+        }
+    },
+    "scheduling": {
+        "timestamp": 1785982438.000849,
+        "procesos": {
+            "1": {
+                "prioridad": "20",
+                "nice": "0",
+                "politica": "0",
+                "ctx_voluntarios": "873",
+                "ctx_involuntarios": "165"
+            },
+            "2": {
+                "prioridad": "20",
+                "nice": "0",
+                "politica": "0",
+                "ctx_voluntarios": "239",
+                "ctx_involuntarios": "6"
+            },
+            "6": {
+                "prioridad": "20",
+                "nice": "0",
+                "politica": "0",
+                "ctx_voluntarios": "122",
+                "ctx_involuntarios": "0"
+            },
+            "1263": {
+                "prioridad": "19",
+                "nice": "-1",
+                "politica": "0",
+                "ctx_voluntarios": "508",
+                "ctx_involuntarios": "99"
+            },
+            "1313": {
+                "prioridad": "20",
+                "nice": "0",
+                "politica": "0",
+                "ctx_voluntarios": "1022",
+                "ctx_involuntarios": "81"
+            },
+            "1342": {
+                "prioridad": "20",
+                "nice": "0",
+                "politica": "0",
+                "ctx_voluntarios": "80",
+                "ctx_involuntarios": "17"
+            },
+            "1344": {
+                "prioridad": "20",
+                "nice": "0",
+                "politica": "0",
+                "ctx_voluntarios": "136",
+                "ctx_involuntarios": "38"
+            },
+            "1369": {
+                "prioridad": "20",
+                "nice": "0",
+                "politica": "0",
+                "ctx_voluntarios": "42",
+                "ctx_involuntarios": "1"
+            },
+            "1370": {
+                "prioridad": "20",
+                "nice": "0",
+                "politica": "0",
+                "ctx_voluntarios": "295",
+                "ctx_involuntarios": "62"
+            },
+            "1383": {
+                "prioridad": "20",
+                "nice": "0",
+                "politica": "0",
+                "ctx_voluntarios": "297",
+                "ctx_involuntarios": "73"
+            },
+            "1404": {
+                "prioridad": "20",
+                "nice": "0",
+                "politica": "0",
+                "ctx_voluntarios": "25",
+                "ctx_involuntarios": "7"
+            },
+            "1407": {
+                "prioridad": "20",
+                "nice": "0",
+                "politica": "0",
+                "ctx_voluntarios": "30",
+                "ctx_involuntarios": "82"
+            },
+            "1411": {
+                "prioridad": "20",
+                "nice": "0",
+                "politica": "0",
+                "ctx_voluntarios": "8",
+                "ctx_involuntarios": "3"
+            },
+            "1433": {
+                "prioridad": "20",
+                "nice": "0",
+                "politica": "0",
+                "ctx_voluntarios": "101",
+                "ctx_involuntarios": "130"
+            },
+            "1459": {
+                "prioridad": "20",
+                "nice": "0",
+                "politica": "0",
+                "ctx_voluntarios": "636",
+                "ctx_involuntarios": "14"
+            },
+            "1763": {
+                "prioridad": "20",
+                "nice": "0",
+                "politica": "0",
+                "ctx_voluntarios": "4",
+                "ctx_involuntarios": "0"
+            },
+            "1764": {
+                "prioridad": "20",
+                "nice": "0",
+                "politica": "0",
+                "ctx_voluntarios": "5265",
+                "ctx_involuntarios": "7"
+            },
+            "1765": {
+                "prioridad": "20",
+                "nice": "0",
+                "politica": "0",
+                "ctx_voluntarios": "101",
+                "ctx_involuntarios": "2"
+            },
+            "1766": {
+                "prioridad": "20",
+                "nice": "0",
+                "politica": "0",
+                "ctx_voluntarios": "60",
+                "ctx_involuntarios": "1"
+            },
+            "1823": {
+                "prioridad": "20",
+                "nice": "0",
+                "politica": "0",
+                "ctx_voluntarios": "82",
+                "ctx_involuntarios": "6"
+            },
+            "1825": {
+                "prioridad": "20",
+                "nice": "0",
+                "politica": "0",
+                "ctx_voluntarios": "1",
+                "ctx_involuntarios": "0"
+            },
+            "1850": {
+                "prioridad": "20",
+                "nice": "0",
+                "politica": "0",
+                "ctx_voluntarios": "44",
+                "ctx_involuntarios": "0"
+            },
+            "2004": {
+                "prioridad": "20",
+                "nice": "0",
+                "politica": "0",
+                "ctx_voluntarios": "2",
+                "ctx_involuntarios": "0"
+            },
+            "2006": {
+                "prioridad": "20",
+                "nice": "0",
+                "politica": "0",
+                "ctx_voluntarios": "248",
+                "ctx_involuntarios": "0"
+            },
+            "2009": {
+                "prioridad": "20",
+                "nice": "0",
+                "politica": "0",
+                "ctx_voluntarios": "124",
+                "ctx_involuntarios": "0"
+            },
+            "3013": {
+                "prioridad": "20",
+                "nice": "0",
+                "politica": "0",
+                "ctx_voluntarios": "47",
+                "ctx_involuntarios": "0"
+            },
+            "3069": {
+                "prioridad": "20",
+                "nice": "0",
+                "politica": "0",
+                "ctx_voluntarios": "5500",
+                "ctx_involuntarios": "37"
+            },
+            "3070": {
+                "prioridad": "20",
+                "nice": "0",
+                "politica": "0",
+                "ctx_voluntarios": "186",
+                "ctx_involuntarios": "0"
+            },
+            "3076": {
+                "prioridad": "20",
+                "nice": "0",
+                "politica": "0",
+                "ctx_voluntarios": "15336",
+                "ctx_involuntarios": "2"
+            },
+            "3077": {
+                "prioridad": "20",
+                "nice": "0",
+                "politica": "0",
+                "ctx_voluntarios": "1914",
+                "ctx_involuntarios": "8"
+            },
+            "3079": {
+                "prioridad": "20",
+                "nice": "0",
+                "politica": "0",
+                "ctx_voluntarios": "1928",
+                "ctx_involuntarios": "3"
+            },
+            "3082": {
+                "prioridad": "20",
+                "nice": "0",
+                "politica": "0",
+                "ctx_voluntarios": "1911",
+                "ctx_involuntarios": "1"
+            },
+            "3084": {
+                "prioridad": "20",
+                "nice": "0",
+                "politica": "0",
+                "ctx_voluntarios": "1987",
+                "ctx_involuntarios": "1"
+            },
+            "3087": {
+                "prioridad": "20",
+                "nice": "0",
+                "politica": "0",
+                "ctx_voluntarios": "1923",
+                "ctx_involuntarios": "2"
+            },
+            "3090": {
+                "prioridad": "20",
+                "nice": "0",
+                "politica": "0",
+                "ctx_voluntarios": "1946",
+                "ctx_involuntarios": "1"
+            },
+            "3094": {
+                "prioridad": "20",
+                "nice": "0",
+                "politica": "0",
+                "ctx_voluntarios": "2013",
+                "ctx_involuntarios": "0"
+            }
+        }
+    },
+    "sistema": {
+        "mem_total": "1841792 kB",
+        "mem_libre": "1176764 kB",
+        "load_avg": [
+            "0.05",
+            "0.08",
+            "0.06"
+        ],
+        "timestamp": 1785982440.0408046
+    }
+}

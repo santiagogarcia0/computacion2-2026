@@ -2,6 +2,7 @@
 import time
 from multiprocessing import Queue, Event
 import procfs
+from common.queue_utils import extraer_pids_de_cola
 
 def ejecutar_analizador_sistema(cola_pids: Queue, snapshot_compartido: dict, intervalo_shared, shutdown_event: Event):
     print("[*] Analizador de Sistema Global iniciado en paralelo.")
@@ -9,9 +10,7 @@ def ejecutar_analizador_sistema(cola_pids: Queue, snapshot_compartido: dict, int
         intervalo_actual = intervalo_shared.value
         
         # Simplemente vaciamos su cola para que no se sature si el recolector le manda datos
-        while not cola_pids.empty():
-            try: cola_pids.get_nowait()
-            except: break
+        extraer_pids_de_cola(cola_pids)
                 
         # Leemos las estadísticas globales utilizando nuestra nueva función de procfs
         stats_globales = procfs.leer_sistema_global()

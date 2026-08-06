@@ -2,15 +2,13 @@
 import time
 from multiprocessing import Queue, Event
 import procfs
+from common.queue_utils import extraer_pids_de_cola
 
 def ejecutar_analizador_scheduling(cola_pids: Queue, snapshot_compartido: dict, intervalo_shared, shutdown_event: Event):
     print("[*] Analizador de Scheduling iniciado en paralelo.")
     while not shutdown_event.is_set():
         intervalo_actual = intervalo_shared.value
-        pids_a_procesar = []
-        while not cola_pids.empty():
-            try: pids_a_procesar.append(cola_pids.get_nowait())
-            except: break
+        pids_a_procesar = extraer_pids_de_cola(cola_pids)
                 
         if pids_a_procesar:
             diccionario_sched = {}
