@@ -1,7 +1,7 @@
 """
 Módulo del componente Recolector Central.
 Se ejecuta en su propio proceso hijo para mapear el sistema en busca de PIDs activos
-y distribuir la carga de trabajo de forma multiplexada a todos los analizadores.
+y distribuir la carga de trabajo a todos los analizadores.
 """
 
 import time

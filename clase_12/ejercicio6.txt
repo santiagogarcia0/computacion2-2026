@@ -1,0 +1,29 @@
+PARTE A
+1) * Cómo llegaron los datos: Al servidor le llegan todos los caracteres juntos en un único bloque continuo.
+Salida: 0000000   H   O   L   A   C   O   M   O   E   S   T   A   S
+0000015
+
+* ¿Se distinguen los tres envíos? No, no se distinguen. TCP es un protocolo orientado al flujo de bytes (byte-stream). No le importan cuántas veces llamó el cliente a la función send(); el sistema operativo agrupa los bytes en el búfer de salida y los manda juntos para optimizar el uso de la red. No hay marcas ni "separadores" que delimiten dónde termina un mensaje y dónde empieza el siguiente.
+
+2)
+* ¿Cambió algo? Físicamente en la red y en el procesamiento inmediato del servidor, sí cambia. Al espaciar los envíos por un segundo, obligás a que los bytes de HOLA se transmitan en un paquete, luego de un segundo viaje COMO, y finalmente ESTAS. El servidor los va leyendo a medida que llegan.
+* ¿Podés confiar en ese comportamiento? No, bajo ninguna circunstancia se puede confiar en el tiempo para delimitar mensajes.
+
+PARTE B
+3)* ¿Es un bug de TCP que los envíos lleguen juntos? No, no es un bug, es el comportamiento correcto y esperado según el contrato del protocolo. El contrato de servicio de TCP establece que es un protocolo orientado al flujo de bytes (byte-stream), confiable y ordenado. Su trabajo es garantizar que todos los bytes enviados por la aplicación origen lleguen de forma idéntica, sin pérdidas y en el mismo orden a la aplicación destino. TCP no tiene noción de "mensaje" o "paquete" a nivel de aplicación. Preservar los límites de los mensajes es responsabilidad exclusiva de las capas superiores (la aplicación).
+
+* Dos formas de delimitar mensajes sobre un flujo de bytes: 
+
+- Enmarcar con un delimitador (ej. usar \n o un byte especial): Consiste en añadir un carácter específico al final de cada mensaje para marcar su conclusión.
+Qué pasa si el mensaje contiene el delimitador: Se produce un error de interpretación (parsing), ya que el receptor creerá que el mensaje terminó antes de tiempo y fragmentará el dato real.
+
+- Enmarcar por Longitud Prefijada (ej. campos de tamaño): Consiste en anteponer a cada mensaje un encabezado de tamaño fijo (por ejemplo, de 2 o 4 bytes) que indique el número exacto de bytes que componen el cuerpo del mensaje que viene inmediatamente después.
+Qué pasa si el mensaje contiene el delimitador: En este método no existe este problema. Como no se usa ningún carácter especial para marcar el final, el cuerpo del mensaje puede contener absolutamente cualquier combinación de bytes (incluyendo saltos de línea, ceros binarios, etc.). El receptor simplemente lee el encabezado, sabe exactamente cuántos bytes esperar y extrae esa cantidad del flujo sin importar lo que contenga adentro.
+
+PARTE C 
+5) *¿Cuántas veces se ejecutó el recvfrom? El recvfrom se ejecutó exactamente 3 veces, una para b'HOLA', otra para b'COMO' y otra para b'ESTAS'. En TCP, todos los datos llegaron juntos en un único flujo continuo (el servidor leyó todo de un solo viaje o la salida se concatenó). En cambio, en UDP cada llamada a sendto generó una lectura de recvfrom independiente, preservando los límites originales de cada mensaje.
+
+6) *¿Por qué UDP preserva los límites y TCP no? UDP es un protocolo orientado a datagramas (mensajes independientes): La unidad básica de transferencia en UDP es el paquete individual completo. UDP garantiza que lo que viaja por la red es un "bloque" cerrado de datos. El sistema operativo no agrupa ni junta los datagramas en el búfer; si mandás 3 paquetes, el receptor recibe 3 paquetes independientes. Su contrato es de "mejor esfuerzo" (best-effort), sin garantizar orden ni llegada, pero respetando la integridad del bloque si este llega.
+TCP es un protocolo orientado al flujo de bytes (byte-stream): Como vimos en la Parte B, el contrato de TCP garantiza confiabilidad y orden absoluto de bytes, pero renuncia a la noción de mensaje. Agrupa y fragmenta los bytes en la red según su conveniencia (Maximum Segment Size o algoritmos de optimización de búfer), obligando a la aplicación a descifrar dónde termina cada mensaje.
+
+7) *Notá que el servidor UDP no hace listen() ni accept(). ¿Por qué no le hacen falta? No le hacen falta porque UDP es un protocolo no orientado a la conexión (connectionless). En UDP no existe un "saludo de manos" (3-way handshake) inicial, ni se establece un canal dedicado y exclusivo entre dos máquinas. El socket UDP simplemente se ata (bind) a un puerto y se queda "escuchando el aire". Cualquier computadora de la red puede tirarle un datagrama a ese puerto en cualquier momento. El servidor recibe los paquetes de forma agnóstica mediante recvfrom(), el cual le devuelve en la variable origen la IP y el puerto de quién mandó ese paquete específico para poder responderle si fuera necesario.
