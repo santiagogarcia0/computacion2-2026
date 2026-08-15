@@ -1,0 +1,33 @@
+Parte A: El problema
+* ¿Cuántos recv() hizo el servidor? Copiá la línea de la salida que lo demuestra.
+El servidor hace un solo recv(). La línea de la salida de echo_server.py que lo demuestra se ve exactamente así: [127.0.0.1:43832] recv 16 bytes: b'hola como estas\n'
+* ¿Viola esto el contrato de TCP? Justificá.
+No lo viola. TCP es un protocolo orientado al flujo de bytes continuo (byte-stream) y no tiene noción de "mensajes" individuales o paquetes independientes. Su único contrato es entregar los bytes de forma confiable, íntegra y ordenada. El sistema operativo junta los tres sendall() del cliente en su búfer de red para optimizar el viaje, y el servidor lee todo junto en una sola llamada a recv().
+
+Parte B: Framing por delimitador
+* Probalo con un cliente que mande b'uno\ndos\ntres\n' en un solo sendall(). ¿Recibe tres respuestas?
+Sí. El bucle interno while b'\n' in buffer: procesará secuencialmente cada corte. Primero extraerá uno, luego dos, y finalmente tres. El servidor enviará tres respuestas independientes en mayúsculas.
+* Probalo con un cliente que mande la palabra hola\n byte por byte, con time.sleep(0.2) entre cada uno. ¿Funciona igual?
+Sí, funciona igual. Aunque el servidor llame a recv() y reciba caracteres aislados como h, o, l, a, el generador almacena los bytes en la variable buffer sin disparar el yield hasta que detecte el byte \n. Esto garantiza una reconstrucción perfecta.
+
+Parte C: Framing por longitud
+* ¿Por qué recibir_exacto() no puede ser simplemente return sock.recv(n)?
+Porque sock.recv(n) solo garantiza devolver hasta n bytes dependiendo de la disponibilidad inmediata en la red. Si el sistema operativo fragmenta el paquete y recv(4) de la cabecera retorna inicialmente 2 bytes, la aplicación intentaría desempacarlos usando struct.unpack(), provocando un error fatal de sincronización en el protocolo.
+* Mandá un mensaje que contenga un \n en el medio. ¿Funciona? Probá lo mismo con la versión de la parte B.
+- En la Parte C (Longitud): Sí funciona. Al servidor no le importa el valor interno de los bytes; lee mecánicamente la cantidad exacta definida en los primeros 4 bytes de cabecera.
+- En la Parte B (Delimitador): No funciona. El método .split(b'\n', 1) romperá el mensaje a la mitad interpretando ese \n accidental como el final del mensaje.
+* ¿Qué pasa si mandás un mensaje de 0 bytes? ¿Y uno de 5 GB?
+- 0 bytes: Funciona de forma nativa. La cabecera transportará el entero 0, recibir_exacto(sock, 0) retornará un buffer vacío (b'') y la aplicación continuará normalmente.
+- 5 GB: Falla catastróficamente. En primer lugar, se producirá un desbordamiento de entero (Integer Overflow) debido a que el formato de empaquetado de 4 bytes sin signo (!I) soporta un límite máximo teórico de 4 GB (\(2^{32}-1\) bytes). En segundo lugar, si se enviara un tamaño enorme pero válido (por ejemplo, 3 GB), el servidor intentará reservar esa cantidad de memoria RAM al ejecutar recv(), lo cual puede saturar la memoria y provocar que el sistema operativo mate el proceso de forma abrupta (Out Of Memory).
+
+Parte D: Comparación
+* Tabla comparativa completa
+
+Característica                Delimitador (\n)    Longitud(Prefijo)Contenido binario arbitrario      No               Sí                  
+Depurable con nc                  Sí               No
+Hay que saber el tamaño antes     No               Sí
+
+* HTTP usa delimitador para los headers y longitud (Content-Length) para el cuerpo. ¿Por qué esa combinación?
+HTTP aprovecha de forma magistral las bondades técnicas de cada enfoque:
+- Headers (\r\n): Los metadatos de configuración iniciales son cadenas de texto dinámicas adaptadas para lectura humana. El uso de un delimitador permite que el cliente o los servidores intermediarios concatenen o procesen variables secuenciales una por una, sin verse forzados a recalcular los bytes totales de la cabecera antes de transmitir la petición.
+- Cuerpo (Content-Length): Esta sección traslada cargas útiles complejas y opacas (como archivos ZIP, fotos JPG o transmisiones de video). Si se utilizara un delimitador aquí, el flujo de datos se corrompería instantáneamente si la secuencia binaria del archivo contiene por puro azar el carácter de corte. El prefijo de longitud asegura un aislamiento completo del contenido del payload.
