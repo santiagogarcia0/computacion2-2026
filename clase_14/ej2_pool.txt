@@ -1,0 +1,27 @@
+salida: 
+Lanzando 20 clientes simultáneos contra localhost:8080
+
+Completados:           20/20
+Tiempo total:          4.06s
+Latencia mínima:       1.011s
+Latencia mediana:      2.514s
+Latencia máxima:       4.015s
+Throughput:            4.9 clientes/s
+
+Nota: la latencia va de 1.01s a 4.02s — los clientes fueron atendidos en serie, no en paralelo.
+
+* ¿Cuánto tardó? Relacioná el número con la cantidad de workers y de clientes.
+Tandas de atención: Con 5 workers y 20 clientes, el servidor procesa los pedidos en \(20 / 5 = 4\) tandas simultáneas.Tiempos por tanda: Cada tanda toma 1 segundo (--lento 1). Por eso los tiempos máximos y totales escalan linealmente a 4 segundos.
+
+* Mirá la latencia mínima y la máxima. ¿Cuántos "escalones" hay?
+Latencia mínima: 1.00s (atendidos en la primera tanda).
+Latencia máxima: 4.00s (atendidos en la cuarta y última tanda).Escalones: Hay 4 escalones exactos de tiempo agrupados en ~1s, ~2s, ~3s y ~4s.
+
+* ¿Algún cliente fue rechazado? Distinguí entre rechazado y demorado.
+Rechazado: El servidor deniega la conexión de inmediato (lanza error o rechaza el accept/socket por saturación de recursos o timeout).Demorado: La conexión es aceptada por el sistema operativo (listen(128)), pero el pool de threads la retiene en cola a la espera de un worker libre. Aquí ningún cliente fue rechazado; todos completaron su eco con éxito, solo que sufrieron demora.
+
+* Probá --workers 1. ¿A qué otra estrategia se parece el resultado?
+Con 1 solo worker, el tiempo total salta a 20.00s, con latencias de 1s a 20s y 20 escalones.El resultado se parece exactamente a una estrategia secuencial (procesamiento uno por uno en serie), aunque formalmente se ejecute dentro de un hilo.
+
+* Un pool acota el consumo de recursos, que es deseable. Pero con conexiones persistentes tiene el problema que acabás de medir. ¿Para qué tipo de carga sí es la herramienta correcta?
+Esta herramienta es correcta para cargas de trabajo con tareas cortas y no persistentes (por ejemplo, consultas rápidas a bases de datos, micro-operaciones o procesamiento CPU/IO de corta duración) donde las conexiones se cierran rápido y los workers se liberan de inmediato para otros clientes.

@@ -1,0 +1,62 @@
+PARTE A
+* ¿Quién cerró el descriptor?
+Lo cerró el Recolector de Basura (Garbage Collector) de Python a través del método destructor especial __del__ de la clase socket. Cuando la función make() termina, el objeto socket local sale de alcance y su contador de referencias llega a cero. Python destruye el objeto inmediatamente y, por seguridad, libera sus recursos asociados en el sistema operativo.
+
+* ¿Qué le pasa al objeto socket de la vuelta anterior?
+Se destruye. En cada iteración del bucle, la variable conn se reasigna con el nuevo socket devuelto por servidor.accept(). Al pisar la variable, la referencia al socket de la vuelta anterior se pierde. Como el hilo del padre no lo está usando en ningún otro lado, su contador de referencias cae a cero y el recolector de basura lo cierra automáticamente de fondo. Por esta razón, el comando ls /proc/<PID>/fd | wc -l no muestra un crecimiento indefinido de descriptores en CPython.
+
+* Los tres escenarios de análisis
+- Servidor escrito en C: El descriptor de archivo (fd) es un simple número entero (int). Los enteros no tienen destructores ni recolección de basura. Si el padre no invoca close(fd) de forma explícita, el descriptor queda abierto para siempre, provocando una fuga de recursos (resource leak) catastrófica que eventualmente colapsará el servidor al alcanzar el límite del sistema (ulimit -n).
+- Guardar conexiones en una lista (activas.append(conn)): El objeto socket no se destruye al terminar la vuelta del bucle porque la lista mantiene una referencia activa hacia él. El contador de referencias nunca llega a cero y el destructor jamás se ejecuta. Sin el conn.close() explícito en el padre, el socket y su descriptor de archivo permanecerán abiertos indefinidamente, consumiendo recursos del sistema operativo aunque el cliente ya haya desconectado.
+- Python sin conteo de referencias (como PyPy): PyPy utiliza estrategias de recolección de basura avanzadas (como Mark and Sweep) que destruyen los objetos de forma diferida en lugar de hacerlo inmediatamente. El socket de la vuelta anterior eventualmente se cerrará, pero no se sabe cuándo. Ante una ráfaga alta de clientes, el servidor agotará los descriptores de archivo disponibles antes de que el recolector decida activarse y liberarlos.
+
+* Conclusión
+Aunque CPython implemente un mecanismo de conteo de referencias que actúa como una "red de seguridad" cerrando los sockets huérfanos, confiar ciegamente en él es una mala práctica de programación.Escribir el close() explícito en el padre sigue siendo estrictamente necesario porque garantiza la portabilidad del código. Un programa robusto debe gestionar sus propios recursos de forma explícita sin delegar la responsabilidad al comportamiento interno de una implementación específica de lenguaje (como CPython).
+
+PARTE A2
+* ¿Ahora sí crecen los descriptores?
+Sí, crecen linealmente. Cada vez que ejecutás el benchmark, el número de descriptores de archivo (fd) en el proceso padre aumenta exactamente en la misma cantidad que los clientes lanzados. Como la lista mantiene una referencia activa a cada objeto conn, Python no puede liberar el descriptor y este se acumula ("se filtra") en el padre.
+
+* El cliente con nc y la muerte del hijo
+Si te conectás con nc, matás al proceso hijo con kill y observás la terminal del cliente, verás que el cliente NO ve que la conexión se cerró (el comando nc se queda colgado y no termina).¿Por qué ocurre esto? Porque para el stack TCP/IP del sistema operativo, la conexión sigue abierta. Aunque el proceso hijo murió y liberó su copia del descriptor, el proceso padre todavía mantiene su propia copia del descriptor abierta (guardada en la lista). El sistema operativo no enviará el paquete FIN de cierre TCP al cliente hasta que todos los procesos que tienen abierto ese descriptor lo cierren.
+
+* Explicación del mecanismo
+¿Cuántas copias del descriptor existen tras el fork()?: Existen exactamente dos copias del descriptor de archivo apuntando a la misma descripción de archivo abierta en el kernel. Cuando el padre ejecuta fork(), el sistema operativo duplica la tabla de descriptores. El descriptor conn en el padre y el descriptor conn en el hijo se vuelven independientes, pero ambos referencian al mismo socket TCP subyacente.¿Cuándo se cierra realmente la conexión TCP?: Una conexión TCP se cierra (se envía el flag FIN) únicamente cuando el contador de referencias del descriptor en el kernel del sistema operativo llega a 0.En el flujo correcto: El padre hace close() (referencias = 1). El hijo atiende y al terminar hace close() o muere (referencias = 0) → Se cierra la conexión TCP.En este caso con bug: El padre no hace close() (referencias = 2). El hijo muere (referencias = 1) → La conexión TCP sigue viva, dejando al cliente esperando eternamente.
+
+PARTE B
+¿Qué estado tienen los hijos en la columna STAT?
+Los procesos hijos muestran el estado Z (o Z+), que significa Zombie (o Defunct).Explicación: Cuando un proceso hijo termina (exit), no desaparece por completo de inmediato. El sistema operativo destruye su memoria y sus descriptores, pero mantiene una pequeña estructura en la tabla de procesos con su código de salida y estadísticas. El hijo se queda en este estado "fantasma" esperando a que su padre lo reconozca formalmente mediante la llamada al sistema wait()
+
+¿Se acumulan al correr el benchmark otra vez?
+Sí, se acumulan indefinidamente. Cada vez que volvés a correr el benchmark con 50 clientes, se suman 50 procesos zombis nuevos a la lista. Si corrés el benchmark tres veces, verás 150 procesos en estado Z asociados al PID del padre. Los zombis no desaparecen solos mientras el proceso padre siga vivo.
+
+¿Se acumulan al correr el benchmark otra vez?
+Sí, se acumulan indefinidamente. Cada vez que volvés a correr el benchmark con 50 clientes, se suman 50 procesos zombis nuevos a la lista. Si corrés el benchmark tres veces, verás 150 procesos en estado Z asociados al PID del padre. Los zombis no desaparecen solos mientras el proceso padre siga vivo.3. ¿Qué pasaría con un servidor así corriendo durante semanas?El servidor eventualmente colapsaría y dejaría de funcionar debido al agotamiento de la tabla de procesos del sistema operativo.El problema real: Aunque un proceso zombi no consume memoria RAM ni tiempo de CPU, sí consume un PID (Process Identifier).El colapso: Los sistemas operativos tienen un límite máximo de PIDs disponibles (definido en Linux en /proc/sys/kernel/pid_max). Si un servidor en producción genera miles de zombis por día, tarde o prima mañana agotará todos los PIDs del sistema. Cuando esto pase, el servidor no podrá hacer más fork(), ningún otro programa de la máquina podrá iniciar, e incluso vos podrías quedar afuera del sistema sin poder abrir una nueva terminal porque no hay PIDs disponibles para lanzar tu sesión.
+
+PARTE C
+¿Siempre da el mismo resultado sin el bucle?No, el resultado varía en cada corrida. Vas a observar que recogidos suele dar números bajos (por ejemplo, 2, 4 o 7) y zombies se queda con la gran mayoría de los procesos (por ejemplo, 53, 56 o 58). Además, los números cambian de forma aleatoria cada vez que ejecutás el script (p. ej., una vez te da 4 recogidos, otra vez 2, otra vez 5).
+
+¿Qué cambia al agregar el bucle while True?
+El resultado se vuelve 100% determinista y perfecto: hijos=60 recogidos=60 zombies=0. No importa cuántas veces lo corras ni cuánta carga le tires; siempre limpia absolutamente todos los procesos zombis.
+
+¿Por qué el fallo es intermitente? (La falta de encolamiento)
+En los sistemas Unix, las señales estándar no se encolan. El kernel tiene un mapa de bits (un simple interruptor de encendido/apagado) para cada señal por proceso.Si un hijo muere, el kernel enciende el interruptor de SIGCHLD.Si un microsegundo después mueren otros 10 hijos en masa (mientras el proceso padre está ocupado o justo antes de ejecutar el handler), el kernel intenta volver a encender el interruptor, pero como ya estaba encendido, no hace nada. Las señales adicionales se descartan.Cuando el padre finalmente ejecuta el handler cosechar, el interruptor se apaga. Si no hay un bucle while, el padre hace un único waitpid(), limpia a un solo hijo, y termina la función. Los otros 9 hijos que murieron en esa ráfaga se quedan atrapados como zombis para siempre porque no se generará una nueva señal para ellos.
+
+¿Qué hace exactamente WNOHANG y qué pasaría sin él?
+¿Qué hace? Le dice a waitpid() que actúe en modo no bloqueante. Si hay un hijo zombi listo para ser cosechado, lo limpia y devuelve su PID. Si no hay ningún zombi en ese instante, devuelve 0 inmediatamente en lugar de quedarse esperando.¿Qué pasaría sin él dentro de un bucle en el handler? El servidor se colgaría por completo. Si usaras un while True con un waitpid(-1, 0) tradicional (bloqueante), el bucle limpiaría con éxito a los zombis actuales, pero cuando ya no queden más zombis, se quedaría congelado adentro del handler esperando a que muera un próximo hijo ficticio. Al quedar atrapado ahí, el servidor principal nunca regresaría a su bucle while True para ejecutar el próximo accept(), dejando de atender a los nuevos clientes.
+
+¿Cómo encontrarías este bug intermitente en producción?
+Un bug que falla de forma intermitente (2 de cada 3 veces) y solo bajo estrés masivo se conoce en la industria como un Heisenbug. En un servidor real en producción, lo detectarías y diagnosticarías usando:
+- Monitoreo de métricas del sistema: Alertas automáticas (usando herramientas como Prometheus o Datadog) que midan la cantidad de procesos de la máquina. Si el número de procesos zombis (STAT == Z) tiene una tendencia hacia arriba (crecimiento en dientes de sierra o escalera continua) cada vez que hay picos de tráfico, es una alerta clara de que el cosechador está perdiendo hijos.
+- Logs del sistema: Comparar la cantidad de conexiones aceptadas en los logs principales contra la cantidad de llamadas exitosas al código de limpieza del proceso.
+- Herramientas de rastreo en vivo (eBPF / strace): Si sospechás del problema, podés usar strace -p <PID_PADRE> -e trace=signal,wait4 bajo una simulación de carga. Verías que entran menos llamadas al sistema wait4 que la cantidad de señales de muerte reales que el kernel intenta despachar.
+
+PARTE D
+¿Siguen apareciendo zombies?
+No, no aparece ningún zombi. Si corrés el benchmark o el script de muerte masiva con esta configuración, verás que la cantidad de procesos zombis se mantiene en exactamente cero (zombies=0).
+
+¿Quién los está recogiendo ahora?
+El propio kernel del sistema operativo los está eliminando de inmediato.
+- El mecanismo: Según el estándar POSIX (el cual implementa Linux), si un proceso padre establece explícitamente la acción para SIGCHLD como SIG_IGN (ignorar), el ciclo de vida de los procesos hijos cambia. Cuando un hijo termina, el kernel entiende que el padre no tiene ningún interés en conocer su código de retorno ni sus estadísticas mediante un wait().
+- Cosecha automática: En lugar de congelar al hijo en el estado intermedio de "Zombi", el sistema operativo lo remueve por completo de la tabla de procesos y libera su PID en el microsegundo exacto en que ejecuta el exit.
+Esta es una alternativa excelente, limpia y moderna para servidores multiproceso simples donde el padre solo lanza hijos para que trabajen de forma independiente y no necesita enterarse de si terminaron bien o mal. Te ahorra tener que escribir la función cosechar y manejar los bucles con WNOHANG.

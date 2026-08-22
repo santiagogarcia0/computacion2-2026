@@ -1,0 +1,15 @@
+¿Cómo se compara con tu server_threads.py?
+Al medirlo con python3 benchmark.py --clientes 200, el rendimiento, el tiempo total y las latencias son prácticamente idénticos. Ambos servidores crean un hilo por cada cliente de forma dinámica y concurrente, por lo que el comportamiento bajo carga es el mismo. La única diferencia real está en que socketserver oculta toda la lógica de control bajo su API.
+
+¿Qué problema de la clase 13 resuelven gratis self.rfile y self.wfile?Resuelven el problema del búfer y la fragmentación de sockets en streams (TCP).TCP es un protocolo orientado a flujo de bytes, no a mensajes. Esto significa que un send() de 100 bytes del cliente puede llegar al servidor en dos pedazos de 50 bytes.self.rfile y self.wfile envuelven el socket en un búfer de Python (un objeto tipo archivo). Esto te permite usar métodos de alto nivel como .readline() o .read(N) abstrayéndote de tener que escribir bucles complejos a mano para rearmar los paquetes fragmentados.
+
+Cambiá por ForkingTCPServer. ¿Qué cambia en la medición?El throughput y la latencia se mantendrán muy similares en escenarios de benchmarks cortos. Sin embargo, en el fondo cambia completamente el modelo de ejecución: pasa de usar hilos a usar procesos independientes.
+Ventaja invisible: ForkingTCPServer ya incluye adentro el manejo de SIGCHLD (visto en el Ejercicio 3), por lo que limpia los procesos zombis de forma automática sin que vos tengas que hacer nada.
+
+El bucle accept() en el código fuente de Python
+Sí, se parece muchísimo. La lógica de fondo es exactamente el mismo bucle while True: conn, addr = server.accept() que escribiste a mano, solo que modularizado en clases para soportar diferentes estrategias (hilos, procesos, etc.).
+
+¿Qué justifica haber escrito las estrategias a mano si esto ya existía?Escribirlas a mano se justifica por tres razones fundamentales:
+- Comprensión de Arquitectura: socketserver es una capa de abstracción ("magia"). Si no entendés cómo funciona accept(), el fork(), el ciclo de vida de un descriptor o las condiciones de carrera de los hilos, no vas a poder diagnosticar fallas críticas (como fugas de memoria o hilos colgados) cuando la abstracción falle en producción.
+- Control Fino: Las abstracciones genéricas imponen restricciones. Si necesitás aplicar un control de flujo especializado, limitar drásticamente los recursos de un socket, o inyectar lógica intermedia antes de disparar el hilo (como denegar una IP antes del procesamiento), la estructura manual te da flexibilidad absoluta.
+- Optimización de Rendimiento: En sistemas de altísimo rendimiento, las capas de abstracción orientadas a objetos como socketserver introducen un pequeño overhead (sobrecarga de procesamiento). Escribir el código pegado a las llamadas de sistema (syscalls) optimiza el uso de CPU y memoria.

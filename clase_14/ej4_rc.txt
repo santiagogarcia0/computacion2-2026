@@ -1,0 +1,17 @@
+¿El contador vuelve a cero al final con 200 clientes?
+A veces sí y a veces no. Al remover el with lock:, el comportamiento del servidor se vuelve impredecible (no determinista). Es muy probable que con 200 clientes en una máquina rápida no notes fallos a la primera, ya que las operaciones ocurren tan rápido que los hilos no llegan a entrelazarse en el momento exacto.
+
+¿Qué pasa al subir la carga y agregar el time.sleep?
+Al subir a 500 o 1000 clientes e introducir time.sleep(0.0001), el contador falla casi el 100% de las veces. Al finalizar el benchmark (cuando ya no quedan clientes conectados), verás que clientes_activos no da cero: puede dar un número positivo (ej. 14) o incluso negativo (ej. -8). El contador quedó totalmente corrompido.
+
+¿Por qué clientes_activos += 1 no es atómico? (Conexión con la Clase 11)
+En Python, una línea de código de alto nivel como clientes_activos += 1 no se ejecuta como una única instrucción indivisible (atómica). El intérprete de Python (CPython) la traduce internamente en varias instrucciones de bytecode:
+LOAD_GLOBAL: Lee el valor actual de la memoria (ej. lee 10).LOAD_CONST: Carga el número 1.
+INPLACE_ADD: Realiza la suma (10 + 1 = 11).
+STORE_GLOBAL: Guarda el resultado 11 de vuelta en la variable.
+El problema de la condición de carrera (Race Condition):Cuando agregás el time.sleep(), obligás a que el hilo ceda el control (un cambio de contexto) justo en el medio de estos pasos. 
+
+¿Por qué la versión con fork() no necesita este lock?
+La versión con fork() no necesita un lock porque utiliza procesos independientes en lugar de hilos.
+- Espacio de memoria separado: Cuando un proceso padre hace fork(), el sistema operativo duplica el proceso completo, creando un espacio de memoria totalmente aislado para el hijo.
+- Variables independientes: El proceso hijo tiene su propia copia de la variable clientes_activos. Si el hijo modifica su contador, está alterando su propia memoria, sin afectar jamás a la variable del padre ni a la de otros hijos. Como no hay memoria compartida, es físicamente imposible que ocurra una condición de carrera entre ellos.
