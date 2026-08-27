@@ -1,0 +1,23 @@
+1.1 Servidor y cliente
+¿Qué información devuelve recvfrom() además de los datos?
+Devuelve una tupla con la dirección de origen del datagrama. Esta tupla contiene (IP_origen, puerto_origen). El código la recibe en la variable origen.
+Corré el cliente tres veces seguidas. ¿Cambia el puerto efímero cada vez? ¿Por qué?
+Sí, cambia. El sistema operativo asigna un puerto efímero aleatorio (libre) del rango dinámico cada vez que el proceso cliente abre un socket UDP y envía datos sin hacer un bind() previo. Al terminar la ejecución del script, ese socket se destruye.
+Matá el servidor y corré el cliente. ¿Qué pasa? ¿Cuánto tarda en darse cuenta?
+El cliente se queda esperando una respuesta en recvfrom(). No se "da cuenta" de que el servidor murió porque UDP es un protocolo no orientado a la conexión (no hay handshake ni avisos de cierre). Tarda exactamente 2.0 segundos en darse cuenta, que es el tiempo límite configurado por s.settimeout(2.0) antes de lanzar la excepción TimeoutError.
+Sacá el settimeout(2.0) del cliente y repetí el punto anterior. ¿Cuánto espera ahora?
+Espera para siempre (bloqueo indefinido). Al no tener timeout, la llamada a recvfrom() queda colgada de forma síncrona esperando un datagrama que nunca va a llegar.
+
+1.2 Contra netcat
+¿Recibe el nc el mensaje?
+Sí. Al ejecutar nc -u -l 8080, Netcat levanta un socket UDP escuchando en ese puerto. Cuando el cliente de Python envía el datagrama mediante sendto(), Netcat lee el buffer de entrada y muestra el texto "hola profe" en la terminal.
+Escribí una respuesta en la terminal del nc. ¿Le llega al cliente?
+Sí, le llega. Netcat detecta la IP y el puerto efímero desde donde provino el datagrama de Python. Al escribir en la terminal de Netcat y presionar Enter, este envía un datagrama de vuelta a esa dirección exacta, permitiendo que el recvfrom() del cliente lo capture con éxito.
+
+1.3 Sin listen ni accept
+¿Por qué un servidor UDP no necesita un socket por cliente? Relacionalo con la cuádrupla de la clase 12.
+En TCP, un socket se identifica por la cuádrupla completa (IP_origen, puerto_origen, IP_destino, puerto_destino), por lo que se requiere un socket único dedicado a cada conexión exclusiva.En UDP, el socket del servidor se identifica únicamente por la dupla (IP_local, puerto_local). No existe el concepto de "conexión". El servidor usa un único socket como un "buzón de correo": entran datagramas de cualquier origen mezclados en la misma cola, y cada datagrama trae la información de quién lo envió para poder responderle de forma independiente.
+Levantá el servidor y mandale datagramas desde dos clientes distintos a la vez. ¿Los atiende a los dos? ¿Hizo falta concurrencia?
+Sí, los atiende a los dos, y no hizo falta concurrencia (ni hilos, ni procesos, ni asyncio). El servidor los procesa de forma secuencial, uno detrás de otro, a medida que los datagramas se encolan en el buffer del sistema operativo.
+El punto 9 es importante: todo el problema de la clase 14 —un cliente bloqueando a los demás— aquí casi no existe. Pensá por qué.
+En TCP, si un servidor no es concurrente y se queda trabado leyendo (recv()) el socket de un cliente que no envía datos, toda la aplicación se congela y los demás clientes no pueden avanzar.En UDP esto no pasa porque el servidor nunca se ata a un cliente. La única llamada bloqueante es recvfrom(), la cual espera un datagrama de cualquier cliente de la red. Una vez que llega un mensaje, se procesa instantáneamente y el servidor vuelve a quedar disponible para recibir de quien sea. Un cliente malicioso o lento no puede bloquear el flujo de los demás porque no retiene al socket del servidor.

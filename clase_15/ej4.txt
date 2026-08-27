@@ -1,0 +1,19 @@
+4.1 Comportamiento y Origen del Error
+¿Qué excepción da?Lanza la excepción ConnectionRefusedError.
+¿De dónde sale esa información, si UDP no tiene conexión?Sale de un mensaje de control de la capa de red (ICMP). Cuando tu datagrama UDP llega al puerto 9999 de la máquina local y el sistema operativo ve que no hay ningún proceso escuchando allí, su pila de protocolos genera un paquete ICMP de tipo 3, código 3 ("Puerto inaccesible" o Port Unreachable) y se lo envía de vuelta a tu socket. El sistema operativo del cliente traduce ese mensaje ICMP en la excepción de Python.
+
+4.2 Con vs. Sin connect()
+Sacá el connect() y usá sendto() / recvfrom() contra el mismo puerto vacío. ¿Qué pasa ahora?
+El script se queda colgado esperando y termina lanzando un TimeoutError a los 2 segundos (o se queda esperando para siempre si no tiene timeout). El ConnectionRefusedError desaparece por completo.
+¿Por qué la diferencia? ¿Qué hace realmente connect() en un socket UDP?connect() en UDP no realiza ningún viaje a la red (no hay handshake/apretón de manos). Es una operación puramente interna dentro del kernel del sistema operativo.Lo que hace realmente es "asociar" o "filtrar" el socket a una IP y puerto destino específicos. Al hacer esto:
+- Te permite usar los métodos tradicionales send() y recv() en lugar de sendto() y recvfrom().
+- Habilita al sistema operativo a pasarle al socket los errores asíncronos de la red (como el ICMP Port Unreachable). Sin connect(), el sistema operativo descarta silenciosamente esos mensajes ICMP porque no sabe a qué socket UDP sin conectar asignárselos.
+
+4.3 Comportamiento Multi-Host
+Con connect(), ¿qué pasa si otro host te manda un datagrama?El sistema operativo del cliente lo descarta automáticamente y tu script nunca se entera. Al estar el socket UDP en estado "conectado" a un destino fijo, el kernel aplica un filtro estricto: solo permite ingresar al buffer de lectura los datagramas cuyo origen (IP, puerto) coincida exactamente con la dirección provista en el connect(). Todo lo demás es ignorado.
+
+4.4 Limitaciones en Internet Real
+¿Por qué no conviene depender de este mecanismo en Internet?
+No es confiable en redes públicas por dos motivos principales vinculados a la infraestructura:
+- Filtrado ICMP: Los firewalls de los proveedores de internet (ISPs) o de los servidores suelen bloquear por seguridad los mensajes ICMP salientes o entrantes para evitar mapeos de red. Si el mensaje ICMP Port Unreachable es filtrado, tu socket UDP "conectado" jamás se enterará de que el puerto estaba cerrado y se quedará esperando en un timeout eterno.
+- NAT / Routers intermedios: Los routers domésticos y corporativos traducen direcciones (NAT). Si un puerto intermedio se cierra o la tabla de traducciones expira rápido, el mensaje ICMP de error de red se perderá en el camino y nunca llegará a la máquina origen.

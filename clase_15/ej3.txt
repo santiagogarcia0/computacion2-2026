@@ -1,0 +1,34 @@
+Parte A: Ver el problema
+De 200 datagramas enviados, ¿cuántos llegaron?
+Alrededor de 140 datagramas (el número exacto varía ligeramente por el azar matemático de random.random(), pero se mantendrá muy cerca del 70% de éxito).
+¿Qué error recibió el emisor por los que se perdieron? Mirá la última línea de la salida.
+Ninguno. La última línea explícitamente dice: El emisor no recibió ningún error: para él, los 200 se enviaron bien. El método sendto() retorna los bytes de forma normal como si la entrega hubiese sido exitosa.
+Esa es la característica central de UDP. Enunciala en una frase.
+"UDP es un protocolo de mejor esfuerzo (best-effort) que no garantiza la entrega ni notifica al emisor si sus datagramas se perdieron en la red."
+3b. Mirá la línea "Saltos hacia atrás en el orden de llegada". Sin tc da 0... ¿Cuánto da ahora? ¿Qué implica para un protocolo que asuma que los mensajes llegan ordenados?
+Al usar tc, dará un número mayor a 0 (el valor exacto depende de la simulación de red).Implicancia: Significa que el receptor ya no puede asumir que el mensaje N llegó antes que el mensaje N+1. Si la aplicación procesa los datos en el orden exacto en que ingresan al buffer, provocará corrupción de datos, estados inconsistentes o mensajes fuera de contexto. El protocolo de capa de aplicación se verá obligado a reordenarlos manualmente utilizando un índice o número de secuencia.
+
+Parte B: Retransmisión
+Probalo contra un servidor eco con pérdidas simuladas. ¿Cuántos intentos necesita en promedio?
+Con un 30% de pérdida, la probabilidad de éxito al primer intento es del 70%. En promedio, la gran mayoría de los mensajes se resolverá en el 1º o 2º intento.
+Subí la probabilidad de pérdida a 0.7. ¿Sigue funcionando? ¿Cuántos intentos?
+Sí, sigue funcionando, pero la cantidad de reintentos subirá exponencialmente. Para asegurar un mensaje vas a necesitar en promedio entre 3 y 5 intentos, y ocasionalmente verás fallar la función completa al agotar los 5 intentos totales.
+¿Qué pasa si el timeout es muy corto? ¿Y muy largo? Probá con 0.01 y con 5.0.Con 0.01s (muy corto): El cliente retransmite desesperadamente antes de que el servidor tenga tiempo físico de responder. Vas a generar falsos positivos de timeout, saturando la red con datagramas duplicados y agotando los intentos inmediatamente de forma innecesaria.Con 5.0s (muy largo): Si un paquete se pierde efectivamente, el cliente se queda colgado esperando una eternidad antes de reaccionar. El protocolo se vuelve extremadamente lento e ineficiente ante fallas de red.
+
+Parte C: El problema del duplicado
+Si el cliente no recibe respuesta, ¿cómo sabe si se perdió su pedido o la respuesta del servidor?
+No puede saberlo. Desde la perspectiva del cliente, el síntoma de un TimeoutError es idéntico en ambos casos.
+Escribí un servidor que cuente cuántas veces ejecuta el trabajo real, y comprobá que con reintentos lo hace de más.
+Si la respuesta se pierde en el camino de vuelta al cliente, el cliente ejecutará un reintento. El servidor recibirá este segundo datagrama, incrementará su contador interno (ejecutando el trabajo real de nuevo) y reenviará la respuesta. El contador del servidor terminará siendo mayor que la cantidad de pedidos únicos del cliente.¿Por qué esto es grave si el pedido fuera "transferir $100" y no "poner en mayúsculas"?
+Porque "poner en mayúsculas" es una operación idempotente (hacerla muchas veces da el mismo resultado y no rompe nada). En cambio, "transferir $100" no es idempotente: si el servidor procesa el reintento duplicado creyendo que es una transacción nueva, debitará el dinero dos o más veces, generando una falla económica crítica.
+
+Parte D: Números de secuencia
+¿Por qué hace falta descartar respuestas cuyo seq no coincida con el pedido en curso? Pensá en una respuesta demorada de un intento anterior.
+Supongamos que el cliente envía el mensaje A (seq: 1), la red se pone lenta, ocurre un timeout y el cliente envía el reintento A (seq: 1). Acto seguido, el cliente pasa al mensaje B (seq: 2). Si la respuesta demorada de A (seq: 1) llega de repente mientras el cliente esperaba a B, el cliente confundirá la respuesta de A con la de B. Descartar por número de secuencia garantiza la correspondencia exacta entre la petición y su respuesta correspondiente.
+Compará tu solución con confiable.py. Corrélo con 0.6 y mirá la diferencia entre "envíos reales" y "veces que el servidor hizo trabajo".
+Gracias a la tabla de control del servidor (seq vistos), cuando un duplicado llega al servidor, este salta la lógica de negocio (no incrementa el contador de "trabajo hecho") y simplemente reenvía la respuesta que ya tenía guardada en caché. Verás que los envíos reales son altos, pero el trabajo real del servidor se mantiene idéntico a los mensajes únicos del cliente.
+
+Parte E: Reflexión
+Enumerá tres garantías de TCP que tu implementación todavía no tiene.Control de Flujo: Mecanismo (como la ventana deslizante) para evitar que un emisor rápido sature el buffer de un receptor lento.Control de Congestión: Algoritmos (como Slow Start) para reducir la velocidad de envío si los nodos intermedios de la red de internet están saturados.Fragmentación y Reensamblado Automático: Capacidad de enviar streams de gigabytes de forma continua dividiéndolos transparentemente en paquetes IP respetando la MTU del camino.
+¿En qué momento conviene dejar de agregar confiabilidad sobre UDP y simplemente usar TCP?
+Conviene migrar a TCP en el momento exacto en que tu aplicación requiera un flujo continuo de datos libre de errores, ordenado y masivo, y donde reinventar la lógica de control de congestión, ventanas deslizantes y manejo de buffers en la capa de aplicación sea más costoso y propenso a bugs que la sobrecarga (overhead) nativa que impone TCP.

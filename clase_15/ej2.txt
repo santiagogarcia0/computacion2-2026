@@ -1,0 +1,21 @@
+2.1 Se preservan
+Tres sendto() produjeron ¿cuántos recvfrom() en el servidor? Copiá las líneas del log:
+
+santiagogarcia5@LAPTOP-6BEE3SFB:~/computacion2-2026/clase_15$ python3 echo_udp.py servidor 8080
+Escuchando UDP en 0.0.0.0:8080 (Ctrl+C para salir)
+  [1] recvfrom     4 bytes de 127.0.0.1:33729: b'HOLA'
+  [2] recvfrom     4 bytes de 127.0.0.1:33729: b'COMO'
+  [3] recvfrom     5 bytes de 127.0.0.1:33729: b'ESTAS'
+
+Compará con lo que pasaba en la clase 13 con TCP. ¿Por qué la diferencia?
+En TCP: Los tres mensajes se habrían fusionado en una sola lectura (o en fragmentos impredecibles). Esto pasa porque TCP es un protocolo orientado al flujo de bytes (byte-stream). No tiene noción de "principio" o "fin" de un mensaje; el sistema operativo junta los datos en un buffer continuo.En UDP: Cada sendto() genera un único datagrama IP independiente. UDP es un protocolo orientado a mensajes. Preserva estrictamente los límites de la aplicación: un envío en el cliente equivale exactamente a una lectura en el servidor.
+
+2.2 El buffer chico trunca (importante)
+¿Cuántos bytes trajo el primer recvfrom()? ¿Y el segundo?
+El primer recvfrom(10) trae 10 bytes.El segundo recvfrom(65535) da un timeout (segundo recvfrom: nada).
+¿Dónde quedaron los 90 bytes restantes?
+El sistema operativo los descartó (se perdieron para siempre). En UDP, cuando ejecutás recvfrom(N), el sistema operativo saca el datagrama completo de la cola de la red. Si el mensaje es más grande que N, te entrega los primeros N bytes y destruye el resto del datagrama inmediatamente. El remanente no queda esperando en el buffer para la próxima lectura.
+En TCP, ¿qué habría pasado con esos 90 bytes? Explicá la diferencia de fondo.
+En TCP, el primer recv(10) habría devuelto 10 bytes, pero los 90 bytes restantes se quedarían esperando en el buffer de recepción del sistema operativo. El segundo recv() los habría leído sin problemas y no hubiera dado timeout.La diferencia de fondo es que TCP es un flujo continuo de bytes donde el tamaño del buffer que pasás al leer solo limita el máximo que querés recibir en ese llamado, sin destruir el resto de la corriente. UDP maneja paquetes atómicos enteros: o leés el paquete entero en su momento, o lo perdés.
+¿Qué tamaño de buffer conviene usar siempre, y por qué?
+Conviene usar siempre 65535 bytes.Este es el tamaño máximo teórico de un datagrama UDP en redes IPv4 (debido al campo de longitud de 16 bits en la cabecera IP). Al configurar el buffer de lectura en 65535, te asegurás de que nunca se trunquen los datos, sin importar qué tan grande sea el mensaje que haya enviado el cliente.
