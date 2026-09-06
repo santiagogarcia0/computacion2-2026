@@ -1,0 +1,47 @@
+Parte A: Leer el código fuente
+
+1) ¿Cuántos métodos define ThreadingMixIn? ¿Cuál importa?
+Define principalmente dos métodos: process_request y process_request_thread. El que verdaderamente importa es process_request, ya que es el punto de entrada que intercepta la petición.
+
+2) process_request en TCPServer vs ThreadingMixIn
+- En TCPServer (heredado de BaseServer): Ejecuta de forma síncrona y secuencial: llama a finish_request() (que ejecuta el handler) en el mismo hilo principal. Hasta que ese cliente no termina, el servidor se bloquea y no puede hacer nada más.
+- En ThreadingMixIn: Modifica por completo esa lógica. Crea un nuevo hilo (threading.Thread) apuntando a process_request_thread y lo inicia (t.start()). Este nuevo hilo se encargará de ejecutar el handler en segundo plano, liberando al hilo principal de inmediato para que siga escuchando el socket.
+- ForkingMixIn: Cosecha de hijos y evitar zombiesEl ForkingMixIn tiene un método llamado collect_children(). Este método se ejecuta automáticamente al inicio de cada nueva petición (dentro de process_request) y al cerrar el servidor. Llama internamente a os.waitpid(-1, os.WNOHANG), una función que limpia (cosecha) todos los procesos hijos que ya terminaron su trabajo de forma no bloqueante. A diferencia de la clase 14, donde debías programar manualmente una señal (SIGCHLD) o bucles de espera, aquí el Mixin se encarga de la recolección de basura de procesos en cada ciclo, evitando que queden en estado zombie.
+
+Parte B: El orden importa (MRO)
+¿En qué se diferencian los dos MRO?
+El MRO (Method Resolution Order) determina el orden en que Python busca los métodos:
+- Correcto.__mro__: ['Correcto', 'ThreadingMixIn', 'TCPServer', ...]
+- AlReves.__mro__: ['AlReves', 'TCPServer', 'ThreadingMixIn', ...]
+En Correcto, Python encuentra primero el método process_request de ThreadingMixIn. En AlReves, Python encuentra primero el process_request de TCPServer.
+
+¿Cuál atiende en paralelo?
+Solo atiende en paralelo la clase Correcto. La clase AlReves se comporta de forma totalmente síncrona (un cliente a la vez).
+¿El que está al revés lanza algún error? ¿Por qué es un bug peligroso?No lanza absolutamente ningún error. Python compila y ejecuta el código perfectamente. Esto lo convierte en un bug silencioso y peligroso porque tu código parecerá andar bien en tu entorno de desarrollo local con un solo cliente, pero cuando lo subas a producción y entren dos usuarios en simultáneo, el segundo experimentará un congelamiento total del servicio sin dejar ninguna traza de error en los logs.
+
+Parte C: Threads contra procesos
+Al conectar 5 clientes en simultáneo a cada modo:
+¿Qué cambia en la salida?
+- Modo Threads: El PID del sistema (pid=XXXX) se mantiene siempre igual en las 5 conexiones, pero la variable hilo=Thread-1, Thread-2, etc., cambia con cada cliente.
+- Modo Fork (Procesos): El nombre del hilo se mantiene igual (hilo=MainThread), pero el PID cambia por completo en cada renglón de conexión.
+
+Verificación de PIDs y conteo de hilos
+* Con --fork, al ejecutar ps --ppid ... verás 5 procesos hijos distintos corriendo en paralelo bajo el PID del proceso padre del servidor.
+* En modo threads, al listar /proc/.../task, el comando te devolverá 6 hilos (el hilo principal del servidor escuchando el puerto + los 5 hilos de los clientes activos).
+
+Parte D: El estado no se comparte igual
+- Con ThreadingTCPServer, el comando CONTADOR funciona porque:
+Los hilos comparten el mismo espacio de memoria que el proceso padre. Si modificás una variable global (contador += 1), todos los hilos leen y escriben sobre la misma dirección física de memoria RAM.
+
+- Con ForkingTCPServer, ¿qué devuelve CONTADOR y por qué?
+Devuelve siempre 1 (o el valor inicial que tuviera). Al hacer un fork(), el sistema operativo realiza una copia exacta de la memoria del padre para el hijo, pero aislada. Cuando el proceso hijo le suma 1 al contador, está modificando su propia copia privada de la memoria. Cuando ese cliente se desconecta, el proceso hijo muere y ese incremento se destruye con él. El proceso padre jamás se entera.
+
+- ¿Qué herramienta de la clase 9 haría falta?
+Haría falta utilizar herramientas de IPC (Inter-Process Communication), específicamente Memoria Compartida (multiprocessing.Value o multiprocessing.SharedMemory) o un Manager, para permitir que procesos independientes modifiquen una misma variable física en la RAM.
+
+Parte E: daemon_threads
+- Sin daemon_threads = True, ¿qué pasa al matar con Ctrl+C?
+Al presionar Ctrl+C, la terminal se quedará congelada y el servidor no se cerrará. Python esperará pacientemente a que el cliente de Netcat (nc) que dejaste abierto decida cerrar la conexión por su cuenta antes de poder destruir el proceso del servidor.
+
+- Con daemon_threads = True, ¿cuál es la diferencia?
+El servidor se cierra instantáneamente. Al marcar los hilos de los clientes como daemons (demonios), le estás diciendo a Python: "Si el hilo principal del programa muere (por el Ctrl+C), matá y abortá todos estos hilos de inmediato sin importar si terminaron de hablar con el cliente o no".

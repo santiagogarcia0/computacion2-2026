@@ -1,0 +1,28 @@
+1.1 Explorarla desde Python (La jerarquía)
+TCPServer -> hereda de (socketserver.BaseServer,)
+UDPServer -> hereda de (socketserver.TCPServer,)
+
+¿Es un error del diagrama si lo muestra como hermano?
+No es un error de diseño conceptual, sino un truco de optimización de código (herencia por conveniencia).Desde el punto de vista de redes, TCP y UDP son protocolos hermanos (ambos están en la capa de transporte). Sin embargo, los desarrolladores de Python decidieron hacer que UDPServer herede de TCPServer para reutilizar código. TCPServer ya tiene implementada toda la lógica pesada de creación del socket, enlace al puerto (bind) y el bucle principal de escucha. En lugar de copiar y pegar todo eso en una clase nueva para UDP, hicieron que UDPServer herede de él y solo modifique lo que cambia (como la falta de un .accept()).
+
+¿Qué atributo recibe UDPServer de TCPServer que no tiene sentido en UDP?
+El atributo más evidente es request_queue_size (el parámetro backlog de la función listen()).
+- En TCP: Define cuántas conexiones entrantes pueden esperar en fila antes de que el servidor las acepte (.accept()).
+- En UDP: No tiene ningún sentido porque UDP no tiene conexiones, ni apretón de manos, ni fila de espera de clientes; los paquetes simplemente caen en el puerto e ingresan de inmediato. Sin embargo, UDPServer lo hereda igual.
+
+1.2 Los atributos de clase
+¿A qué equivale cada uno de lo que escribimos a mano?- allow_reuse_address: Equivale a configurar la opción del socket: s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1).
+- request_queue_size: Equivale al parámetro que le pasás al método listen: s.listen(backlog).
+- address_family: Equivale a la familia de direcciones del socket al crearlo: socket.socket(socket.AF_INET, ...).
+
+Prueba de allow_reuse_address (False vs True)
+Con False: Al levantar el servidor, matarlo con Ctrl+C y relanzarlo rápido, arroja el error: OSError: [Errno 98] Address already in use (en Windows puede figurar como WSAEADDRINUSE). Esto pasa porque el sistema operativo mantiene el puerto retenido en estado TIME_WAIT.
+Con True: El error desaparece por completo. El sistema operativo permite forzar el reuso inmediato del puerto aunque esté en TIME_WAIT.
+
+1.3 IPv6 en una línea
+¿Cuál atributo cambiar en eco_tcp.py?
+Hay que cambiar el atributo de clase address_family dentro de las clases de servidor para indicarle que use IPv6 (socket.AF_INET6) en lugar del IPv4 por defecto (socket.AF_INET).
+
+¿Conectándose con nc -6 ::1 8080 anda?
+Sí, funciona perfectamente. El parámetro -6 obliga a Netcat a usar el protocolo IPv6 y ::1 es la dirección de loopback (el equivalente a 127.0.0.1 en IPv4). El servidor procesará la línea de eco sin problemas.¿Qué habría que agregar para que acepte también IPv4? (Dual-Stack)
+Por defecto, en muchos sistemas operativos modernos (como Linux), cuando abrís un socket IPv6, este queda en modo exclusivo (IPV6_V6ONLY = 1). Para romper esto y lograr que acepte tanto IPv4 como IPv6 al mismo tiempo en el mismo puerto, tenés que apagar esa restricción modificando el socket justo después de que se crea, pero antes de que se enlace (bind).

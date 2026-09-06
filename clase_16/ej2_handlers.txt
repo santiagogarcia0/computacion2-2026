@@ -1,0 +1,56 @@
+2.1 Los tres tipos (TCP Framing)
+
+¿Qué le da StreamRequestHandler a EchoHandler que BaseRequestHandler no?
+Le da una capa de abstracción de archivos de texto (self.rfile y self.wfile). Esto permite hacer un bucle directo (for linea in self.rfile:) que lee línea por línea automáticamente, abstrayendo por completo el manejo de buffers de red.
+
+Reescribiendo EchoHandler con BaseRequestHandler: 
+Si usás BaseRequestHandler, self.request es el socket pelado. Como los sockets TCP transmiten un flujo continuo de bytes sin saber dónde termina un mensaje, tenés que implementar un buffer intermedio a mano para detectar los cortes de línea (\n).
+
+El código extra necesario quedaría así:
+class EchoHandlerCrudo(socketserver.BaseRequestHandler):
+    def handle(self):
+        buffer = b""
+        while True:
+            # Recibimos bloques de bytes
+            datos = self.request.recv(4096)
+            if not datos: 
+                break # El cliente cerró la conexión
+            
+            buffer += datos
+            # Procesamos todas las líneas completas acumuladas en el buffer
+            while b"\n" in buffer:
+                linea, buffer = buffer.split(b"\n", 1)
+                linea_completa = linea + b"\n"
+                
+                # Enviamos el eco de la línea
+                self.request.sendall(linea_completa)
+
+¿Cuánto código extra necesitás? 
+Pasamos de 2 líneas en el for linea in self.rfile: original a unas 10 líneas de lógica compleja con bucles anidados para no perder fragmentos de mensajes.
+¿Es el mismo problema que framing.py de la clase 13?
+Sí, es exactamente el mismo problema. TCP garantiza que los bytes llegan en orden, pero no respeta las fronteras de tus mensajes (un .recv(4096) puede traerte media línea, una línea y media, o tres líneas juntas). Tenés que resolver el "framing" (delimitación) manualmente dividiendo los bytes por \n, tal como se hacía en la clase 13.
+
+2.2 La asimetría de self.request
+
+¿Qué es self.request en EchoUDPCrudo y qué es en un handler TCP?
+En EchoUDPCrudo (UDP): Es una tupla de dos elementos: (datos_en_bytes, socket_del_servidor).
+En un handler TCP: Es un objeto socket dedicado y exclusivo para hablar con ese cliente específico.
+
+¿Por qué en UDP hay que pasar self.client_address al responder, y en TCP no?
+- En UDP: El protocolo no tiene conexiones ni "memoria". El socket del servidor es una ventanilla única por donde entran paquetes de cualquier persona. Para contestarle a alguien, estás obligado a usar el método .sendto(datos, direccion) pegándole explícitamente la dirección del remitente en el sobre del paquete.
+- En TCP: El socket de self.request ya está conectado de forma fija y exclusiva a un cliente mediante un circuito virtual. Sabe perfectamente quién está del otro lado, por lo que basta con llamar a .sendall(datos) y el sistema operativo se encarga de enviarlo al destino correcto.
+
+¿Qué esconde DatagramRequestHandler?
+Esconde la asimetría de la tupla y la necesidad de usar .sendto(). Al crear los archivos virtuales self.rfile y self.wfile, te permite programar en UDP exactamente igual que en TCP.
+Al comparar las dos implementaciones del archivo:
+- En EchoUDPCrudo desempaquetás la tupla a mano y llamás a sock.sendto(..., self.client_address).
+- En EchoUDPFiles, simplemente leés de self.rfile y escribís en self.wfile. Por detrás, el handler guarda la dirección del cliente y, cuando el método handle() termina, ejecuta el .sendto() de forma automática por vos.
+
+2.3 Una instancia por conexión (El Estado)
+¿Qué pasa con self.n y con Contador.veces al conectarse varias veces?self.n se queda siempre en 1. Cada vez que te conectás, verás que instancia=1, no aumenta. Contador.veces incrementa de 1 en 1 en cada conexión (clase=1, clase=2, clase=3...). 
+Explicación de la diferencia e instancias creadas:
+El servidor crea un objeto handler nuevo y limpio desde cero para cada cliente que se conecta. Si se conectan 10 clientes (o el mismo cliente se conecta 10 veces separadas), se crean 10 objetos handler diferentes.Como self.n es un atributo de instancia, nace en 0, se le suma 1, se muestra en pantalla y muere inmediatamente cuando el cliente se desconecta y la instancia se destruye.Contador.veces es un atributo de clase. Vive en la plantilla de la clase Contador, la cual es única en todo el programa y sobrevive en la memoria sin importar cuántas instancias se creen o destruyan.
+¿Dónde hay que guardar el estado que debe sobrevivir entre conexiones?El estado persistente nunca debe guardarse en variables de instancia (self.algo) del handler. Debe guardarse en:
+- Atributos de clase (como Contador.veces), si es algo simple a nivel global.
+- El objeto del servidor (self.server.mi_variable), accediendo a la instancia del servidor que se mantiene viva durante toda la ejecución del programa.
+- Bases de datos o archivos externos, si los datos deben sobrevivir incluso si el servidor se apaga.
