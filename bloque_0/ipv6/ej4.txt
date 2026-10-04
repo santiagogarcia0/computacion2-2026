@@ -1,0 +1,19 @@
+1. Pasar 'http' en vez de 80
+• ¿Funciona? Sí, funciona perfectamente.
+• ¿De dónde saca el número? Lo saca de una base de datos local del sistema operativo. En sistemas tipo Unix, esta base de datos es un archivo de texto plano ubicado en /etc/services. La función getaddrinfo() consulta ese archivo para traducir nombres de protocolos estándar (como http, https, ssh, ftp) a sus puertos numéricos correspondientes.
+2. Mirar /etc/services
+Al ejecutar en la terminal el comando cat /etc/services, hay una lista larga de mapeos. Tres servicios muy conocidos encuentro ahí son:
+• ssh -> Puerto 22/tcp (Secure Shell, para acceso remoto).
+• http -> Puerto 80/tcp (Protocolo de transferencia de hipertexto web).
+• https -> Puerto 443/tcp (HTTP seguro, el que usan casi todas las webs hoy).
+3. Filtrar por familia (socket.AF_INET6)
+Al ejecutar:
+python
+import socket
+print(len(socket.getaddrinfo('google.com', 80, socket.AF_INET6)))
+• ¿Cuántos resultados da? 2 resultados. Google generalmente publica una sola dirección IPv6 para su dominio principal (o dos si varía el tipo de socket).
+4. ¿Qué pasa con un nombre que no existe?
+Si intentás resolver un dominio inventado (por ejemplo, socket.getaddrinfo('estonoexiste12345.com', 80)):
+• ¿Qué excepción lanza? Lanza la excepción socket.gaierror (que significa GetAddrInfo Error). El mensaje de error específico suele ser [Errno -2] Name or service not known (Nombre o servicio desconocido).
+5. Usar socket.AF_UNSPEC explícitamente
+• ¿Cambia algo respecto de no pasar familia? No, no cambia absolutamente nada. El argumento de la familia por defecto en la función getaddrinfo() ya es socket.AF_UNSPEC (Unspecified). Pasar este flag de forma explícita simplemente le está reiterando al sistema operativo que no tenés preferencia por ninguna familia y que querés que te devuelva tanto las direcciones IPv4 como las IPv6 disponibles para ese host.

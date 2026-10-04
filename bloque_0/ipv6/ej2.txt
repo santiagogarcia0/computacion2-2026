@@ -1,0 +1,30 @@
+2.1 Análisis de tus direcciones (ip -6 addr show)
+• ¿Cuántas direcciones IPv6 tiene tu máquina?
+2 direcciones IPv6 configuradas en total.
+• Agrupadas por scope:
+	• scope host: 1 dirección, que es ::1/128 en la interfaz lo (loopback).
+	• scope link: 1 dirección, que es fe80::215:5dff:fe51:52b3/64 en la interfaz eth0.
+	• scope global: 0 direcciones globales. No aparece ninguna línea con "scope global".
+• ¿Cuántas interfaces tienen una fe80:: y por qué tantas con Docker?
+Solo 1 interfaz (eth0) tiene dirección fe80::. Esto nos dice que en mi entorno de WSL no tengo Docker corriendo dentro de la instancia de Linux (o al menos no con redes activas en este momento). Si lo tuviera, aparecerian interfaces virtuales como docker0 o vethxxxx, sumando una IP fe80:: por cada una.
+• ¿Tenés dirección global? ¿Y ruta?
+	• Dirección global: No tengo. Como vimos en el comando ip -6 addr show, no figura ninguna IP pública IPv6.
+	• Ruta: La prueba con ping6 -c2 2001:4860:4860::8888 tiró el error connect: Network is unreachable. Esto confirma que mi sistema operativo no tiene una ruta de salida ("default gateway") para redes IPv6 hacia el exterior.
+• El /64 al final y la comparación con IPv4:
+Mi interfaz eth0 muestra el prefijo /64 (fe80::215:5dff:fe51:52b3/64). Esto significa que los primeros 64 bits son la red y quedan 64 bits disponibles para hosts.
+	• Comparación con IPv4 (/24): Una red IPv4 /24 te da 8 bits para hosts (32 - 24 = 8), lo que limita la red a un máximo de 254 dispositivos. Tu red local IPv6 tiene espacio para 2⁶⁴ (más de 18 trillones) de direcciones.
+
+2.2 El Scope ID
+• Intentar hacer ping a una link-local sin especificar interfaz (ping6 -c1 fe80::1)
+A diferencia de lo que ocurre en un Linux nativo común (donde da un error de argumento inválido debido a la ambigüedad), en mi WSL actual el comando no falló por ambigüedad, porque mi máquina solo tiene una única interfaz física/viva con IPv6 (eth0). Al no haber más interfaces donde elegir, el sistema asume inteligentemente que quiero salir por eth0.
+	• El error real que me dio: Me tiró Destination unreachable: Address unreachable. Esto significa que la máquina intentó buscar usando el protocolo vecino (NDP) si alguien en mi red física real tenía la IP fe80::1, pero nadie respondió. El paquete salió por el cable virtual, pero no hay ningún equipo con esa IP en la red.
+• Ping con la interfaz (ping6 -c1 fe80::1%eth0)
+Dio exactamente el mismo resultado (Address unreachable) por la misma razón: forzar la interfaz eth0 confirma el camino que el sistema ya había deducido antes, pero la IP fe80::1 sigue sin existir en la red local.
+
+2.3 Estructuras en Python (getsockname())
+• Los 4 elementos en IPv6:
+Al correr la sección 5 de explorar_ipv6.py, getsockname() va a devolver una tupla con la estructura: (address, port, flowinfo, scope_id).
+• ¿Qué pasa si tu código hace host, puerto = sock.getsockname()?
+Lanza un ValueError: too many values to unpack (expected 2) porque IPv6 devuelve 4 elementos y el código solo preparó 2 variables.
+• Cómo escribirlo de forma agnóstica:
+Se usa el operador de desempaquetado de Python para absorber los campos extra de IPv6 de forma segura:

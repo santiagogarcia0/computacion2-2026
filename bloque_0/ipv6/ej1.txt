@@ -1,0 +1,40 @@
+1.1 Compresión a mano
+Para comprimir a mano aplicamos las dos reglas: eliminar ceros a la izquierda de cada bloque y reemplazar la secuencia más larga de bloques de ceros por :: (solo una vez).
+• 2001:0db8:0000:0000:0000:ff00:0042:8329
+	• Quitamos ceros a la izquierda: 2001:db8:0:0:0:ff00:42:8329
+	• Agrupamos los tres bloques de ceros: 2001:db8::ff00:42:8329
+• 0000:0000:0000:0000:0000:0000:0000:0001
+	• Quitamos ceros a la izquierda: 0:0:0:0:0:0:0:1
+	• Agrupamos los siete bloques de ceros: ::1
+• fe80:0000:0000:0000:0202:b3ff:fe1e:8329
+	• Quitamos ceros a la izquierda: fe80:0:0:0:202:b3ff:fe1e:8329
+	• Agrupamos los tres bloques de ceros: fe80::202:b3ff:fe1e:8329
+• 2001:0db8:0000:0000:0001:0000:0000:0001
+	• Quitamos ceros a la izquierda: 2001:db8:0:0:1:0:0:1
+	• Ambos grupos de ceros tienen el mismo tamaño (dos bloques). La regla del RFC 5952 dice que se debe comprimir el primero. El segundo se reduce a un solo cero: 2001:db8::1:0:0:1
+¿Por qué no podés usar :: dos veces? (Ambigüedad)
+No se puede usar dos veces porque al intentar expandir la dirección, el sistema no sabría cuántos bloques de ceros le corresponden a cada :: para completar los 8 bloques que requiere IPv6.
+Si tuviéramos 2001:db8::1::1, estas serían dos interpretaciones totalmente válidas y distintas:
+• Interpretación A (3 ceros a la izquierda, 1 a la derecha): 2001:0db8:0000:0000:0000:0001:0000:0001
+• Interpretación B (2 ceros a la izquierda, 2 a la derecha): 2001:0db8:0000:0000:0001:0000:0000:0001
+(Incluso habría una tercera con 1 a la izquierda y 3 a la derecha). Al haber múltiples opciones, la dirección se vuelve ilegible para la máquina.
+
+1.2 Expandir
+Para expandir, rellenamos con ceros los bloques comprimidos por :: hasta sumar exactamente 8 bloques, y devolvemos los 4 caracteres hexadecimales a cada uno:
+• ::1
+	• Contamos un bloque al final (0001). El :: representa a los 7 bloques de ceros restantes.
+	• 0000:0000:0000:0000:0000:0000:0000:0001
+• 2001:db8::8a2e:370:7334
+	• Tenemos 2 bloques a la izquierda (2001, 0db8) y 3 bloques a la derecha (8a2e, 0370, 7334). Total: 5 bloques visibles. El :: reemplaza a 3 bloques de ceros.
+	• 2001:0db8:0000:0000:0000:8a2e:0370:7334
+• ff02::1
+	• Tenemos 1 bloque a la izquierda (ff02) y 1 al final (0001). Faltan 6 bloques de ceros.
+	• ff02:0000:0000:0000:0000:0000:0000:0001
+
+1.3 Clasificar
+• ¿Por qué 2001:db8::1 aparece como "reservada/privada" y no como global?
+Porque el prefijo 2001:db8::/32 es un rango reservado por la IANA exclusivamente para documentación, ejemplos y material educativo (según el RFC 3849). La biblioteca ipaddress de Python sabe esto y, al evaluar .is_private, devuelve True para proteger este bloque de pruebas, clasificándolo por fuera de las direcciones globales ruteables en el Internet real.
+• ¿Por qué ff02::1 da is_global=True en la stdlib aunque sea multicast?
+Es un comportamiento heredado del diseño de la librería estándar (ipaddress). Para las direcciones multicast (ff00::/8), los flags como .is_global o .is_private a menudo se calculan analizando ciertos bits de la dirección sin excluir adecuadamente que ya fue identificada como multicast.
+• ¿Qué te dice eso sobre confiar en un solo flag?
+Nos dice que nunca hay que confiar en un solo flag de forma aislada. Para clasificar correctamente una dirección en tu código, tenés que preguntar siempre de lo más específico a lo más general empleando una estructura de descartes en cascada (un if/elif), tal como hace el script explorar_ipv6.py: primero evaluar si es loopback, mapeada o multicast, y recién al final del descarte preguntar si es global.

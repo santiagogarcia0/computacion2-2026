@@ -1,0 +1,28 @@
+Parte A: ver el problema (IPv4 tradicional)
+Cuando levantás un servidor clásico atado a 0.0.0.0 (todas las interfaces IPv4), el socket se crea bajo la familia AF_INET.
+• Conectate con cliente IPv6 (::1): El cliente falla arrojando un error de tipo Connection refused (Conexión rechazada).
+• ¿Por qué pasa? Porque un socket AF_INET está diseñado a nivel de kernel para escuchar y procesar únicamente paquetes IPv4. El sistema operativo ni siquiera le avisa al socket que un paquete IPv6 llegó al puerto 8080, ya que pertenecen a pilas de protocolos completamente aisladas.
+
+Parte B: dual-stack (El traductor automático)
+• ¿Qué dirección ve el servidor cuando conecta el cliente IPv4? Anotala exactamente:
+El servidor va a imprimir en la tupla peer la dirección exacta ::ffff:127.0.0.1.
+• ¿Qué prefijo tiene? ¿Cómo se llaman esas direcciones?
+	• Prefijo: Tienen el prefijo ::ffff:0:0/96 (los primeros 96 bits fijos en ceros seguidos de ffff).
+	• Nombre: Se denominan Direcciones IPv4 mapeadas en IPv6 (IPv4-mapped IPv6 addresses). Son una herramienta del sistema operativo para incrustar de forma transparente una dirección IPv4 de 32 bits dentro de la estructura de 128 bits que requiere un socket de tipo IPv6.
+
+Parte C: V6ONLY (Exclusividad)
+• ¿Qué pasa con el cliente IPv4? La conexión del cliente IPv4 (127.0.0.1) es rechazada de inmediato (Connection refused), mientras que el cliente IPv6 (::1) se conecta perfectamente. El socket se volvió estrictamente exclusivo de IPv6.
+• El default en mi sistema es 0. (Dual-stack por defecto en Linux)
+• ¿Por qué conviene poner la opción explícitamente? Porque el valor por defecto cambia según el sistema operativo. Mientras que en Linux es 0, en sistemas como Windows o FreeBSD el default es 1 (V6ONLY activado). Si no lo ponés explícito en tu código, tu servidor va a funcionar como dual-stack en tu máquina, pero cuando un compañero lo corra en Windows, el servidor no va a aceptar conexiones IPv4 y se va a romper.
+
+Parte D: normalizar (Limpieza de logs)
+Si tu servidor maneja una lista negra de IPs bloqueadas y un atacante IPv4 entra a través del socket dual-stack, su IP quedará registrada como ::ffff:200.10.20.30. Si tu lista de bloqueo solo contiene la IP clásica 200.10.20.30, el atacante va a evadir el bloqueo porque las cadenas de texto no coinciden. Por eso es obligatorio normalizar.
+
+Parte E: cliente agnóstico
+El cliente correcto no debe asumir qué familia de IP tiene el servidor. Debe interrogar al sistema operativo y probar en cascada. 
+Pruebas de resolución y orden:
+• Contra localhost: En los sistemas modernos, las direcciones vienen ordenadas poniendo IPv6 primero (::1) y luego IPv4 (127.0.0.1).
+• Al correr python3 explorar_ipv6.py resolver google.com:
+Como no tengo ruta IPv6 a Internet (Network is unreachable), el algoritmo de ordenamiento del sistema operativo (RFC 6724) es inteligente. Al darse cuenta de que no hay forma física de sacar paquetes IPv6 al exterior, reordena la lista de getaddrinfo y pone las direcciones IPv4 en primer lugar.
+• ¿Por qué es un error elegir solo la primera dirección sin reintentar?
+Porque tener una dirección IPv6 en la lista no garantiza que el canal funcione. Si tu sistema te pone una IP de IPv6 primero (porque la interfaz local está activa) pero no tenés una ruta real a Internet, el intento de conexión va a fallar. Si tu código no tiene un bucle for para saltar a la siguiente opción (IPv4), tu aplicación se colgará con un error de red y el usuario se quedará sin servicio, a pesar de que la IPv4 estaba disponible y perfectamente operativa.
