@@ -1,0 +1,20 @@
+1. ¿Qué desaparece del código?
+• Desaparece la lista vigilados: Ya no necesitamos mantener manualmente un arreglo con todos los sockets abiertos para pasárselo a select(). El objeto sel (Selector) se encarga de recordar de forma interna qué sockets tiene registrados mediante sel.register().
+• Desaparece el diccionario de direcciones: El mapeo manual para recordar los metadatos de cada socket ya no hace falta. El método sel.register() nos permite adjuntar un objeto o dato libre (el tercer argumento, llamado data). En servidor_selectors.py guardamos directamente la función de callback (atender o aceptar) adjunta a cada socket. Al ocurrir un evento, el selector nos devuelve una estructura (SelectorKey) que ya contiene tanto el socket (fileobj) como su función asociada (data), limpiando por completo la lógica del bucle principal.
+
+2. ¿Qué implementación eligió DefaultSelector en tu máquina?
+Ejecutando las líneas:
+import selectors
+print(type(selectors.DefaultSelector()).__name__)
+• La terminal va a imprimir EpollSelector.
+• Explicación: El módulo selectors es inteligente y portable. Analiza los mecanismos disponibles en el kernel actual y elige siempre la opción más eficiente del sistema operativo subyacente. En Linux elige epoll, en macOS/BSD elegiría KqueueSelector, y en Windows nativo caería en SelectSelector.
+
+3. Forzar el uso de SelectSelector
+Si instanciás explícitamente el selector viejo con sel = selectors.SelectSelector():
+• ¿Cambia el comportamiento con pocos clientes? No, no cambia en absoluto. Visualmente y a nivel de usuario el servidor va a funcionar de manera idéntica y va a responder el eco instantáneamente.
+• ¿Y el límite de fds? Sí, vuelve a aparecer el límite. Al forzar el mecanismo antiguo de select(), el programa volverá a estallar con un ValueError si de fondo abrís más de 1024 descriptores de archivo o si el sistema operativo te asigna un número de descriptor superior a 1023, perdiendo la escalabilidad infinita que te daba EpollSelector.
+
+4. El bug de sacar sel.unregister(conn) antes de close()
+Si comentás la línea sel.unregister(conn) dentro de la función cerrar(conn):
+• El síntoma en el servidor: Al cerrarse un cliente (por ejemplo, tirando un Ctrl+C en un nc), el servidor va a entrar de inmediato en un bucle infinito al 100% de CPU, imprimiendo sin parar el mensaje - cliente (cerró) en la pantalla.
+• Explicación: Si cerrás el socket con conn.close() pero te olvidás de removerlo del selector, el descriptor de archivo subyacente sigue anotado en las listas del kernel. Como vimos en los ejercicios anteriores, un descriptor cerrado es reportado permanentemente por el sistema operativo como "listo para leer" (retornando siempre 0 bytes). Al no darle de baja con unregister(), la función sel.select() se despierta instantáneamente en cada ciclo, llamando al callback asignado una y otra vez sin dejar que el servidor vuelva a dormir.

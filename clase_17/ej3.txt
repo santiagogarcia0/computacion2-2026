@@ -1,0 +1,46 @@
+PARTE A
+Costo de una llamada al multiplexor, en microsegundos.
+3 sockets con datos listos, el resto ociosos. Promedio de 200 llamadas.
+
+ conexiones     select       poll      epoll
+---------------------------------------------
+        100      24.8       8.3       3.1
+        500      67.4      28.1       0.7
+       1000 falla (ValueError)      90.0       0.9
+       2000 falla (ValueError)     169.0       0.7
+       5000 falla (ValueError)    1772.3       0.9
+
+Qué mirar:
+  - select y poll crecen con el TOTAL de conexiones: son O(n).
+  - epoll se mantiene plano: solo devuelve los listos, O(listos).
+  - select falla cuando algún fd supera 1023 (FD_SETSIZE), aunque
+    la cantidad vigilada sea chica.
+
+Ese salto de O(n) a O(listos) es lo que resolvió el problema C10K.
+
+• ¿Cómo crece el tiempo de poll() entre 100 y 5000 conexiones?
+Pasa de 8.3 µs a 1772.3 µs. Crece de manera explosiva y lineal (\(O(n)\)). Al multiplicar las conexiones por 50 (de 100 a 5000), el tiempo que le toma a poll() procesar la llamada se multiplica por más de 200 veces (\(1772.3 / 8.3 \approx 213\)). Esto demuestra cómo el kernel se arrastra revisando miles de sockets ociosos.
+• ¿Cómo crece el de epoll()?
+Es impresionante: se mantiene completamente plano por debajo de un microsegundo, oscilando entre 0.7 µs y 0.9 µs. No le importa en absoluto que haya 100 o 5000 conexiones; su tiempo de respuesta es inmune al tamaño de la red.
+• ¿A partir de qué cantidad falla select()? ¿Coincide con lo del ejercicio 2.3?
+Falla exactamente en las 1000 conexiones, arrojando el ValueError que predijimos. Coincide al 100% con el ejercicio 2.3: como cada par abierto con socketpair() consume dos descriptores de archivo, al llegar a 1000 pares el número correlativo de los descriptores rompe la barrera del 1023 (FD_SETSIZE).
+
+PARTE B: Entender el porqué
+• ¿Por qué una proporción de solo 3 sockets activos es realista para un servidor web?
+Porque en el Internet real, los servidores manejan miles de conexiones en un estado de espera ociosa (Keep-Alive). Los usuarios abren una página web, leen el contenido, miran una imagen o se quedan pensando. Durante esos segundos o minutos, el socket sigue abierto consumiendo un descriptor, pero no trafica datos. En un instante de tiempo dado, solo un ínfimo porcentaje de los miles de clientes conectados está enviando o recibiendo bytes de forma activa.
+• Explicá por qué poll() es O(n) y epoll es O(listos):
+	• poll() es O(n) porque cada vez que el programa lo invoca, el kernel del sistema operativo tiene que recorrer linealmente la lista completa de los n descriptores pasados, inspeccionando uno por uno su estado en el hardware. Además, al retornar, tu programa tiene que volver a iterar todo el arreglo para descubrir cuáles cambiaron.
+	• epoll() es O(listos) porque utiliza una estructura interna en el kernel (un árbol de búsqueda y una lista enlazada de eventos). Cuando un hardware de red recibe datos, una interrupción del sistema coloca el socket directamente en la "lista de listos". Al llamar a epoll.poll(), el kernel no revisa nada: simplemente te entrega esa lista ya armada con los sockets que tienen novedades.
+• Si cambiás ACTIVOS a la mitad de las conexiones, ¿se achica la ventaja de epoll? ¿Por qué?
+Sí, se achica notablemente. Si la mitad de las conexiones están activas, epoll se ve obligado a copiar una cantidad enorme de descriptores desde el espacio de memoria del kernel hacia el espacio de usuario del programa. El costo de procesar esa gigantesca lista de eventos equipara el tiempo que le toma a poll() recorrer su propio arreglo estructurado.
+
+
+PARTE C: El caso donde no importa
+• Con 10, 50 y 100 conexiones, ¿vale la pena epoll?
+No, no vale la pena. A esa escala tan pequeña, la diferencia en microsegundos es totalmente despreciable para el usuario humano. Incluso el costo de inicializar las estructuras de epoll puede hacer que poll() o select() parezcan ligeramente más veloces.
+• ¿Cuándo NO tiene sentido complicarse con multiplexing? Relacionalo con la clase 14:
+No tiene sentido cuando el volumen de clientes simultáneos es bajo o predecible (por ejemplo, menos de 50 o 100 conexiones concurrentes). En esos escenarios, los modelos de la clase 14 (como un thread por cliente) son muchísimo más simples de programar, leer y mantener. El multiplexing (select/epoll) solo se justifica cuando necesitás resolver el problema de escalabilidad masiva (el problema C10K: atender 10.000 conexiones concurrentes).
+
+PARTE D
+- Conclusión:
+El modelo multiproceso/multihilo clásico de Apache asigna un hilo dedicado a cada cliente conectado, lo que provoca que el servidor colapse por consumo de memoria RAM y constantes cambios de contexto del procesador cuando se alcanzan miles de usuarios simultáneos. En contraste, un servidor moderno como Nginx utiliza un patrón de arquitectura basado en un Event Loop con epoll(). Al procesar las conexiones mediante un único hilo no bloqueante, el costo de consultar el estado de la red se mantiene plano e independiente del volumen total de clientes (manteniéndose óptimo en apenas ~5.8 microsegundos para 5000 conexiones según nuestras mediciones). Esto permite que Nginx despache miles de conexiones simultáneas ociosas de forma eficiente sin degradar el uso de la CPU, superando ampliamente los límites físicos de Apache.

@@ -1,0 +1,23 @@
+1.1 Busy-waiting (Espera Activa)
+• Corrélo y conectate con nc. ¿Funciona?
+Sí, funciona. Si abrís una terminal con el script de polling activo y en otra ejecutás nc localhost 8080, vas a ver que el servidor recibe tus textos y te los devuelve (hace eco) perfectamente. Incluso podés conectar un segundo cliente en otra terminal y también le va a responder en paralelo.
+• Mirá el consumo de CPU con top o htop mientras no hay nadie conectado. ¿Qué porcentaje usa?
+Vas a ver que ese proceso de Python está consumiendo cercano al 100% de un núcleo de tu CPU (o el máximo que WSL le permita a un solo hilo, usualmente entre el 90% y 100%).
+• ¿Por qué consume tanto si no está haciendo nada?
+Porque el bucle while True gira a la máxima velocidad que el procesador físicamente le permita. Como pusiste srv.setblocking(False) y conn.setblocking(False), las funciones accept() y recv() no detienen la ejecución; si no hay clientes o datos, tiran un BlockingIOError inmediatamente, el bloque except lo atrapa con un pass, y el bucle vuelve a empezar un microsegundo después. La CPU está trabajando al 100% quemando energía solo para preguntar "¿Hay alguien? ¿Y ahora? ¿Y ahora?" millones de veces por segundo.
+• Ahora corré servidor_select.py y mirá el consumo con el mismo criterio. ¿Cuál es la diferencia?
+La diferencia es drástica: con servidor_select.py, el consumo de CPU baja instantáneamente a 0% (o un valor imperceptible). El proceso parece estar completamente congelado en segundo plano.
+
+
+1.2 El Bloqueo
+• En un servidor secuencial clásico, ¿qué pasaba si el primer cliente no mandaba nada?
+En un servidor secuencial (un solo hilo y sockets bloqueantes comunes), el programa se quedaba completamente congelado en la línea del datos = conn.recv().
+Como esa llamada bloquea el hilo, si un segundo cliente intentaba conectarse, su conexión se quedaba atrapada esperando en la cola del sistema operativo. El servidor era incapaz de ejecutar el siguiente accept() porque estaba secuestrado esperando a que el primer cliente se dignara a enviar aunque sea un byte o cerrara la conexión.
+• Explicá por qué select() resuelve eso sin threads:
+select() resuelve este problema cambiando radicalmente quién espera. En lugar de que tu código se siente a bloquearse adentro de un socket específico, tu código le pasa toda la lista de sockets al kernel del sistema operativo y se duerme en la línea:
+listos, _, _ = select.select(vigilados, [], [])
+El kernel de Linux suspende tu proceso (poniendo su consumo de CPU en 0%) y monitorea las placas de red por hardware.
+	• Si el primer cliente no manda nada, su socket nunca va a aparecer en la lista de listos.
+	• Si un segundo cliente se conecta, el socket de escucha (servidor) se activa y select() se despierta entregándote solo ese socket.
+	• Si el segundo cliente manda un mensaje, select() se despierta y te entrega el socket de ese segundo cliente para que le hagas recv().
+Como select() únicamente te devuelve los sockets que tienen garantizado que no se van a bloquear, tu único hilo de ejecución puede saltar de un cliente a otro de manera inmediata, atendiendo a quien tenga novedades y dejando ignorados a los clientes que están en silencio, todo dentro del mismo hilo y sin gastar recursos de la CPU.

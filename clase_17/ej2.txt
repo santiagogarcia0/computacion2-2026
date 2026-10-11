@@ -1,0 +1,30 @@
+2.1 El servidor eco
+• ¿Cuántas hilos tiene el proceso?
+El proceso tiene un único hilo de ejecución. A pesar de tener 3 clientes en paralelo, un solo hilo los atiende a todos.
+• Escribí en el tercer cliente sin tocar los otros dos. ¿Responde? ¿Por qué no hay que esperar?
+Sí, responde instantáneamente. No hay que esperar a los demás porque el hilo nunca se queda bloqueado esperando datos de nadie. Como select() solo despierta al servidor cuando el tercer cliente efectivamente envió bytes, el programa entra directamente a hacerle recv(), lo procesa y vuelve a dormir en el loop.
+• Matá un cliente con Ctrl+C. ¿Qué imprime el servidor y qué línea lo detecta?
+El servidor imprime: - cliente ('127.0.0.1', 54321)  (total: 2).
+Lo detecta la línea que evalúa si los datos recibidos están vacíos:
+datos = sock.recv(4096)
+if datos:
+    sock.sendall(datos)
+else:
+
+2.2 El bug de no remover
+• Conectate, escribí algo, y cerrá el cliente. ¿Qué pasa con el servidor?
+El servidor se vuelve completamente loco y entra en un bucle infinito de impresiones, repitiendo sin parar el mensaje de desconexión del cliente en la pantalla.
+• Mirá el consumo de CPU. Explicá por qué gira infinitamente:
+El consumo de CPU de tu proceso de Python se dispara al 100% de un núcleo.
+Explicación: Cuando un cliente cierra la conexión, su descriptor de archivo (fd) queda en un estado donde cualquier intento de lectura va a retornar cero bytes inmediatamente sin bloquear. Como comenté la línea que lo sacaba de la lista de vigilados, al volver a empezar el bucle while True, select() detecta que ese socket sigue teniendo "datos" listos (el aviso de cierre), se despierta al instante, entra al else, ejecuta el print, y vuelve arriba. El proceso jamás se vuelve a dormir porque select() siempre lo ve "listo para leer".
+
+2.3 El límite de FD_SETSIZE
+• ¿Qué error da el script de los 1100 sockets?
+Lanza un ValueError: file descriptor out of range in select().
+• ¿Cuál es exactamente el límite de select(): la cantidad de descriptores o el número de cada uno?
+El límite exacto es el número del valor numérico de cada descriptor. La máscara de bits interna (fd_set) solo tiene espacio para representar números del 0 al 1023 (los 1024 del tamaño fijo FD_SETSIZE). En tu script estás vigilando un solo socket (alto), pero como su número asignado por el kernel es mayor a 1023 (por ejemplo, fd: 1103), el bit correspondiente queda fuera de la matriz de memoria de select() y rompe, sin importar que las listas que le pases tengan un solo elemento.
+• Repetí lo mismo con select.poll(). ¿Falla?
+No, no falla. select.poll() utiliza internamente arreglos dinámicos en lugar de una máscara de bits estática, por lo que puede procesar descriptores con cualquier número asignado (el límite pasa a ser el total de memoria del sistema o el tope impuesto por ulimit -n).
+• ¿Por qué este bug es difícil de encontrar en desarrollo y aparece en producción?
+Porque en tu máquina de desarrollo (o en tus pruebas de clase) solés probar el servidor con 2 o 3 clientes simultáneos, lo que hace que los números de descriptor asignados por el sistema operativo sean muy bajos (ej. el socket del servidor será el 3, los de los clientes el 4, 5 y 6).
+Sin embargo, en producción, un servidor web o de base de datos corre de manera continua, abre miles de archivos de configuración, logs y conexiones de bases de datos. Cuando un cliente nuevo entra tras horas de ejecución, el kernel le asigna un número correlativo alto (como el 1025). En ese instante exacto, el código que funcionaba perfecto en tu computadora estalla con un ValueError en producción ante la primera ráfaga de tráfico real.

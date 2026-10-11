@@ -1,0 +1,38 @@
+0.1 Misma red o no
+• ¿Qué hace tu sistema distinto en cada caso al mandar un paquete?
+	• Caso 1 (192.168.1.37 está en la red): El sistema operativo detecta que el destino está en su mismo segmento físico. No pasa por el router. Usa el protocolo de resolución de direcciones (ARP en IPv4) para averiguar la dirección MAC física de ese equipo y le inyecta el paquete directamente a través del switch/Wi-Fi.
+	• Caso 2 (192.168.2.10 NO está en la red): El sistema operativo se da cuenta de que el destino está afuera de su alcance local. Entonces, toma el paquete y se lo entrega ciegamente a la Puerta de Enlace Predeterminada (Default Gateway), es decir, a tu router, para que él se encargue de encaminarlo por Internet.
+• Si tenés Docker, ¿qué rango usa docker0? ¿Por qué los contenedores se ven entre sí?
+Típicamente, el puente docker0 usa el rango 172.17.0.0/16 (o similar dentro de las IPs privadas). Los contenedores se ven entre sí sin configurar nada porque, por defecto, Docker conecta a todos los contenedores al mismo switch virtual (docker0). Al estar todos configurados automáticamente dentro de esa misma red lógica (mismo direccionamiento IP), se comunican directamente a nivel de Capa 2 (enlace) sin necesidad de ruteo externo.
+
+
+0.2 La tupla de IPv6
+• ¿Qué imprime getsockname()? ¿Cuántos elementos tiene?
+Imprime una tupla de 4 elementos: (address, port, flowinfo, scope_id). Por ejemplo: ('::1', 54321, 0, 0).
+• ¿Qué error da la última línea? ¿Cómo se escribe para que funcione con ambas?
+La última línea (host, puerto = s.getsockname()) lanza un ValueError: too many values to unpack (expected 2) porque intenta meter 4 elementos en solo 2 variables.
+Para que sea agnóstico y funcione con IPv4 e IPv6, se escribe usando el operador de desempaquetado de Python: host, puerto, *_ = s.getsockname()
+• ¿Por qué este bug no aparece si probás solo con IPv4?
+Porque en IPv4 (AF_INET), getsockname() devuelve una tupla de exactamente 2 elementos (address, port). El desempaquetado simple coincide a la perfección y el error nunca salta hasta que el servidor recibe su primera conexión IPv6.
+
+
+0.3 getaddrinfo
+• ¿Devuelve una familia o las dos? ¿En qué orden?
+Devuelve las dos familias. En sistemas modernos, el orden estándar prioriza IPv6 primero y luego IPv4. Sin embargo, en mi máquina WSL, no tengo ruta IPv6 a Internet, mi sistema operativo altera el orden dinámicamente y pone IPv4 primero para evitar demoras.
+• ¿Por qué hay que probar en orden y no quedarse con la primera?
+Porque tener una dirección IP en la lista no garantiza que haya conectividad. Si el sistema te llega a poner una dirección IPv6 primero porque el DNS la resolvió, pero tu red no tiene salida IPv6, intentar conectar a esa primera IP va a fallar (Network is unreachable). Si tu código no itera por las demás opciones, tu programa va a fallar, ignorando que la opción de IPv4 estaba ahí lista para funcionar.
+• ¿Qué hace socket.create_connection() que te ahorra este bucle?
+Es una función de alto nivel de Python que hace todo ese bucle for por vos tras bambalinas. Le pasás un hostname y un puerto, ella llama a getaddrinfo(), itera sobre todas las direcciones devueltas (ya sean IPv4 o IPv6), maneja las excepciones si fallan y te devuelve el primer socket que logró conectarse con éxito de forma transparente.
+
+
+0.4 Dual-stack
+• Conectate desde IPv6 (::1) y desde IPv4 (127.0.0.1). ¿Qué dirección ve el servidor?
+	• Para el cliente IPv6 ve: ::1
+	• Para el cliente IPv4 ve: ::ffff:127.0.0.1
+• ¿Qué prefijo tiene la del cliente IPv4? ¿Por qué importa si filtrás por IP?
+Tiene el prefijo ::ffff:0:0/96 (direcciones IPv4 mapeadas). Importa muchísimo porque si tu servidor tiene una lista negra de IPs para bloquear atacantes (ej. bloquear 127.0.0.1), al entrar por el socket dual-stack, la cadena de texto no va a machear con ::ffff:127.0.0.1. El atacante saltaría el firewall a menos que normalices la dirección IP antes de compararla.
+• Poné IPV6_V6ONLY en 1 y repetí. ¿Qué pasa con el cliente IPv4?
+La conexión del cliente IPv4 es rechazada inmediatamente (Connection refused). El socket se vuelve exclusivo para tráfico nativo IPv6.
+• ¿Por qué conviene ponerlo explícito aunque el default te sirva?
+Porque el valor por defecto varía entre sistemas operativos. En Linux el default suele ser 0 (dual-stack habilitado), pero en Windows nativo o FreeBSD el default es 1 (exclusivo IPv6). Si no lo ponés explícito en tu código, tu programa va a andar en tu entorno pero va a fallar por incompatibilidad cuando lo corra un compañero en otro sistema operativo.
+
