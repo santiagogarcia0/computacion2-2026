@@ -1,0 +1,34 @@
+PARTE A
+1. ¿En qué orden salen?
+Salen de forma intercalada (Round Robin). El orden de ejecución de los pasos será: A1 -> B1 -> C1 -> A2 -> C2 -> A3.
+2. ¿Cuántas veces llamó a next() en total?
+Llamó 9 veces en total.
+	• Explicación: Cada tarea llama a next() una vez por cada yield exitoso (3 + 1 + 2 = 6 veces), más una llamada extra por cada tarea para detectar que llegó a su fin y lanzar StopIteration (3 veces más).
+3. ¿Qué pasa si una tarea no tiene ningún yield?
+Si una tarea no tiene ningún yield, se ejecuta de principio a fin en la primera llamada a next(), lanza StopIteration inmediatamente después, y nunca vuelve a la cola. El scheduler no puede intercalar nada de esa tarea.
+
+PARTE B
+4. ¿Qué les pasa a las demás durante esos 3 segundos?
+Se congelan por completo. Como time.sleep(3) bloquea el hilo único de ejecución de Python, la Tarea C (y los pasos restantes de la A) tienen que esperar a que la egoísta termine para poder recibir el control de nuevo.
+5. Con threads (hilos), ¿habría pasado lo mismo?
+No. Con hilos, el sistema operativo interrumpe periódicamente a la tarea egoísta para darle tiempo de CPU a los otros hilos, por lo que las demás tareas habrían seguido avanzando en paralelo.
+- Diferencia entre concurrencia cooperativa y preventiva:
+	• Cooperativa (Async/Event Loop): Las tareas ceden el control voluntariamente (usando yield o await). Si una tarea se clava o no coopera, frena a todo el sistema.
+	• Preventiva (Preemptive / Threads): El Sistema Operativo decide cuándo pausar una tarea y pasar a otra, sin importar si la tarea actual quiere o no.
+6. ¿Cómo se llama esta regla y su relación con la Clase 17?
+Se conoce como el Principio de Cooperación o No-Bloqueo. En el Event Loop (como asyncio), todo el sistema corre en un único hilo. Si usas funciones bloqueantes como time.sleep() o peticiones HTTP síncronas, "rompés" el Event Loop, ya que impidís que el scheduler ejecute los callbacks de las demás tareas pendientes.
+
+PARTE C
+8. ¿Por qué dormir() no puede llamar a time.sleep()?
+Porque si llama a time.sleep(), bloquearía todo el scheduler (como pasó con la tarea egoísta). Necesitamos que dormir() solo sea una señal para avisarle al scheduler: "Che, suspendeme y guardame hasta dentro de X segundos, pero seguí ejecutando a las demás".
+9. ¿El total es la suma de las esperas o menos? ¿Por qué?
+Es mucho menos que la suma. La suma sería 0.15 * 3 = 0.45s. Sin embargo, el total será cercano a 0.15s. Esto pasa porque las tres tareas le avisan al scheduler casi al mismo tiempo que quieren dormir, por lo que sus tiempos de espera transcurren en paralelo mientras el scheduler sigue iterando.
+
+PARTE D
+1. En tarea_lenta, ¿qué hace yield from dormir(espera)?
+yield from establece un canal directo (delegación) entre el scheduler y la sub-rutina u objeto dormir. Provoca que el valor devuelto por dormir (la instancia de la clase con los segundos) viaje hacia arriba directo al scheduler.
+- ¿Por qué no alcanza con llamar a dormir(espera) a secas?
+Porque dormir(espera) solo instancia el objeto, pero no produce ningún yield hacia el scheduler principal. La ejecución continuaría de largo sin suspender la tarea.
+3. Si lo cambiás por dormir(espera) sin el yield from: ¿Qué pasa y por qué no falla ruidosamente?
+	• Qué pasa: La tarea no se duerme. Se ejecuta de corrido de principio a fin instantáneamente.
+	• Por qué no falla ruidosamente: Porque en Python, crear un objeto e ignorar su retorno es sintácticamente válido (como escribir un número 42 suelto en una línea de código). Python simplemente crea el objeto dormir, nadie lo recibe, se destruye, y el código sigue su camino sin lanzar ninguna excepción o crash.

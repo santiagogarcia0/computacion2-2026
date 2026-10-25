@@ -1,0 +1,25 @@
+Parte A: Medir la diferencia
+• ¿Por qué gather tarda lo que la más lenta y no la suma? Porque gather dispara todas las corrutinas en paralelo en el event loop. Como todas corren superpuestas en el tiempo, el total consumido equivale únicamente a esperar a que termine la última tarea (la que tiene mayor demora).
+• ¿Por qué el semáforo da un tiempo intermedio? Porque restringe la cantidad de tareas concurrentes que pueden ejecutarse en simultáneo (en este caso, un máximo de 4). El resto de las tareas se quedan esperando en fila. A medida que una termina, libera su lugar y entra la siguiente, provocando que se formen tandas sucesivas aumentando el tiempo total.
+• Con el timeout de 0.8s, ¿cuántas se cancelaron? ¿Qué les pasó a esas tareas? Se cancelaron 5 tareas (aquellas cuya demora asignada al azar era estrictamente mayor a 0.8 segundos). Al alcanzar el límite de tiempo, el bloque asyncio.timeout inyectó un error CancelledError internamente dentro del await asyncio.sleep(), abortando la ejecución de forma inmediata sin esperar a que terminaran.
+
+
+Parte B: Con HTTP real
+• ¿Cuánto mejora midiendo 10 descargas secuenciales contra 10 concurrentes? La mejora es drástica (del orden de 7 a 9 veces más rápido). La descarga secuencial tarda la suma exacta de los tiempos de ida y vuelta a la red (Round Trip Time o RTT) de cada petición. La versión concurrente realiza las 10 conexiones en simultáneo, por lo que el tiempo total de red es equivalente a hacer casi una sola descarga.
+• ¿Por qué el AsyncClient se crea una vez y no uno por descarga? Por la característica de Keep-Alive (HTTP Persistent Connections). Al reutilizar el mismo cliente, se mantiene abierta la conexión TCP subyacente con el servidor remoto. Crear un cliente por cada petición obligaría a realizar el saludo de conexión TCP (Handshake de 3 vías) y la negociación TLS/SSL en cada descarga, destruyendo el rendimiento.
+• Si cambiás httpx por requests dentro de la corrutina, ¿qué pasa con los tiempos? Los tiempos pasan a ser idénticos a los de una ejecución secuencial. requests es una librería puramente síncrona y bloqueante. Al no tener un punto de interrupción (await), bloquea por completo el hilo único donde corre el event loop. Ninguna otra tarea puede avanzar mientras requests espera la respuesta de la red, rompiendo la concurrencia.
+
+Parte C: Acotar
+• ¿Cuál es el nuevo tiempo? Si asumimos que la latencia media a example.com es de 0.1s, el tiempo pasa de ser 0.1s (con gather puro) a aproximadamente 0.4s. Esto se debe a que las 10 URLs se procesarán en 4 tandas (3 + 3 + 3 + 1).
+• ¿Qué problemas evita acotar la concurrencia? (Nombrá dos):
+	1. Agotamiento de descriptores de archivos del Sistema Operativo: Evita abrir demasiados sockets abiertos al mismo tiempo.
+	2. Saturar la red o el servidor remoto: Evita que el servidor de destino nos bloquee o nos aplique Rate Limiting (por interpretar que nuestras ráfagas masivas son un ataque DDoS).
+• Si probás con 200 URLs sin semáforo, ¿qué error aparece? Aparece el error OSError: [Errno 24] Too many open files. Esto ocurre porque cada conexión de red requiere un descriptor de archivo en sistemas tipo Unix, y el sistema operativo tiene un límite máximo por proceso configurado de fábrica (controlado mediante el comando ulimit -n).
+
+Parte D: Fallos
+• Con gather normal, si agregás una URL inválida, ¿qué pasa con las demás? asyncio.gather captura la excepción lanzada por la URL inválida de inmediato y la propaga interrumpiendo el flujo principal. Aunque las demás tareas que ya se dispararon siguen corriendo en segundo plano en el loop, vos perdés el acceso a sus resultados debido a que la llamada a gather falló de forma estrepitosa en tu código.
+• Si probás con asyncio.gather(..., return_exceptions=True), ¿qué cambia? Cambia por completo: gather ya no lanza ninguna excepción hacia arriba. En su lugar, espera pacientemente a que terminen absolutamente todas las tareas. En la lista de resultados devuelta, las tareas exitosas tendrán su valor normal y la tarea que falló tendrá el objeto de la excepción propiamente dicho (por ejemplo, una instancia de ConnectError) guardado en su respectivo índice.
+• ¿Cuál de los dos comportamientos querés para el TP2? Justificá.
+Quiero el comportamiento de return_exceptions=True.
+	• Justificación: En un gestor o descargador de tareas masivas, si el cliente manda una lista de 50 descargas y una sola de las URLs está rota o caída, el sistema no debería colapsar ni descartar las otras 49 descargas exitosas. Necesitamos procesar y guardar todo lo que salió bien, registrar de forma limpia en el JSON cuál falló con su respectivo error, y continuar la ejecución del servidor de manera estable.
+

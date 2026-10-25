@@ -1,0 +1,48 @@
+Parte A: Lo mínimo
+• ¿Quién escribió esa documentación? La documentación interactiva la genera FastAPI automáticamente leyendo tu código, sus decoradores, anotaciones de tipos (int, str), los docstrings (comentarios de las funciones) y utilizando un estándar de interfaz gráfica llamado Swagger UI.
+• ¿Qué pasa si mandás un tipo que no está en la lista? Al intentar mandar un tipo diferente a 'descargar', 'hashear' o 'esperar' en el POST, la documentación (o el cliente) recibe inmediatamente un error de validación HTTP con código 422 Unprocessable Entity. Pydantic frena el pedido antes de que toque la función.
+• ¿Qué es el archivo openapi.json? Es un archivo que contiene la especificación técnica formal de toda tu API en formato JSON, siguiendo el estándar mundial OpenAPI (antes llamado Swagger). En él se detallan todas las rutas, métodos, parámetros esperados y las estructuras de datos (esquemas). Herramientas como Swagger UI o Redoc leen este JSON para poder dibujar la interfaz web interactiva de /docs.
+
+Parte B: La validación
+1. Provocando los errores (Códigos y Mensajes):
+
+• curl localhost:8000/tareas/abc
+	• Código: 422 Unprocessable Entity
+	• Mensaje: {"detail":[{"type":"int_parsing","loc":["path","tarea_id"],"msg":"Input should be a valid integer, unable to parse string as an integer","input":"abc"}]}
+• curl -X POST localhost:8000/tareas -H 'Content-Type: application/json' -d '{"tipo":"volar"}'
+	• Código: 422 Unprocessable Entity
+	• Mensaje: {"detail":[{"type":"literal_error","loc":["body","tipo"],"msg":"Input should be 'descargar', 'hashear' or 'esperar'","input":"volar"}]}
+• curl -X POST localhost:8000/tareas -H 'Content-Type: application/json' -d '{"tipo":"esperar","prioridad":99}'
+	• Código: 422 Unprocessable Entity
+	• Mensaje: {"detail":[{"type":"less_than_equal","loc":["body","prioridad"],"msg":"Input should be less than or equal to 5","input":99}]}
+• curl localhost:8000/tareas/999
+	• Código: 404 Not Found
+	• Mensaje: {"detail":"No existe esa tarea"}
+
+2. ¿Cuáles dan 422 y cuál da 404? ¿Por qué son distintos?
+
+• Los tres primeros dan 422 porque la estructura o los tipos de datos enviados por el cliente están rotos. Es un error de validación de entrada controlado automáticamente por Pydantic antes de que corra tu lógica.
+• El último (/tareas/999) da 404 porque el formato es correcto (999 es un entero válido), por lo que la validación pasa con éxito, pero al ejecutarse tu función, el código descubre que el ID no existe en la base de datos (o memoria). Por eso lanzás manualmente un HTTPException(status_code=404).
+
+3. En el JSON de error hay un campo loc. ¿Qué información da?
+
+Indica la localización exacta (Location) de dónde está el dato erróneo en el pedido HTTP. Por ejemplo:
+• ["path", "tarea_id"]: El error está en la variable de la ruta de la URL.
+• ["body", "prioridad"]: El error está dentro del JSON que se envió en el cuerpo del pedido.
+
+4. ¿En qué momento se ejecuta la validación: antes o después de tu función?
+
+Se ejecuta antes de tu función. Si agregás un print("Hola desde la función") al inicio del endpoint obtener y llamás a /tareas/abc, verás que el print nunca se ejecuta en la consola, porque FastAPI corta el pedido en la validación previa.
+
+Parte C: Agregar endpoints
+¿Qué código elegimos para el límite de 10 pendientes y por qué?
+Elegimos el código 409 Conflict (o en su defecto 400 Bad Request). 409 es el más preciso según el estándar HTTP porque indica que el pedido no se puede procesar debido a un conflicto con el estado actual del recurso en el servidor (el servidor ya alcanzó su capacidad máxima de pendientes permitida).
+
+
+Parte D: Los tipos importan
+• Al sacarle la anotación : int a tarea_id en obtener(): Al pedir /tareas/abc, el servidor ya no devuelve un error 422. En su lugar, el string "abc" ingresa directamente a la función, el código ejecuta if "abc" not in tareas:, y termina devolviendo un 404 Not Found. Perdés la validación automática de tipos de la URL.
+• Al cambiar prioridad: int por prioridad: str: Ahora el modelo aceptará cualquier cadena de texto. Si mandás un número como 3, Pydantic lo convertirá automáticamente en el string "3". Sin embargo, la regla ge=1 y le=5 romperá la inicialización si mandás texto no numérico, porque esas validaciones están diseñadas para números.
+• ¿Qué tres cosas hace FastAPI con cada anotación de tipo?
+	1. Validación de Datos: Revisa que el dato recibido coincida con el tipo declarado (y si está mal, genera la respuesta de error 422).
+	2. Conversión/Parseo de Datos (Coerción): Transforma el texto plano que viene de la red HTTP (que siempre viaja como string) al tipo nativo de Python correspondiente (ej: convierte "42" en el entero 42).
+	3. Documentación Automática: Genera el esquema de datos en el archivo openapi.json para que se dibuje correctamente en la interfaz interactiva de /docs.
