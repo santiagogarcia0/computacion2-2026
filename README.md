@@ -16,5 +16,5 @@
 | Componente | Estado |
 |------------|--------|
 | Bloque 0   | Completado |
-| TP1        | Pendiente |
-| TP2        | Pendiente |
+| TP1        | Completado |
+| TP2        | Completado |
