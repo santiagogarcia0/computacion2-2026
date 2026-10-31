@@ -1,0 +1,11 @@
+[
+    {
+        "id": "91dccda0-e399-4f20-8cdc-dc3fd9fdf2d2",
+        "type": "esperar",
+        "status": "completada",
+        "result": {
+            "mensaje": "Esperé 5 segundos"
+        },
+        "error": null
+    }
+]

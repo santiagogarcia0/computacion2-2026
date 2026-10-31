@@ -1,0 +1,38 @@
+[
+    {
+        "id": "f2744718-2619-40a3-9041-3b83912eb301",
+        "type": "esperar",
+        "status": "completada",
+        "result": {
+            "mensaje": "Esperé 10 segundos"
+        },
+        "error": null
+    },
+    {
+        "id": "97e97dc0-ef99-4940-b0a0-634060a879a5",
+        "type": "esperar",
+        "status": "completada",
+        "result": {
+            "mensaje": "Esperé 10 segundos"
+        },
+        "error": null
+    },
+    {
+        "id": "6a8db715-869e-47c2-86f4-7f3f81d38c2d",
+        "type": "esperar",
+        "status": "completada",
+        "result": {
+            "mensaje": "Esperé 10 segundos"
+        },
+        "error": null
+    },
+    {
+        "id": "b5050b03-9d43-4887-a5a0-af5b7a6bd141",
+        "type": "esperar",
+        "status": "completada",
+        "result": {
+            "mensaje": "Esperé 10 segundos"
+        },
+        "error": null
+    }
+]

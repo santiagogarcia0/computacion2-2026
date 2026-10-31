@@ -1,0 +1,20 @@
+[
+    {
+        "id": "9f3ad9d6-d0f8-40c7-99ef-7d3e14137dd1",
+        "type": "esperar",
+        "status": "completada",
+        "result": {
+            "mensaje": "Esperé 5 segundos"
+        },
+        "error": null
+    },
+    {
+        "id": "e9d77f24-32c6-49dc-9f41-9857143106a1",
+        "type": "esperar",
+        "status": "completada",
+        "result": {
+            "mensaje": "Esperé 5 segundos"
+        },
+        "error": null
+    }
+]

@@ -1,0 +1,15 @@
+services:
+
+  api:
+
+    build: .
+
+    container_name: tp2_api
+
+    ports:
+      - "8000:8000"
+
+    volumes:
+      - ./dumps:/app/dumps
+
+    restart: unless-stopped

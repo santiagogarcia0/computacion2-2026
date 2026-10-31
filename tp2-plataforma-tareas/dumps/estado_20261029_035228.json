@@ -1,0 +1,11 @@
+[
+    {
+        "id": "7642640b-f9d2-403f-baca-2a80d63ad1ed",
+        "type": "esperar",
+        "status": "completada",
+        "result": {
+            "mensaje": "Esperé 5 segundos"
+        },
+        "error": null
+    }
+]

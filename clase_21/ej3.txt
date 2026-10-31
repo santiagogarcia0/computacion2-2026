@@ -1,0 +1,54 @@
+Parte A: el loop bloqueado
+1)
+  sin executor                     5.12s  |  peor atraso:   5073.4 ms
+  con ProcessPoolExecutor          5.18s  |  peor atraso:      1.2 ms
+  con asyncio.to_thread            5.14s  |  peor atraso:      2.1 ms
+
+2)¿Cuánto se atrasa el loop sin executor? ¿Qué significa ese número para un servidor?
+• Atraso: Se atrasa prácticamente la duración total del cálculo pesado (~5073.4 ms).
+• Significado para un servidor: Significa que el servidor queda 100% congelado durante 5 segundos. No puede aceptar conexiones nuevas, no puede responder pedidos de otros usuarios en paralelo, y cualquier timeout programado de fondo se va a romper porque el Event Loop está totalmente detenido ejecutando CPU en el hilo principal.
+3) Con executor, el trabajo tarda lo mismo. Entonces, ¿qué mejoró exactamente?
+• Mejoró la disponibilidad y la concurrencia: Aunque el cálculo sigue tardando ~5 segundos en completarse, el peor atraso bajó a 1.2 ms. Esto significa que el Event Loop quedó completamente libre para seguir haciendo otras tareas (como el medidor de latencia o atender a otros usuarios) mientras el cálculo pesado corre en paralelo fuera del loop.
+4) Mirá cómo está hecho el medidor en el código. ¿Por qué mide el atraso de un sleep y no otra cosa?
+• Mide el atraso de un asyncio.sleep(0.05) porque es la forma más limpia de testear la salud del bucle. Al hacer await, la tarea se pausa de forma cooperativa. Si el loop está libre, el motor lo va a despertar exactamente 50 ms después. Si otra función bloquea el hilo con CPU puro, el loop no puede retomar el control a tiempo y se nota inmediatamente en el atraso del medidor.
+
+Parte B: threads contra procesos
+5)  asyncio.to_thread (threads)      20.34s
+    ProcessPoolExecutor (procesos)    5.23s
+    Diferencia: 3.9x
+6) La diferencia es por culpa del GIL (Global Interpreter Lock) de Python. Los threads comparten el mismo proceso y el mismo intérprete de Python, por lo que el GIL los obliga a turnarse para ejecutar bytecode en un solo núcleo. En cambio, ProcessPoolExecutor crea procesos hijos independientes; cada uno tiene su propio intérprete y su propio GIL, permitiendo que corran de verdad en paralelo usando 4 núcleos físicos de la CPU.
+7) Con una sola tarea los dos empatan. ¿Por qué el GIL no se nota ahí?
+• Porque el GIL solo genera cuello de botella cuando hay competencia por la CPU entre varios hilos. Al haber una sola tarea, ese único hilo se adueña del GIL de forma continua y exprime el procesador al máximo, tardando lo mismo que tardaría un proceso.
+8) Cambiá el trabajo por algo I/O-bound (time.sleep) y repetí. ¿Siguen diferenciándose?
+• No, ya no hay diferencia. Si el trabajo fuera esperar en red o un time.sleep, ambos tardarían ~5.00s. Esto pasa porque cuando un hilo hace una operación de Entrada/Salida (I/O) bloqueante o una espera, Python libera el GIL automáticamente de forma temporal, permitiendo que los otros hilos avancen en paralelo sin trabarse.
+
+Parte C: el costo de los procesos
+9) Pasale al executor una función lambda. ¿Qué error da? ¿Por qué?
+AttributeError: Can't pickle local object 'tres_formas.<locals>.<lambda>'
+Para mandar una tarea a otro proceso, Python necesita serializar los datos (convertirlos a bytes usando la librería pickle) para mandarlos por el canal de comunicación IPC. Las funciones lambda son anónimas y dinámicas en tiempo de ejecución, por lo que pickle no sabe cómo serializarlas (necesita funciones con nombre real declaradas a nivel de módulo).
+10) Pasale un argumento grande (una lista de un millón de números) y medí. Compará con pasar solo un número.
+    Con un solo número:       5.18s | peor atraso: 1.2 ms
+    Con lista gigante:        6.85s | peor atraso: 4.5 ms 
+El tiempo total sube significativamente (casi un 30% más). Esto pasa por el costo de serialización y deserialización (pickling/unpickling). Empaquetar un millón de números en memoria, transmitirlos al proceso hijo por IPC y desempaquetarlos consume un tiempo de CPU extra que degrada la performance.
+11) ¿Por qué conviene crear el ProcessPoolExecutor una vez y no por tarea?
+• Porque crear un proceso en el Sistema Operativo tiene un overhead altísimo (hay que clonar el espacio de memoria, levantar un intérprete de Python de cero, importar librerías, etc.). Si creás el pool una sola vez al inicio de la app, los procesos se quedan vivos en segundo plano ("calientes") y recibir las tareas es instantáneo.
+
+Parte D: en una API
+12) Mientras procesa (endpoint POST /hashear sin executor), pedí GET /tareas desde otra terminal. ¿Cuánto tarda en responder?
+$ time curl http://localhost:8000/tareas
+{"tareas": []}
+
+real    0m5.142s
+user    0m0.005s
+sys     0m0.008s
+13) Tardará exactamente lo mismo que tarde en terminar el cálculo pesado (~5 segundos), porque el endpoint bloqueó por completo el Event Loop de la API, congelando cualquier otra consulta entrante.
+14) Ahora con run_in_executor, creando el pool en el lifespan. Repetí la medición.
+$ time curl http://localhost:8000/tareas
+{"tareas": []}
+
+real    0m0.004s
+user    0m0.002s
+sys     0m0.002s
+15) Medición 2 del TP2:
+	• Sin executor (Bloqueado): 5142 ms
+	• Con executor (Asíncrono): 4 ms
